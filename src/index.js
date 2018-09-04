@@ -20,23 +20,24 @@ export function user(state = '', action) {
 }
 
 export const POSTDARE = 'POSTDARE';
-export const ACCEPTDARE ='ACCEPTDARE';
+export const ACCEPTDARE = 'ACCEPTDARE';
 export const DECLINEDARE = 'DECLINEDARE';
 
-function handleDare(state={}, action) {
-    switch(action.type) {
-        case POSTDARE:
-            return action.current;
-        case ACCEPTDARE:
-            return {current: action.data};
-        case DECLINEDARE: 
-            return {current: false,
-               // suspended: new Date().getTime()
-            };
-        default: 
-            return state;
-    }
-} 
+function handleDare(state = {}, action) {
+  switch (action.type) {
+    case POSTDARE:
+      return action.current;
+    case ACCEPTDARE:
+      return { current: action.data };
+    case DECLINEDARE:
+      return {
+        current: false,
+        // suspended: new Date().getTime()
+      };
+    default:
+      return state;
+  }
+}
 
 //  store
 const rootReducer = combineReducers({ user, handleDare });
@@ -47,10 +48,11 @@ const store = createStore(
   applyMiddleware(thunk),
 );
 
+
 ReactDOM.render(
   <Provider store={store}>
-      <App />
-    </Provider>,
-    document.getElementById('root'),
+    <App />
+  </Provider>,
+  document.getElementById('root'),
 );
 registerServiceWorker();
