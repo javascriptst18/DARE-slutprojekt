@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; //for redux
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import Dares from './components/dares';
 
 class App extends Component {
   render() {
@@ -8,13 +9,16 @@ class App extends Component {
       <Router>
         <div className="App">
           <Link to="/login">Dare</Link> 
-        </div>
-        <Switch>
-          <Route path="/login" component={login}/>
-        </Switch>
+          <Link to="/dares">My Dares</Link>
+          <Route path="/dares" component={Dares} />
+        </div> 
       </Router>
     );
   }
 }
 
 export default connect(state => state)(App);
+
+/**<Switch>
+          <Route path="/login" />
+        </Switch> */

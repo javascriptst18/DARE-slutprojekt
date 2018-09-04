@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-//react, redux
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import App from './App';
+import registerServiceWorker from './registerServiceWorker';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
@@ -22,8 +21,28 @@ function user(state='', action) {
             return state; 
     }
 }
+
+export const POSTDARE = 'POSTDARE';
+export const ACCEPTDARE ='ACCEPTDARE';
+export const DECLINEDARE = 'DECLINEDARE';
+
+function handleDare(state={}, action) {
+    switch(action.type) {
+        case POSTDARE:
+            return action.current;
+        case ACCEPTDARE:
+            return {current: action.data};
+        case DECLINEDARE: 
+            return {current: false,
+               // suspended: new Date().getTime()
+            };
+        default: 
+            return state;
+    }
+} 
+
 //store
-const rootReducer = combineReducers({ user });
+const rootReducer = combineReducers({ user, handleDare });
 
 const store = createStore(
     rootReducer,
