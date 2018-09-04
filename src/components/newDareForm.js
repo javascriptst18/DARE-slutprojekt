@@ -20,10 +20,10 @@ class NewDare extends Component {
     }
 
     onSubmit = (e) => {
-
         e.preventDefault();
         const dare = this.state;
         this.props.dispatch(postDare(dare));
+        this.setState({})
     }
 
     render() {

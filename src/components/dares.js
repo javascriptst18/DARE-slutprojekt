@@ -10,6 +10,7 @@ class Dares extends Component {
 
     componentDidMount() {
         //firebaselistener
+        //check if suspended
     }
 
     decline = () => {
