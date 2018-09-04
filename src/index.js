@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-//react, redux
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import App from './App';
+import registerServiceWorker from './registerServiceWorker';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
@@ -22,8 +21,14 @@ function user(state='', action) {
             return state; 
     }
 }
+/**
+function newDare(state={}, action) {
+    switch(action.type) {
+        case 
+    }
+} */
 //store
-const rootReducer = combineReducers({ user });
+const rootReducer = combineReducers({ user, });
 
 const store = createStore(
     rootReducer,
