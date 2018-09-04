@@ -16,11 +16,7 @@ class NewDare extends Component {
 
     onChange = (e) => {
         e.preventDefault();
-        let value;
-       /** if (e.target.id === "date"){
-            value = e.target.value.toString();
-        }else (value = e.target.value );*/
-        this.setState({[e.target.id]: value});
+        this.setState({[e.target.id]: e.target.value});
     }
 
     onSubmit = (e) => {
@@ -30,10 +26,10 @@ class NewDare extends Component {
         this.props.dispatch(postDare(dare));
     }
 
-
     render() {
         return(
             <form onSubmit={this.onSubmit}> 
+                <h2>I dare you!</h2>
                 <label htmlFor="level">
                     Chicken or DAREDevil? 
                     <input 
@@ -51,7 +47,8 @@ class NewDare extends Component {
                     <input 
                     type="text"
                     value={this.state.place}
-                    onChange={this.onChange}/>
+                    onChange={this.onChange}
+                    id="place"/>
                 </label>
                 <label htmlFor="">
                     Jag vill ha en aktivitet inom 
