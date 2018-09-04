@@ -14,21 +14,18 @@ export function signOut(user) {
   };
 }
 
-/* export const SignIn = () => (dispatch) => {
-  firebase.auth()
-    .signInWithPopup(provider)
-    .then((result) => { })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+import { POSTDARE, ACCEPTDARE, DECLINEDARE } from './index';
+import db from './firebase';
 
-export const SignOut = () => (dispatch) => {
-  firebase.auth().signOut()
-    .then(() => {
-      // Sign-out successful.
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}; */
+export function postDare(dare) {
+  db.collection('que').add(dare);
+  return {
+    type: POSTDARE,
+    current: true,
+    data: dare
+  };
+}
+
+export function acceptDare(dare) {
+
+}
