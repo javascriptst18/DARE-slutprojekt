@@ -9,9 +9,9 @@ class App extends Component {
       <Router>
         <div className="App">
           <Link to="/login">Dare</Link> 
-          <Dares />
-        </div>
-        
+          <Link to="/dares">My Dares</Link>
+          <Route path="/dares" component={Dares} />
+        </div> 
       </Router>
     );
   }
