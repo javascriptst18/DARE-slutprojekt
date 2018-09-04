@@ -1,3 +1,19 @@
+import firebase, { provider } from './firebase';
+
+export function signIn(user) {
+  return {
+    type: 'LOGIN',
+    payload: user,
+  };
+}
+
+export function signOut(user) {
+  return {
+    type: 'LOGOUT',
+    payload: user,
+  };
+}
+
 import { POSTDARE, ACCEPTDARE, DECLINEDARE } from './index';
 import db from './firebase';
 

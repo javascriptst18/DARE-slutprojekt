@@ -11,11 +11,15 @@ const config = {
 };
 
 firebase.initializeApp(config);
+
 const db = firebase.firestore();
 const settings = {
   timestampsInSnapshots: true
 };
 db.settings(settings);
+
+export const provider = new firebase.auth.GoogleAuthProvider();
+export firebase;
 export default db;
 
 /*FIRESTORE DATE FORMATTING
@@ -23,3 +27,4 @@ export default db;
   * New:
   * const timestamp = snapshot.get('created_at');
   * const date = timestamp.toDate(); */
+
