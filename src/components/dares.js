@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import NewDare from "./newDareForm";
+import NewDare from './newDareForm';
+import Upcoming from './upcomingDare';
+import { POSTDARE, ACCEPTDARE, DECLINEDARE } from '../index';
 
 class Dares extends Component {
     state = {
-        current:false
+        current:false,
     }
 
     componentDidMount() {
-        //firebaselyssnare
+        //firebaselistener
+    }
+
+    decline = () => {
+        this.setState({current: false});
+        //suspend user for a week. patch firebase
+    }
+
+    accept = () => {
+        this.setState({current: true})
     }
 
     render() {
@@ -17,7 +28,7 @@ class Dares extends Component {
                 <NewDare />
             )
         } else if (this.state.current) {
-            return <h2>display upcoming dare</h2>
+            return <Upcoming />
         }
     }
 }

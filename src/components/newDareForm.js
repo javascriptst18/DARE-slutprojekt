@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { postDare } from '../actionCreators';
 
 class NewDare extends Component {
     state = {
-        place: '',
+        place: '', //håller bara en bokstav åt gången
         radius:0,
         date: '',
         timeStart: '',
@@ -17,6 +18,11 @@ class NewDare extends Component {
         e.preventDefault();
         this.setState({[e.target.id]: e.target.value});
     }
+
+    onSubmit = () => {
+        
+    }
+
 
     render() {
         return(
