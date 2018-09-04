@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'; //for redux
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { connect } from 'react-redux'; // for redux
+import {
+  BrowserRouter as Router, Route, Link, Switch,
+} from 'react-router-dom';
+import LogIn from './components/Login';
 
 class App extends Component {
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Link to="/login">Dare</Link> 
-        </div>
-        <Switch>
-          <Route path="/login" component={login}/>
-        </Switch>
-      </Router>
+      <div>
+        <LogIn />
+      </div>
     );
   }
 }
 
 export default connect(state => state)(App);
+
+{ /* <Switch>
+  <Route path="/login" component={login}/>
+</Switch> */ }
