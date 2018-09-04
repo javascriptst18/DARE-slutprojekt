@@ -11,12 +11,15 @@ const config = {
 };
 
 firebase.initializeApp(config);
- const db = firebase.firestore();
- export default db;
+const db = firebase.firestore();
+const settings = {
+  timestampsInSnapshots: true
+};
+db.settings(settings);
+export default db;
 
- function testAdd() {
-   db.collection('test').add({testing: "thisworks"});
-    console.log('got here');
-  }
-
- testAdd();
+/*FIRESTORE DATE FORMATTING
+  * Old: const date = snapshot.get('created_at');
+  * New:
+  * const timestamp = snapshot.get('created_at');
+  * const date = timestamp.toDate(); */

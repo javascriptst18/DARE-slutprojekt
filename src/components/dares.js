@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NewDare from './newDareForm';
 import Upcoming from './upcomingDare';
-import { POSTDARE, ACCEPTDARE, DECLINEDARE } from '../index';
 
 class Dares extends Component {
     state = {

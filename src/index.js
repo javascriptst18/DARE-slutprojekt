@@ -34,7 +34,8 @@ function handleDare(state={}, action) {
             return {current: action.data};
         case DECLINEDARE: 
             return {current: false,
-                suspended: new Date().getTime()};
+               // suspended: new Date().getTime()
+            };
         default: 
             return state;
     }

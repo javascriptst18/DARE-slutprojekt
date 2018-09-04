@@ -16,10 +16,15 @@ class NewDare extends Component {
 
     onChange = (e) => {
         e.preventDefault();
-        this.setState({[e.target.id]: e.target.value});
+        let value;
+       /** if (e.target.id === "date"){
+            value = e.target.value.toString();
+        }else (value = e.target.value );*/
+        this.setState({[e.target.id]: value});
     }
 
     onSubmit = (e) => {
+
         e.preventDefault();
         const dare = this.state;
         this.props.dispatch(postDare(dare));
