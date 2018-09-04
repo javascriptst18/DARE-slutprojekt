@@ -19,14 +19,16 @@ class NewDare extends Component {
         this.setState({[e.target.id]: e.target.value});
     }
 
-    onSubmit = () => {
-        
+    onSubmit = (e) => {
+        e.preventDefault();
+        const dare = this.state;
+        this.props.dispatch(postDare(dare));
     }
 
 
     render() {
         return(
-            <form> 
+            <form onSubmit={this.onSubmit}> 
                 <label htmlFor="level">
                     Chicken or DAREDevil? 
                     <input 

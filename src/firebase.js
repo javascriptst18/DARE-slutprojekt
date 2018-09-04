@@ -11,4 +11,12 @@ const config = {
 };
 
 firebase.initializeApp(config);
-export default firebase;
+ const db = firebase.firestore();
+ export default db;
+
+ function testAdd() {
+   db.collection('test').add({testing: "thisworks"});
+    console.log('got here');
+  }
+
+ testAdd();
