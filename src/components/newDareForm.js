@@ -4,7 +4,7 @@ import { postDare } from '../actionCreators';
 
 class NewDare extends Component {
     state = {
-        place: '', //håller bara en bokstav åt gången
+        location: '', //håller bara en bokstav åt gången
         radius:0,
         date: '',
         timeStart: '',
@@ -12,6 +12,9 @@ class NewDare extends Component {
         duration: 0,
         budget: 0,
         level: 2, //needs some kind of explanation in UI
+    }
+    componentDidMount() {
+
     }
 
     onChange = (e) => {
@@ -21,9 +24,9 @@ class NewDare extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        const dare = this.state;
-        this.props.dispatch(postDare(dare));
-        this.setState({})
+        const dare = postDare(this.state, () =>  this.setState({}));
+        this.props.dispatch(dare);
+        
     }
 
     render() {
@@ -42,13 +45,13 @@ class NewDare extends Component {
                     id="level"
                     onChange={this.onChange} />
                 </label>
-                <label htmlFor="place">
+                <label htmlFor="location">
                     Plats
                     <input 
                     type="text"
-                    value={this.state.place}
+                    value={this.state.location}
                     onChange={this.onChange}
-                    id="place"/>
+                    id="location"/>
                 </label>
                 <label htmlFor="">
                     Jag vill ha en aktivitet inom 

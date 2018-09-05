@@ -1,4 +1,4 @@
-import db, { firebase, provider } from './firebase';
+import db  from './firebase';
 import { POSTDARE, ACCEPTDARE, DECLINEDARE } from './index';
 
 export function signIn(user) {
@@ -16,11 +16,17 @@ export function signOut(user) {
 }
 
 export function postDare(dare) {
-  db.collection('que').add(dare);
-  return {
-    type: POSTDARE,
-    current: true,
-    data: dare,
+  return function (dispatch) {
+    db.collection('queue').add(dare)
+      .then(resDare => resDare.data())
+      .then((pending) => {
+        console.log(pending);
+        dispatch({
+          pending,
+          type: POSTDARE,
+        });
+      })
+      .catch(error => error);
   };
 }
 
@@ -29,9 +35,10 @@ export function acceptDare(dare) {
 }
 
 export function addUserSettings(user) {
-  db.collection('users').doc(user.name).set(user).then((response) => { //  Adds with user.name as document id
-    console.log(response);
-  })
+  db.collection('users').doc(user.name).set(user)
+    .then((response) => { //  Adds with user.name as document id
+      console.log(response);
+    })
     .catch((error) => {
       console.error(error);
     });
@@ -41,9 +48,7 @@ export function addUserSettings(user) {
 //  Creates: Empty document in users with name as document ID
 export function addEmptyUser(user) {
   db.collection('users').doc(user).set({})
-    .then((response) => {
-      return response;
-    })
+    .then(response => response)
     .catch((error) => {
       console.error(error);
     });

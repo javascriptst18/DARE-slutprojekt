@@ -26,7 +26,10 @@ export const DECLINEDARE = 'DECLINEDARE';
 function handleDare(state = {}, action) {
   switch (action.type) {
     case POSTDARE:
-      return action.current;
+      return {
+        current: action.current,
+        pending: action.data,
+      };
     case ACCEPTDARE:
       return { current: action.data };
     case DECLINEDARE:
