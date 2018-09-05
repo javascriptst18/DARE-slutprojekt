@@ -1,5 +1,5 @@
-import db  from './firebase';
-import { POSTDARE, ACCEPTDARE, DECLINEDARE } from './index';
+import db, { firebase, provider } from './firebase';
+import { POSTDARE, ACCEPTDARE, DECLINEDARE } from './constants';
 
 export function signIn(user) {
   return {

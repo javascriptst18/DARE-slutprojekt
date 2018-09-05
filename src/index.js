@@ -4,43 +4,9 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { user, handleDare } from './reducers';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-
-export function user(state = '', action) {
-  switch (action.type) {
-    case 'LOGIN':
-      state = action.value;
-      return state;
-    case 'LOGOUT':
-      return '';
-    default:
-      return state;
-  }
-}
-
-export const POSTDARE = 'POSTDARE';
-export const ACCEPTDARE = 'ACCEPTDARE';
-export const DECLINEDARE = 'DECLINEDARE';
-
-function handleDare(state = {}, action) {
-  switch (action.type) {
-    case POSTDARE:
-      return {
-        current: action.current,
-        pending: action.data,
-      };
-    case ACCEPTDARE:
-      return { current: action.data };
-    case DECLINEDARE:
-      return {
-        current: false,
-        // suspended until: new Date().getTime() + 7 days
-      };
-    default:
-      return state;
-  }
-}
 
 //  store
 const rootReducer = combineReducers({ user, handleDare });
