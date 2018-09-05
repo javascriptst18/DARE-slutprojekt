@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import firebase from '../firebase';
+import { addUserSettings, getExistingUser } from '../actionCreators';
 
 class UserSettings extends Component {
   state = {
@@ -35,7 +36,13 @@ class UserSettings extends Component {
       suspended: suspended,
       verification: verification,
     }
-    firebase.database().ref('/users').push(userInfo);
+    addUserSettings(userInfo);
+    getExistingUser('prov');
+  }
+
+  componentDidMount() {
+    this.setState({ name: this.props.user });
+    getExistingUser('prov');
   }
 
   render() {
