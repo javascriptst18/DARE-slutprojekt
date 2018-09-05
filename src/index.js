@@ -20,7 +20,7 @@ export function user(state = '', action) {
 }
 
 export const POSTDARE = 'POSTDARE';
-export const ACCEPTDARE ='ACCEPTDARE';
+export const ACCEPTDARE = 'ACCEPTDARE';
 export const DECLINEDARE = 'DECLINEDARE';
 
 function handleDare(state={}, action) {
@@ -47,10 +47,11 @@ const store = createStore(
   applyMiddleware(thunk),
 );
 
+
 ReactDOM.render(
   <Provider store={store}>
-      <App />
-    </Provider>,
-    document.getElementById('root'),
+    <App />
+  </Provider>,
+  document.getElementById('root'),
 );
 registerServiceWorker();

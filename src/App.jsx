@@ -10,10 +10,10 @@ class App extends Component {
       <Router>
         <div className="App">
           <LogIn />
-          <Link to="/login">Dare</Link> 
+          <Link to="/login">Dare</Link>
           <Link to="/dares">My Dares</Link>
           <Route path="/dares" component={Dares} />
-        </div> 
+        </div>
       </Router>
     );
   }
@@ -24,4 +24,3 @@ export default connect(state => state)(App);
 /**<Switch>
           <Route path="/login" />
         </Switch> */
-
