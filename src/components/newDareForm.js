@@ -4,7 +4,7 @@ import { postDare } from '../actionCreators';
 
 class NewDare extends Component {
     state = {
-        location: '', //håller bara en bokstav åt gången
+        location: '', 
         radius:0,
         date: '',
         timeStart: '',
@@ -14,7 +14,6 @@ class NewDare extends Component {
         level: 2, //needs some kind of explanation in UI
     }
     componentDidMount() {
-
     }
 
     onChange = (e) => {
@@ -32,7 +31,7 @@ class NewDare extends Component {
     render() {
         return(
             <form onSubmit={this.onSubmit}> 
-                <h2>I dare you!</h2>
+                <h2>I dare you, {this.props.user.displayName}</h2>
                 <label htmlFor="level">
                     Chicken or DAREDevil? 
                     <input 

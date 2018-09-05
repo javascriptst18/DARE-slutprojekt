@@ -16,16 +16,11 @@ export function signOut(user) {
 }
 
 export function postDare(dare) {
-  return function (dispatch) {
-    db.collection('queue').add(dare)
-      .then(resDare => resDare.data())
-      .then((pending) => {
-        console.log(pending);
-        dispatch({
-          pending,
-          type: POSTDARE,
-        });
-      })
+  return function (dispatch, getState) {
+    return db.collection('queue').add(dare)
+      .then(
+        (pending) => { dispatch({pending,type: POSTDARE,});}, 
+        error => dispatch(type: FAILEDTODARE))
       .catch(error => error);
   };
 }
