@@ -1,4 +1,5 @@
-import firebase, { provider } from './firebase';
+import db, { firebase, provider } from './firebase';
+import { POSTDARE, ACCEPTDARE, DECLINEDARE } from './index';
 
 export function signIn(user) {
   return {
@@ -13,9 +14,6 @@ export function signOut(user) {
     payload: user,
   };
 }
-
-import { POSTDARE, ACCEPTDARE, DECLINEDARE } from './index';
-import db from './firebase';
 
 export function postDare(dare) {
   db.collection('que').add(dare);

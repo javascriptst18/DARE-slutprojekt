@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase, { provider } from '../firebase';
+import  { firebase, provider } from '../firebase';
 import { connect } from 'react-redux';
 import { signIn, signOut } from '../actionCreators';
 

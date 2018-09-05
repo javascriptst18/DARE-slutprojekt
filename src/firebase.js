@@ -19,7 +19,7 @@ const settings = {
 db.settings(settings);
 
 export const provider = new firebase.auth.GoogleAuthProvider();
-export firebase;
+export { firebase };
 export default db;
 
 /*FIRESTORE DATE FORMATTING
