@@ -4,15 +4,11 @@ import NewDare from './newDareForm';
 import Upcoming from './upcomingDare';
 
 class Dares extends Component {
-    state = {
-        current:false,
-        suspended: false,
-    }
 
     componentDidMount() {
+        //db.collection
         //firebaselistener
         //check if suspended
-        this.checkCurrent();
     }
 
     decline = () => {
@@ -24,16 +20,12 @@ class Dares extends Component {
         this.setState({current: true})
     }
 
-    checkCurrent = () => {
-        this.setState({current: this.props.current})
-    }
-
     render() {
-        if(!this.state.current){
+        if(!this.props.handleDare.current){
             return(
-                <NewDare />
+                <NewDare checkCurrent={this.checkCurrent}/>
             )
-        } else if (this.state.current) {
+        } else if (this.props.handleDare.current) {
             return <Upcoming />
         }
     }

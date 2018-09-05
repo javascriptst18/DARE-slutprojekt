@@ -25,6 +25,10 @@ export function postDare(dare) {
   }
 }
 
+/** .then(
+        posted => dispatch({ posted, current: true, type: POSTDARE }),
+       error => dispatch({ error, type: FAILEDTODARE }),
+      ); */
 
 export function acceptDare(dare) {
 

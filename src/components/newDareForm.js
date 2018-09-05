@@ -9,11 +9,8 @@ class NewDare extends Component {
         date: '',
         timeStart: '',
         timeEnd: '',
-        duration: 0,
         budget: 0,
         level: 2, //needs some kind of explanation in UI
-    }
-    componentDidMount() {
     }
 
     onChange = (e) => {
@@ -23,9 +20,9 @@ class NewDare extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        const dare = postDare(this.state, () =>  this.setState({}));
+        const dare = postDare(this.state, this.props.user.email);
         this.props.dispatch(dare);
-        
+        this.setState({}); //tömmer ej fälten som den ska
     }
 
     render() {
