@@ -1,4 +1,4 @@
-import { POSTDARE, ACCEPTDARE, DECLINEDARE } from './constants';
+import { POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE } from './constants';
 
 export function user(state = '', action) {
   switch (action.type) {
@@ -15,7 +15,13 @@ export function user(state = '', action) {
 export function handleDare(state = {}, action) {
   switch (action.type) {
     case POSTDARE:
-      return action.current;
+    const pendingDare = {
+      id: action.id,
+      current: action.current,
+    };
+      return pendingDare;
+    case FAILEDTODARE:
+      return action.error;
     case ACCEPTDARE:
       return { current: action.data };
     case DECLINEDARE:

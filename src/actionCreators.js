@@ -1,5 +1,5 @@
-import db, { firebase, provider } from './firebase';
-import { POSTDARE, ACCEPTDARE, DECLINEDARE } from './constants';
+import db from './firebase';
+import { POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE } from './constants';
 
 export function signIn(user) {
   return {
@@ -18,12 +18,13 @@ export function signOut(user) {
 export function postDare(dare) {
   return function (dispatch, getState) {
     return db.collection('queue').add(dare)
-      .then(
-        (pending) => { dispatch({pending,type: POSTDARE,});}, 
-        error => dispatch(type: FAILEDTODARE))
-      .catch(error => error);
-  };
+    .then(
+      posted => dispatch({ id: posted.id, current: true, type: POSTDARE }),
+     error => dispatch({ error, type: FAILEDTODARE }),
+    );
+  }
 }
+
 
 export function acceptDare(dare) {
 

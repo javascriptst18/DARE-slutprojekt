@@ -6,11 +6,13 @@ import Upcoming from './upcomingDare';
 class Dares extends Component {
     state = {
         current:false,
+        suspended: false,
     }
 
     componentDidMount() {
         //firebaselistener
         //check if suspended
+        this.checkCurrent();
     }
 
     decline = () => {
@@ -20,6 +22,10 @@ class Dares extends Component {
 
     accept = () => {
         this.setState({current: true})
+    }
+
+    checkCurrent = () => {
+        this.setState({current: this.props.current})
     }
 
     render() {
@@ -32,5 +38,6 @@ class Dares extends Component {
         }
     }
 }
+
 
 export default connect(state => state)(Dares);
