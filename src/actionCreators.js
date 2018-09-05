@@ -15,7 +15,6 @@ export function signOut(user) {
   };
 }
 
-
 export function postDare(dare) {
   db.collection('que').add(dare);
   return {
@@ -41,9 +40,10 @@ export function addUserSettings(user) {
 //  Input: string
 //  Creates: Empty document in users with name as document ID
 export function addEmptyUser(user) {
-  db.collection('users').doc(user).set({}).then((response) => {
-    return response;
-  })
+  db.collection('users').doc(user).set({})
+    .then((response) => {
+      return response;
+    })
     .catch((error) => {
       console.error(error);
     });

@@ -23,20 +23,21 @@ export const POSTDARE = 'POSTDARE';
 export const ACCEPTDARE = 'ACCEPTDARE';
 export const DECLINEDARE = 'DECLINEDARE';
 
-function handleDare(state={}, action) {
-    switch(action.type) {
-        case POSTDARE:
-            return action.current;
-        case ACCEPTDARE:
-            return {current: action.data};
-        case DECLINEDARE: 
-            return {current: false,
-               // suspended until: new Date().getTime() + 7 days
-            };
-        default: 
-            return state;
-    }
-} 
+function handleDare(state = {}, action) {
+  switch (action.type) {
+    case POSTDARE:
+      return action.current;
+    case ACCEPTDARE:
+      return { current: action.data };
+    case DECLINEDARE:
+      return {
+        current: false,
+        // suspended until: new Date().getTime() + 7 days
+      };
+    default:
+      return state;
+  }
+}
 
 //  store
 const rootReducer = combineReducers({ user, handleDare });
