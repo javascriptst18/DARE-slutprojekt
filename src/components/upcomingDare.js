@@ -9,7 +9,7 @@ state = {
   location: [],
   budget: [],
   level: [],
-  testQueue: []
+  testQueue: [],
 }
 
   componentDidMount() { 
@@ -17,9 +17,9 @@ state = {
     this.getUpcomingBudget(); // budget
     this.getUpcomingLevel(); // level
     this.getTheQueue();
+
   }
 
-// collection fungerar om det är en användare som är sparad i docs.
 
 getUpcomingLocation = () => {
   db.collection('queue').get().then(collection => {
@@ -59,18 +59,6 @@ db.collection('queue').onSnapshot(querySnapshot => {
 }
 
 
-// where kan fungera för att få user-specifik info. -->
-
-// getUpcoming = () => {
-//   db.collection('queue').get().then((snapshot) => {
-
-//   const queue = snapshot.docs.map(testDoc);
-//   console.log(queue);  
-//   })
-//   function testDoc(doc) {
-//     return {...doc.data()};
-//   }
-//   }
 
 render() {
 
@@ -86,7 +74,7 @@ const list = this.state.testQueue.map((item, index) => {
     <p>Min registrerade Location: {item.location}</p>
     <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
   </div>
-})
+});
 
 return (
     <div className="upcoming-dare">
