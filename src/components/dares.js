@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import NewDare from './newDareForm';
 import Upcoming from './upcomingDare';
 
+
 class Dares extends Component {
-<<<<<<< HEAD
     state = {
         current:true,
     }
-=======
->>>>>>> ade733dd2f7061a240e96bee80e2fbacdd1dab4b
 
     componentDidMount() {
         //db.collection

@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import  { firebase, provider } from '../firebase';
 import { connect } from 'react-redux';
 import { signIn, signOut } from '../actionCreators';
-<<<<<<< HEAD
 
-=======
->>>>>>> ade733dd2f7061a240e96bee80e2fbacdd1dab4b
+
 
 class LogIn extends Component {
 
