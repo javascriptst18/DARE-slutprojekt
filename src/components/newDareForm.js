@@ -17,11 +17,55 @@ class NewDare extends Component {
         this.setState({[e.target.id]: e.target.value});
     }
 
+
     onSubmit = (e) => {
         e.preventDefault();
-        const dare = postDare(this.state, this.props.user.email);
-        this.props.dispatch(dare);
+        
         this.setState({}); //tömmer ej fälten som den ska
+    }
+
+    postUnmatched = (unmatched) => {
+        const dare = postDare(unmatched, this.props.user.email);
+        this.props.dispatch(dare);
+    }
+
+    matchDares = (lastPosted) => {
+        db.collection('queue').get()
+        .then((queueSnapshot) => {
+
+            this.compareDares(lastPosted, queueSnapshot);
+
+            queueSnapshot.forEach((unmatched) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(unmatched.id, " => ", unmatched.data());
+            });
+        })
+    }
+
+    //this is not what the objects look like, just a sketch of 
+    compareDares = (dare) => {
+        const myDare = this.state;
+            if (dare.date === myDare.date
+                && dare.location === myDare.location
+                && dare.level === myDare.level
+                && dare.timeStart < myDare.timeEnd 
+                && myDare.timeStart < dare.timeEnd) {
+                    const budget = Math.min(dare.budget, myDare.budget);
+                    const timeStart = Math.max(dare.timeStart, myDare.timeStart);
+                    const timeEnd = Math.min(dare.timeEnd, myDare.timeEnd);
+                    const matched = {
+                        id1: dare.id, 
+                        id2: myDare.id, 
+                        cost: budget,
+                        starts: timeStart,
+                        ends: timeEnd} ;
+                    return matched;
+                } else if ( queue.length === 0 ) {
+                    this.postUnmatched(myDare);
+                }
+                else {
+                    queue.pop(dare);
+                }
     }
 
     render() {

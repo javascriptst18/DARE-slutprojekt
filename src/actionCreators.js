@@ -15,10 +15,6 @@ export function signOut(user) {
   };
 }
 
-function matchDares(lastPosted) {
-  
-}
-
 export function postDare(dare) {
   return function (dispatch, getState) {
     return db.collection('queue').add(dare)
