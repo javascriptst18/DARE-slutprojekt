@@ -6,7 +6,8 @@ import Upcoming from './upcomingDare';
 class Dares extends Component {
 
     componentDidMount() {
-        //db.collection
+        let current = db.collection('queue').doc(this.props.user.email).get();
+        this.setState({current: current});
         //firebaselistener
         //check if suspended
     }

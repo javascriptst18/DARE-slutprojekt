@@ -31,6 +31,7 @@ class NewDare extends Component {
         db.collection('queue').get()
         .then((queueSnapshot) =>  {
             queueSnapshot.forEach((unmatched) => {
+                console.log(unmatched);
                 this.compareDares(myDare, unmatched, matched);
             })
         })
@@ -42,14 +43,28 @@ class NewDare extends Component {
         });
      }    
     
-    matchDareActivity = (userDareMatch) => {
-        let finalVersion = {};
-        db.collection('activity').get()
-        .then((activitySnapshot) =>  {
-            activitySnapshot.forEach((activity) => {
-                this.compareDareActivity(userDareMatch, activity, finalVersion);
-            });
-        });
+    //this is not what the objects look like, just a sketch of matching procedure 
+    compareDares = (myDare, dare, matched) => {
+        if ( matched === {}
+        && dare.date === myDare.date 
+        && dare.location === myDare.location
+        && dare.level === myDare.level
+        && dare.timeStart < myDare.timeEnd 
+        && myDare.timeStart < dare.timeEnd) {
+            const budget = Math.min(dare.budget, myDare.budget);
+            const timeStart = Math.max(dare.timeStart, myDare.timeStart);
+            const timeEnd = Math.min(dare.timeEnd, myDare.timeEnd);
+            //returns user match, not connected to activity yet
+            return matched = {
+                date: dare.date,
+                id1: dare.id, 
+                id2: myDare.id, 
+                cost: budget,
+                starts: timeStart,
+                ends: timeEnd
+            };
+        }
+        else return matched;
     }
 
     postUnmatched = (unmatched) => {
@@ -57,33 +72,39 @@ class NewDare extends Component {
         this.props.dispatch(dare);
     }
 
-    //this is not what the objects look like, just a sketch of matching procedure 
-    compareDares = (myDare, dare, matched) => {
-        if (dare.date === myDare.date
-            && dare.location === myDare.location
-            && dare.level === myDare.level
-            && dare.timeStart < myDare.timeEnd 
-            && myDare.timeStart < dare.timeEnd
-            && matched === {} ) {
-                const budget = Math.min(dare.budget, myDare.budget);
-                const timeStart = Math.max(dare.timeStart, myDare.timeStart);
-                const timeEnd = Math.min(dare.timeEnd, myDare.timeEnd);
-                return matched = {
-                    date: dare.date,
-                    id1: dare.id, 
-                    id2: myDare.id, 
-                    cost: budget,
-                    starts: timeStart,
-                    ends: timeEnd
-                };
-            }
-        else return matched;
+    matchDareActivity = (userDareMatch) => {
+        let finalVersion = {};
+        db.collection('activity').get()
+        .then((activitySnapshot) =>  {
+            activitySnapshot.forEach((activity) => {
+                this.compareDareActivity(userDareMatch, activity, finalVersion);
+            });
+        })
+        
+    }
+
+    compareDareActivity = (userDareMatch, activity, finalVersion) => {
+        if( finalVersion === {}
+        && userDareMatch.cost < activity.cost
+        && userDareMatch.location === activity.location
+        && activity.open < userDareMatch.starts
+        && userDareMatch.ends < activity.close
+        //&& rätt veckodag öppet
+        ) {
+            return finalVersion = {
+                accepted: false,
+                declined: false,
+                activity: activity.id,
+                starts: userDareMatch.starts,
+                ends: userDareMatch.ends,
+            };
+        } else return finalVersion;
     }
 
     render() {
         return(
             <form onSubmit={this.onSubmit}> 
-                <h2>I dare you, {this.props.user.displayName}</h2>
+                <h2>I dare you, {this.props.user.displayName} men skicka inget nu!!</h2>
                 <label htmlFor="level">
                     Chicken or DAREDevil? 
                     <input 

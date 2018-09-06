@@ -15,9 +15,10 @@ export function signOut(user) {
   };
 }
 
-export function postDare(dare) {
+export function postDare(dare, email) {
+
   return function (dispatch, getState) {
-    return db.collection('queue').add(dare)
+    return db.collection('queue').doc(email).set(dare)
       .then(
         posted => dispatch({ id: posted.id, collection: 'queue', current: true, type: POSTDARE }),
         error => dispatch({ error, type: FAILEDTODARE }),
@@ -25,13 +26,12 @@ export function postDare(dare) {
   }
 }
 
-/** .then(
-        posted => dispatch({ posted, current: true, type: POSTDARE }),
-       error => dispatch({ error, type: FAILEDTODARE }),
-      ); */
-
 export function acceptDare(dare) {
+  return { type: ACCEPTDARE };
+}
 
+export function declineDare(dare) {
+  return { type: DECLINEDARE };
 }
 
 export function addUserSettings(user) {
