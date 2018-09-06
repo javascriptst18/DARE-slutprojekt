@@ -6,62 +6,70 @@ import db, { firebase, provider } from '../firebase';
 
 class UpcomingDare extends Component {
 
+state = {
+  queue: [],
+  budget: []
+}
 
   componentDidMount() {
-    this.getUpcoming();  
-    this.getUpcoming2();
-    this.getUpcoming3();
+    // this.getUpcoming();  
+    this.getUpcoming2(); // location
+    this.getUpcoming3(); // budget
+    
   }
 
-// behöver man (user)?
-  getUpcoming3 = () => {
-  db.collection('queue').get().then((response) => {
-    let res = '';
-    if (response.exists) {
-      if (!('name' in response.data())) {
-        res = 'empty user';
-      } else {
-        res = response.data();
-      }
-    }
-    else {
-      res = 'user doesnt exist';
-    }
-    return res;
-  })
-    .catch((error) => {
-      console.log(error);
-    });
-}
 
-// exempel:
+
+
+// collection fungerar om det är en användare som är sparad i docs.
+
 getUpcoming2 = () => {
-db.collection('queue').where('location', '==', 'Hel').get().then((snapshot) => {
-  snapshot.docs.forEach(doc => {
-    console.log(doc);
+  db.collection('queue').get().then(collection => {
+    const queue = collection.docs.map(doc => doc.data().location)
+    this.setState({ queue })
+    console.log(this.state.queue);
   })
-})
 }
 
-getUpcoming = () => {
-  db.collection('queue').get().then((snapshot) => {
-
-  const queue = snapshot.docs.map(testDoc);
-  console.log(queue);  
+getUpcoming3 = () => {
+  db.collection('queue').get().then(collection => {
+    const budget = collection.docs.map(doc => doc.data().budget)
+    this.setState({ budget })
+    console.log(this.state.budget);
   })
-  function testDoc(doc) {
-    return {...doc.data()};
-  }
-  }
+}
 
-  render(){
 
-     
+// where kan fungera för att få user-specifik info. -->
+
+// getUpcoming = () => {
+//   db.collection('queue').get().then((snapshot) => {
+
+//   const queue = snapshot.docs.map(testDoc);
+//   console.log(queue);  
+//   })
+//   function testDoc(doc) {
+//     return {...doc.data()};
+//   }
+//   }
+
+
+render() {
+
+const fromQueue = this.state.queue.map((queueInfo, index) =>{
+  return <p key={index}>Din plats: {queueInfo}</p>
+});
+
+
 return (
     <div className="upcoming-dare">
       <h2>Din utmaning</h2>
-      <p>{}</p>
-      <p>{}</p>   
+      
+      { fromQueue }
+      { this.state.queue }
+      { this.state.budget }
+     
+     
     </div>
     );
 
