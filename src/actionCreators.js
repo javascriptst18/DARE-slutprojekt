@@ -1,5 +1,7 @@
 import db from './firebase';
-import { POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE } from './constants';
+import {
+  POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE, 
+} from './constants';
 
 export function signIn(user) {
   return {
@@ -16,7 +18,6 @@ export function signOut(user) {
 }
 
 export function postDare(dare, email) {
-
   return function (dispatch, getState) {
     return db.collection('queue').doc(email).set(dare)
       .then(
