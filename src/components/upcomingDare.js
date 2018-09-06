@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import db, { firebase, provider } from '../firebase';
 
 
-
 class UpcomingDare extends Component {
 
 state = {
@@ -17,8 +16,7 @@ state = {
     this.getUpcomingLocation(); // location
     this.getUpcomingBudget(); // budget
     this.getUpcomingLevel(); // level
-    this.getTheQ();
-    
+    this.getTheQueue();
   }
 
 // collection fungerar om det är en användare som är sparad i docs.
@@ -47,7 +45,7 @@ getUpcomingLevel = () => {
   })
 }
 
-getTheQ = () => {
+getTheQueue = () => {
 const tempArr = [];
 db.collection('queue').onSnapshot(querySnapshot => {
   querySnapshot.forEach(doc => {
@@ -80,16 +78,25 @@ render() {
 // return <p key={index}>Din plats: {queueInfo}</p>
 // });
 
+const list = this.state.testQueue.map((item, index) => {
+  return <div key={index} className="">
+  <h2>Min pending Dare:</h2>
+    <p>Min registrerade Level: {item.level}</p>
+    <p>Min registrerade Budget: {item.budget}</p>
+    <p>Min registrerade Location: {item.location}</p>
+    <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
+  </div>
+})
 
 return (
     <div className="upcoming-dare">
-      <h2>Din utmaning</h2>
-      <p> Din plats: { this.state.location } </p>
-      <p> Din budget: { this.state.budget } </p>
-      <p> Din level: { this.state.level } </p>
-      <p> Vilka mer uppgifter ska vi ha? </p>
-      {/* <p> Din budget: { for (let item of this.state.testQueue) {item.budget}} </p> */}
-
+        <h2>Din utmaning</h2>
+        <p> Din plats: { this.state.location } </p>
+        <p> Din budget: { this.state.budget } </p>
+        <p> Din level: { this.state.level } </p>
+        <p> Vilka mer uppgifter ska vi ha? </p>
+        {/* <p> Din budget: { for (let item of this.state.testQueue) {item.budget}} </p> */}
+        <p> { list } </p>
     </div>
     );
 

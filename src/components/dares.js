@@ -4,6 +4,7 @@ import NewDare from './newDareForm';
 import Upcoming from './upcomingDare';
 import db from '../firebase';
 
+
 class Dares extends Component {
 
     componentDidMount() {
