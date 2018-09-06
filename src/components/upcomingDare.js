@@ -9,19 +9,21 @@ class UpcomingDare extends Component {
 state = {
   location: [],
   budget: [],
+  level: [],
   testQueue: []
 }
 
   componentDidMount() { 
-    this.getUpcoming2(); // location
-    this.getUpcoming3(); // budget
+    this.getUpcomingLocation(); // location
+    this.getUpcomingBudget(); // budget
+    this.getUpcomingLevel(); // level
     this.getTheQ();
     
   }
 
 // collection fungerar om det är en användare som är sparad i docs.
 
-getUpcoming2 = () => {
+getUpcomingLocation = () => {
   db.collection('queue').get().then(collection => {
     const location = collection.docs.map(doc => doc.data().location)
     this.setState({ location })
@@ -29,11 +31,19 @@ getUpcoming2 = () => {
   })
 }
 
-getUpcoming3 = () => {
+getUpcomingBudget = () => {
   db.collection('queue').get().then(collection => {
     const budget = collection.docs.map(doc => doc.data().budget)
     this.setState({ budget })
     console.log(this.state.budget);
+  })
+}
+
+getUpcomingLevel = () => {
+  db.collection('queue').get().then(collection => {
+    const level = collection.docs.map(doc => doc.data().level)
+    this.setState({ level })
+    console.log(this.state.level);
   })
 }
 
@@ -49,6 +59,7 @@ db.collection('queue').onSnapshot(querySnapshot => {
   console.log(this.state.testQueue);
 })
 }
+
 
 // where kan fungera för att få user-specifik info. -->
 
@@ -75,6 +86,7 @@ return (
       <h2>Din utmaning</h2>
       <p> Din plats: { this.state.location } </p>
       <p> Din budget: { this.state.budget } </p>
+      <p> Din level: { this.state.level } </p>
       <p> Vilka mer uppgifter ska vi ha? </p>
       {/* <p> Din budget: { for (let item of this.state.testQueue) {item.budget}} </p> */}
 
