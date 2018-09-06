@@ -69,6 +69,7 @@ class NewDare extends Component {
                 const timeStart = Math.max(dare.timeStart, myDare.timeStart);
                 const timeEnd = Math.min(dare.timeEnd, myDare.timeEnd);
                 return matched = {
+                    date: dare.date,
                     id1: dare.id, 
                     id2: myDare.id, 
                     cost: budget,
