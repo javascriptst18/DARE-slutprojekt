@@ -5,7 +5,7 @@ import Upcoming from './upcomingDare';
 
 class Dares extends Component {
     state = {
-        current:false,
+        current:true,
     }
 
     componentDidMount() {
