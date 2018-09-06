@@ -7,27 +7,25 @@ import db, { firebase, provider } from '../firebase';
 class UpcomingDare extends Component {
 
 state = {
-  queue: [],
-  budget: []
+  location: [],
+  budget: [],
+  testQueue: []
 }
 
-  componentDidMount() {
-    // this.getUpcoming();  
+  componentDidMount() { 
     this.getUpcoming2(); // location
     this.getUpcoming3(); // budget
+    this.getTheQ();
     
   }
-
-
-
 
 // collection fungerar om det är en användare som är sparad i docs.
 
 getUpcoming2 = () => {
   db.collection('queue').get().then(collection => {
-    const queue = collection.docs.map(doc => doc.data().location)
-    this.setState({ queue })
-    console.log(this.state.queue);
+    const location = collection.docs.map(doc => doc.data().location)
+    this.setState({ location })
+    console.log(this.state.location);
   })
 }
 
@@ -39,6 +37,18 @@ getUpcoming3 = () => {
   })
 }
 
+getTheQ = () => {
+const tempArr = [];
+db.collection('queue').onSnapshot(querySnapshot => {
+  querySnapshot.forEach(doc => {
+    let newData = doc.data()
+    newData.id = doc.id;
+    tempArr.push(newData);
+  });
+  this.setState({testQueue: tempArr}); // använda för mappa igenom och skriva ut?
+  console.log(this.state.testQueue);
+})
+}
 
 // where kan fungera för att få user-specifik info. -->
 
@@ -53,23 +63,21 @@ getUpcoming3 = () => {
 //   }
 //   }
 
-
 render() {
 
-const fromQueue = this.state.queue.map((queueInfo, index) =>{
-  return <p key={index}>Din plats: {queueInfo}</p>
-});
+// const fromQueue = this.state.queue.map((queueInfo, index) =>{
+// return <p key={index}>Din plats: {queueInfo}</p>
+// });
 
 
 return (
     <div className="upcoming-dare">
       <h2>Din utmaning</h2>
-      
-      { fromQueue }
-      { this.state.queue }
-      { this.state.budget }
-     
-     
+      <p> Din plats: { this.state.location } </p>
+      <p> Din budget: { this.state.budget } </p>
+      <p> Vilka mer uppgifter ska vi ha? </p>
+      {/* <p> Din budget: { for (let item of this.state.testQueue) {item.budget}} </p> */}
+
     </div>
     );
 
