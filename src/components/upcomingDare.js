@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import db, { firebase, provider } from '../firebase';
 
 
-
 class UpcomingDare extends Component {
 
 state = {
@@ -18,7 +17,6 @@ state = {
     this.getUpcomingBudget(); // budget
     this.getUpcomingLevel(); // level
     this.getTheQ();
-    
   }
 
 // collection fungerar om det är en användare som är sparad i docs.
@@ -80,6 +78,15 @@ render() {
 // return <p key={index}>Din plats: {queueInfo}</p>
 // });
 
+const list = this.state.testQueue.map((item, index) => {
+  return <div key={index} className="">
+  <h2>Min pending Dare:</h2>
+    <p>Min registrerade Level: {item.level}</p>
+    <p>Min registrerade Budget: {item.budget}</p>
+    <p>Min registrerade Location: {item.location}</p>
+    <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
+  </div>
+})
 
 return (
     <div className="upcoming-dare">
@@ -89,16 +96,12 @@ return (
       <p> Din level: { this.state.level } </p>
       <p> Vilka mer uppgifter ska vi ha? </p>
       {/* <p> Din budget: { for (let item of this.state.testQueue) {item.budget}} </p> */}
-
+      <p> { list } </p>
     </div>
     );
 
   }
 }
 
-<<<<<<< HEAD
 
 export default UpcomingDare;
-=======
-export default Upcoming;
->>>>>>> ade733dd2f7061a240e96bee80e2fbacdd1dab4b
