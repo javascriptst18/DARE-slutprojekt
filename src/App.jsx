@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; //  for redux
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Dares from './components/dares';
 import LogIn from './components/Login';
 import UserSettings from './components/UserSettings';
