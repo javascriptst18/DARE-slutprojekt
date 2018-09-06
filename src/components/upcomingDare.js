@@ -96,5 +96,9 @@ return (
   }
 }
 
+<<<<<<< HEAD
 
 export default UpcomingDare;
+=======
+export default Upcoming;
+>>>>>>> ade733dd2f7061a240e96bee80e2fbacdd1dab4b

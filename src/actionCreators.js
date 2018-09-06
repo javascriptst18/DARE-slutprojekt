@@ -1,5 +1,5 @@
-import db, { firebase, provider } from './firebase';
-import { POSTDARE, ACCEPTDARE, DECLINEDARE } from './index';
+import db from './firebase';
+import { POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE } from './constants';
 
 export function signIn(user) {
   return {
@@ -15,24 +15,30 @@ export function signOut(user) {
   };
 }
 
-
 export function postDare(dare) {
-  db.collection('que').add(dare);
-  return {
-    type: POSTDARE,
-    current: true,
-    data: dare,
-  };
+  return function (dispatch, getState) {
+    return db.collection('queue').add(dare)
+      .then(
+        posted => dispatch({ id: posted.id, collection: 'queue', current: true, type: POSTDARE }),
+        error => dispatch({ error, type: FAILEDTODARE }),
+      );
+  }
 }
+
+/** .then(
+        posted => dispatch({ posted, current: true, type: POSTDARE }),
+       error => dispatch({ error, type: FAILEDTODARE }),
+      ); */
 
 export function acceptDare(dare) {
 
 }
 
 export function addUserSettings(user) {
-  db.collection('users').doc(user.name).set(user).then((response) => { //  Adds with user.name as document id
-    console.log(response);
-  })
+  db.collection('users').doc(user.name).set(user)
+    .then((response) => { //  Adds with user.name as document id
+      console.log(response);
+    })
     .catch((error) => {
       console.error(error);
     });
@@ -41,9 +47,8 @@ export function addUserSettings(user) {
 //  Input: string
 //  Creates: Empty document in users with name as document ID
 export function addEmptyUser(user) {
-  db.collection('users').doc(user).set({}).then((response) => {
-    return response;
-  })
+  db.collection('users').doc(user).set({})
+    .then(response => response)
     .catch((error) => {
       console.error(error);
     });

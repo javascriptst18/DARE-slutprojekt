@@ -4,12 +4,10 @@ import { postDare } from '../actionCreators';
 
 class NewDare extends Component {
     state = {
-        place: '', //håller bara en bokstav åt gången
-        radius:0,
+        location: '', 
         date: '',
         timeStart: '',
         timeEnd: '',
-        duration: 0,
         budget: 0,
         level: 2, //needs some kind of explanation in UI
     }
@@ -19,17 +17,61 @@ class NewDare extends Component {
         this.setState({[e.target.id]: e.target.value});
     }
 
+
     onSubmit = (e) => {
         e.preventDefault();
-        const dare = this.state;
-        this.props.dispatch(postDare(dare));
-        this.setState({})
+        
+        this.setState({}); //tömmer ej fälten som den ska
+    }
+
+    postUnmatched = (unmatched) => {
+        const dare = postDare(unmatched, this.props.user.email);
+        this.props.dispatch(dare);
+    }
+
+    matchDares = (lastPosted) => {
+        db.collection('queue').get()
+        .then((queueSnapshot) => {
+
+            this.compareDares(lastPosted, queueSnapshot);
+
+            queueSnapshot.forEach((unmatched) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(unmatched.id, " => ", unmatched.data());
+            });
+        })
+    }
+
+    //this is not what the objects look like, just a sketch of 
+    compareDares = (dare) => {
+        const myDare = this.state;
+            if (dare.date === myDare.date
+                && dare.location === myDare.location
+                && dare.level === myDare.level
+                && dare.timeStart < myDare.timeEnd 
+                && myDare.timeStart < dare.timeEnd) {
+                    const budget = Math.min(dare.budget, myDare.budget);
+                    const timeStart = Math.max(dare.timeStart, myDare.timeStart);
+                    const timeEnd = Math.min(dare.timeEnd, myDare.timeEnd);
+                    const matched = {
+                        id1: dare.id, 
+                        id2: myDare.id, 
+                        cost: budget,
+                        starts: timeStart,
+                        ends: timeEnd} ;
+                    return matched;
+                } else if ( queue.length === 0 ) {
+                    this.postUnmatched(myDare);
+                }
+                else {
+                    queue.pop(dare);
+                }
     }
 
     render() {
         return(
             <form onSubmit={this.onSubmit}> 
-                <h2>I dare you!</h2>
+                <h2>I dare you, {this.props.user.displayName}</h2>
                 <label htmlFor="level">
                     Chicken or DAREDevil? 
                     <input 
@@ -42,22 +84,13 @@ class NewDare extends Component {
                     id="level"
                     onChange={this.onChange} />
                 </label>
-                <label htmlFor="place">
+                <label htmlFor="location">
                     Plats
                     <input 
                     type="text"
-                    value={this.state.place}
+                    value={this.state.location}
                     onChange={this.onChange}
-                    id="place"/>
-                </label>
-                <label htmlFor="">
-                    Jag vill ha en aktivitet inom 
-                    <input 
-                    type="number"
-                    id="radius"
-                    value={this.state.radius}
-                    onChange={this.onChange}/>
-                    km
+                    id="location"/>
                 </label>
                 <label htmlFor="date"> 
                     Datum
