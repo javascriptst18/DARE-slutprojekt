@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { postDare } from '../actionCreators';
+import db from '../firebase';
 
 class NewDare extends Component {
     state = {
@@ -17,11 +18,38 @@ class NewDare extends Component {
         this.setState({[e.target.id]: e.target.value});
     }
 
-
     onSubmit = (e) => {
         e.preventDefault();
-        
+        this.matchDares();
         this.setState({}); //tömmer ej fälten som den ska
+    }
+
+    matchDares = () => {
+        const myDare = this.state;
+        let matched = {};
+       // reads dare queue from db and searches for a match
+        db.collection('queue').get()
+        .then((queueSnapshot) =>  {
+            queueSnapshot.forEach((unmatched) => {
+                this.compareDares(myDare, unmatched, matched);
+            })
+        })
+        .then((matched) => {
+            if (matched === {} || !matched) {
+                this.postUnmatched(myDare);
+            }
+            else this.matchDareActivity(matched);
+        });
+     }    
+    
+    matchDareActivity = (userDareMatch) => {
+        let finalVersion = {};
+        db.collection('activity').get()
+        .then((activitySnapshot) =>  {
+            activitySnapshot.forEach((activity) => {
+                this.compareDareActivity(userDareMatch, activity, finalVersion);
+            });
+        });
     }
 
     postUnmatched = (unmatched) => {
@@ -29,43 +57,26 @@ class NewDare extends Component {
         this.props.dispatch(dare);
     }
 
-    matchDares = (lastPosted) => {
-        db.collection('queue').get()
-        .then((queueSnapshot) => {
-
-            this.compareDares(lastPosted, queueSnapshot);
-
-            queueSnapshot.forEach((unmatched) => {
-                // doc.data() is never undefined for query doc snapshots
-                console.log(unmatched.id, " => ", unmatched.data());
-            });
-        })
-    }
-
-    //this is not what the objects look like, just a sketch of 
-    compareDares = (dare) => {
-        const myDare = this.state;
-            if (dare.date === myDare.date
-                && dare.location === myDare.location
-                && dare.level === myDare.level
-                && dare.timeStart < myDare.timeEnd 
-                && myDare.timeStart < dare.timeEnd) {
-                    const budget = Math.min(dare.budget, myDare.budget);
-                    const timeStart = Math.max(dare.timeStart, myDare.timeStart);
-                    const timeEnd = Math.min(dare.timeEnd, myDare.timeEnd);
-                    const matched = {
-                        id1: dare.id, 
-                        id2: myDare.id, 
-                        cost: budget,
-                        starts: timeStart,
-                        ends: timeEnd} ;
-                    return matched;
-                } else if ( queue.length === 0 ) {
-                    this.postUnmatched(myDare);
-                }
-                else {
-                    queue.pop(dare);
-                }
+    //this is not what the objects look like, just a sketch of matching procedure 
+    compareDares = (myDare, dare, matched) => {
+        if (dare.date === myDare.date
+            && dare.location === myDare.location
+            && dare.level === myDare.level
+            && dare.timeStart < myDare.timeEnd 
+            && myDare.timeStart < dare.timeEnd
+            && matched === {} ) {
+                const budget = Math.min(dare.budget, myDare.budget);
+                const timeStart = Math.max(dare.timeStart, myDare.timeStart);
+                const timeEnd = Math.min(dare.timeEnd, myDare.timeEnd);
+                return matched = {
+                    id1: dare.id, 
+                    id2: myDare.id, 
+                    cost: budget,
+                    starts: timeStart,
+                    ends: timeEnd
+                };
+            }
+        else return matched;
     }
 
     render() {
