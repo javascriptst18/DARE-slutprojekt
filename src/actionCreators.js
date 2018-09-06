@@ -15,13 +15,17 @@ export function signOut(user) {
   };
 }
 
+function matchDares(lastPosted) {
+  
+}
+
 export function postDare(dare) {
   return function (dispatch, getState) {
     return db.collection('queue').add(dare)
-    .then(
-      posted => dispatch({ id: posted.id, current: true, type: POSTDARE }),
-     error => dispatch({ error, type: FAILEDTODARE }),
-    );
+      .then(
+        posted => dispatch({ id: posted.id, collection: 'queue', current: true, type: POSTDARE }),
+        error => dispatch({ error, type: FAILEDTODARE }),
+      );
   }
 }
 

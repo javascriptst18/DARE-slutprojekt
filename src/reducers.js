@@ -15,11 +15,7 @@ export function user(state = '', action) {
 export function handleDare(state = {}, action) {
   switch (action.type) {
     case POSTDARE:
-    const pendingDare = {
-      id: action.id,
-      current: action.current,
-    };
-      return pendingDare;
+      return action;
     case FAILEDTODARE:
       return action.error;
     case ACCEPTDARE:

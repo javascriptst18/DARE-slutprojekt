@@ -5,7 +5,6 @@ import { postDare } from '../actionCreators';
 class NewDare extends Component {
     state = {
         location: '', 
-        radius:0,
         date: '',
         timeStart: '',
         timeEnd: '',
@@ -48,15 +47,6 @@ class NewDare extends Component {
                     value={this.state.location}
                     onChange={this.onChange}
                     id="location"/>
-                </label>
-                <label htmlFor="">
-                    Jag vill ha en aktivitet inom 
-                    <input 
-                    type="number"
-                    id="radius"
-                    value={this.state.radius}
-                    onChange={this.onChange}/>
-                    km
                 </label>
                 <label htmlFor="date"> 
                     Datum

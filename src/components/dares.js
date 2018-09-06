@@ -16,8 +16,9 @@ class Dares extends Component {
         //suspend user for a week. patch firebase
     }
 
-    accept = () => {
-        this.setState({current: true})
+    accept = (e) => {
+        e.preventDefault();
+        
     }
 
     render() {
