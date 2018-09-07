@@ -1,4 +1,3 @@
-import firebase, { provider } from './firebase';
 import { POSTDARE, ACCEPTDARE, DECLINEDARE } from './index';
 import db from './firebase';
 
@@ -31,8 +30,8 @@ export function acceptDare(dare) {
 }
 
 export function addUserSettings(user) {
-  db.collection('users').doc(user.name).set(user).then((response) => { //  Adds with user.name as document id
-    console.log(response);
+  db.collection('users').doc(user.name).set(user).then((response) => {
+    console.log(response.data());
   })
     .catch((error) => {
       console.error(error);
@@ -42,7 +41,7 @@ export function addUserSettings(user) {
 //  Input: string
 //  Creates: Empty document in users with name as document ID
 export function addEmptyUser(user) {
-  db.collection('users').doc(user).set({}).then((response) => {
+  db.collection('users').doc(user).set({ name: user }).then((response) => {
     return response;
   })
     .catch((error) => {
@@ -53,31 +52,9 @@ export function addEmptyUser(user) {
 //  Input: object with name and other keys to set
 //  Creates: Appends information to existing object
 export function updateExistingUser(user) {
-  db.collection('users').doc(user.name).set({}, { merge: true }).then((response) => {
+  console.log('update existing user with: ', user);
+  db.collection('users').doc(user.name).set(user, { merge: true }).then((response) => {
     console.log(response);
-  })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-export function getExistingUser(user) {
-  db.collection('users').doc(user).get().then((response) => {
-    let res = '';
-    if (response.exists) {
-      //  User exists but no keys exist for user
-      if (!('name' in response.data())) {
-        res = 'empty user';
-        //  User exists and have data
-      } else {
-        res = response.data();
-      }
-    }
-    //  User doesnt exist at all, create a new user
-    else {
-      res = 'user doesnt exist';
-    }
-    return res;
   })
     .catch((error) => {
       console.log(error);

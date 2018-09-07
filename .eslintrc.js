@@ -1,6 +1,6 @@
 module.exports = {
     "extends": "airbnb",
     "rules": {
-        "line-break-style": "off"
+        "linebreak-style": "off"
     }
 };

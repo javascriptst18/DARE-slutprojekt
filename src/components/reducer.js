@@ -5,8 +5,7 @@ export const LOGOUT = 'LOGOUT';
 export function user(state = '', action) {
   switch (action.type) {
     case 'LOGIN':
-      state = action.value;
-      return state;
+      return action.value;
     case 'LOGOUT':
       return '';
     default:
