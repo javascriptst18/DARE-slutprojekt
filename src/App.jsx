@@ -2,12 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux'; //  for redux
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Dares from './components/dares';
-import UserSettings from './components/UserSettings';
 import Register from './components/Register';
 import Logout from './components/Logout';
 import Start from './components/Start';
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <div className="App">
@@ -23,9 +22,7 @@ class App extends Component {
                 <Logout />
                 <Link to="/login">Dare</Link>
                 <Link to="/dares">My Dares</Link>
-                <Link to="/settings">Settings</Link>
                 <Route path="/dares" component={Dares} />
-                <Route path="/settings" component={UserSettings} />
               </div>
             </Router>
         }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { postDare } from '../actionCreators';
+import { postDare } from './actionCreators/dareActions';
 import db from '../firebase';
 
 class NewDare extends Component {
@@ -68,7 +68,7 @@ class NewDare extends Component {
     }
 
     postUnmatched = (unmatched) => {
-        const dare = postDare(unmatched, this.props.user.email);
+        const dare = postDare(unmatched, this.props.user);
         this.props.dispatch(dare);
     }
 

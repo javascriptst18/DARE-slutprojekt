@@ -1,7 +1,7 @@
-import db from './firebase';
+import db from '../../firebase';
 import {
   POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE, 
-} from './constants';
+} from '../../constants';
 
 export function signIn(user) {
   return {
