@@ -90,11 +90,6 @@ const list = this.state.testQueue.map((item, index) => {
 
 return (
     <div className="upcoming-dare">
-        <h2>Din utmaning</h2>
-        <p> Din plats: { this.state.location } </p>
-        <p> Din budget: { this.state.budget } </p>
-        <p> Din level: { this.state.level } </p>
-        <p> Vilka mer uppgifter ska vi ha? </p>
         {/* <p> Din budget: { for (let item of this.state.testQueue) {item.budget}} </p> */}
         <p> { list } </p>
     </div>

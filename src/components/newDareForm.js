@@ -104,12 +104,11 @@ class NewDare extends Component {
     render() {
         return(
             <form onSubmit={this.onSubmit}> 
-                <h2>I dare you, {this.props.user.displayName} men skicka inget nu!!</h2>
+                <h2>I dare you, {this.props.user.displayName}!</h2>
                 <label htmlFor="level">
                     Chicken or DAREDevil? 
                     <input 
                     type="range" 
-                    list="tickmarks"
                     min="1" 
                     max="3" 
                     value={this.state.daredevil} 

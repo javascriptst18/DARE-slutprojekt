@@ -21,7 +21,7 @@ export function postDare(dare, email) {
   return function (dispatch, getState) {
     return db.collection('queue').doc(email).set(dare)
       .then(
-        posted => dispatch({ id: posted.id, collection: 'queue', current: true, type: POSTDARE }),
+        posted => dispatch({ current: true, type: POSTDARE }),
         error => dispatch({ error, type: FAILEDTODARE }),
       );
   }

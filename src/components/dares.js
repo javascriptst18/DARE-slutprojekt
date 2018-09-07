@@ -8,8 +8,8 @@ import db from '../firebase';
 class Dares extends Component {
 
     componentDidMount() {
-        let current = db.collection('queue').doc(this.props.user.email).get();
-        this.setState({current: current});
+        //let current = db.collection('queue').doc(this.props.user.email).get();
+        //this.setState({current: current});
         //firebaselistener
         //check if suspended
     }
