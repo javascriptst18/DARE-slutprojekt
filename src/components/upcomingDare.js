@@ -5,6 +5,7 @@ import db, { firebase, provider } from '../firebase';
 
 class UpcomingDare extends Component {
 
+
 state = {
   location: [],
   budget: [],
@@ -53,20 +54,18 @@ db.collection('queue').onSnapshot(querySnapshot => {
     newData.id = doc.id;
     tempArr.push(newData);
   });
-  this.setState({testQueue: tempArr}); // använda för mappa igenom och skriva ut?
+  this.setState({testQueue: tempArr});
   console.log(this.state.testQueue);
 })
 }
 
 
-removePending = (e) => {
-  e.preventDefault();
-  db.collection('queue').doc('test').delete()
-    
-  
-  
-}
+// removePending = () => {
+//   db.collection('queue').doc(this.props.user).delete().then(() => {
+//     console.log(this.props.user);
+//   })
 
+// }
 
 
 render() {
@@ -75,16 +74,30 @@ render() {
 // return <p key={index}>Din plats: {queueInfo}</p>
 // });
 
-const list = this.state.testQueue.map((item, index) => {
-  return <div key={index} className="">
-      <h2>Min pending Dare:</h2>
-      <p>Min registrerade Level: {item.level}</p>
-      <p>Min registrerade Budget: {item.budget}</p>
-      <p>Min registrerade Location: {item.location}</p>
-      <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
-      <button onClick={this.removePending}> Remove pending Dare </button>
-    </div>
-  });
+
+// följande är orginalet -->
+
+// const list = this.state.testQueue.map((item, index) => {
+//   return <div key={index} className="">
+//       <h2>Min pending Dare:</h2>
+//       <p>Min registrerade Level: {item.level}</p>
+//       <p>Min registrerade Budget: {item.budget}</p>
+//       <p>Min registrerade Location: {item.location}</p>
+//       <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
+//       <button onClick={this.removePending}> Remove pending Dare </button>
+//     </div>
+//   });
+
+  const listQueue = this.state.testQueue.map(item => {
+    return <div key={item.key} className="">
+        <h2>Min pending Dare:</h2>
+        <p>Min registrerade Level: {item.level}</p>
+        <p>Min registrerade Budget: {item.budget}</p>
+        <p>Min registrerade Location: {item.location}</p>
+        <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
+        <button onClick={()=> db.collection('queue').doc(item.id).delete()}>Ta bort pending Dare</button>
+      </div>
+    });
 
 return (
     <div className="upcoming-dare">
@@ -94,7 +107,7 @@ return (
         <p> Din level: { this.state.level } </p>
         <p> Vilka mer uppgifter ska vi ha? </p>
         {/* <p> Din budget: { for (let item of this.state.testQueue) {item.budget}} </p> */}
-        <p> { list } </p>
+        <p> { listQueue } </p>
     </div>
     );
 
@@ -102,4 +115,4 @@ return (
 }
 
 
-export default UpcomingDare;
+export default  connect(state => state)(UpcomingDare);

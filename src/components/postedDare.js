@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import db, { firebase, provider } from '../firebase';
 import UpcomingDare from './upcomingDare';
+import NewDare from './newDareForm';
 
 
 class TestDare extends Component {
@@ -18,7 +19,7 @@ checkForQueue = () => {
     db.collection('queue').doc().get().then(doc => {
     if(!doc.exists){
      this.setState({inQueue: true});
-     console.log('que exist');
+     console.log('queue exist');
      console.log(this.state.inQueue);
       } else {
         this.setState({inQueue: false});
@@ -37,7 +38,7 @@ render () {
         showThis = <UpcomingDare />
 
     } else {
-        showThis = <p>NewDare</p>  // Update NewDare
+        showThis = <NewDare />
 
     }
 
