@@ -27,44 +27,67 @@ class NewDare extends Component {
     matchDares = () => {
         const myDare = this.state;
         let matched = {};
-       // reads dare queue from db and searches for a match
-        db.collection('queue').get()
-        .then((queueSnapshot) =>  {
-            queueSnapshot.forEach((unmatched) => {
-                console.log(unmatched);
-                this.compareDares(myDare, unmatched, matched);
-            })
-        })
-        .then((matched) => {
-            if (matched === {} || !matched) {
-                this.postUnmatched(myDare);
-            }
-            else this.matchDareActivity(matched);
-        });
+        const tempArr = [];
+        db.collection('queue').onSnapshot(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            let newData = doc.data()
+            newData.id = doc.id;
+            tempArr.push(newData);
+          })
+        .then(response => this.compareDares(myDare, this.state.testQueue, matched))
+        // compares myDare with fetched queue
+
      }    
-    
-    //this is not what the objects look like, just a sketch of matching procedure 
-    compareDares = (myDare, dare, matched) => {
-        if ( matched === {}
-        && dare.date === myDare.date 
-        && dare.location === myDare.location
-        && dare.level === myDare.level
-        && dare.timeStart < myDare.timeEnd 
-        && myDare.timeStart < dare.timeEnd) {
-            const budget = Math.min(dare.budget, myDare.budget);
-            const timeStart = Math.max(dare.timeStart, myDare.timeStart);
-            const timeEnd = Math.min(dare.timeEnd, myDare.timeEnd);
-            //returns user match, not connected to activity yet
-            return matched = {
-                date: dare.date,
-                id1: dare.id, 
-                id2: myDare.id, 
-                cost: budget,
-                starts: timeStart,
-                ends: timeEnd
-            };
+     getTheQueue = () => {
+        const tempArr = [];
+        db.collection('queue').onSnapshot(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            let newData = doc.data()
+            newData.id = doc.id;
+            tempArr.push(newData);
+          });
+          this.setState({testQueue: tempArr}); // använda för mappa igenom och skriva ut?
+          console.log(this.state.testQueue);
+        })
         }
-        else return matched;
+    //this is not what the objects look like, just a sketch of matching procedure 
+    compareDares = (myDare, queue, matched) => {
+
+        myDare.timeStart = this.stringsToDate(myDare.date, myDare.timeStart);
+        myDare.timeEnd = this.stringsToDate(myDare.date, myDare.timeEnd);
+        console.log('meeeeeeeeeeeeeeeeeeeeeeeeeee')
+        for (let dare in queue) {
+            console.log('meeeeeeeeeeeeeeeeeeeeeeeeeee')
+            dare.timeStart = this.stringsToDate(dare.date, dare.timeStart);
+            dare.timeEnd = this.stringsToDate(dare.date, dare.timeEnd);
+        
+            if ( dare.date === myDare.date 
+            /* && dare.location === myDare.location
+            && dare.level == myDare.level //don't care about format for now
+            && dare.timeStart < myDare.timeEnd 
+            && myDare.timeStart < dare.timeEnd*/
+        ) {
+                const budget = Math.min(dare.budget, myDare.budget);
+                const timeStart = Math.max(dare.timeStart, myDare.timeStart);
+                const timeEnd = Math.min(dare.timeEnd, myDare.timeEnd);
+                //returns user match, not connected to activity yet
+                return matched = {
+                    date: dare.date,
+                    id1: dare.id, 
+                    id2: myDare.id, 
+                    cost: budget,
+                    starts: timeStart,
+                    ends: timeEnd
+                };
+            }
+            else return matched;
+        }
+        console.log(matched);
+    }
+
+    stringsToDate = (date, time) => {
+        const fullstring = date + 'T' + time + ':00+1:00';
+        return date = new Date(fullstring);
     }
 
     postUnmatched = (unmatched) => {

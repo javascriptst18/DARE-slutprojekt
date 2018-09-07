@@ -6,46 +6,16 @@ import db, { firebase, provider } from '../firebase';
 class UpcomingDare extends Component {
 
 state = {
-  location: [],
-  budget: [],
-  level: [],
   testQueue: []
 }
 
   componentDidMount() { 
-    this.getUpcomingLocation(); // location
-    this.getUpcomingBudget(); // budget
-    this.getUpcomingLevel(); // level
     this.getTheQueue();
   }
 
 // collection fungerar om det är en användare som är sparad i docs.
 
-getUpcomingLocation = () => {
-  db.collection('queue').get().then(collection => {
-    const location = collection.docs.map(doc => doc.data().location)
-    this.setState({ location })
-    console.log(this.state.location);
-  })
-}
-
-getUpcomingBudget = () => {
-  db.collection('queue').get().then(collection => {
-    const budget = collection.docs.map(doc => doc.data().budget)
-    this.setState({ budget })
-    console.log(this.state.budget);
-  })
-}
-
-getUpcomingLevel = () => {
-  db.collection('queue').get().then(collection => {
-    const level = collection.docs.map(doc => doc.data().level)
-    this.setState({ level })
-    console.log(this.state.level);
-  })
-}
-
-getTheQueue = () => {
+  getTheQueue = () => {
 const tempArr = [];
 db.collection('queue').onSnapshot(querySnapshot => {
   querySnapshot.forEach(doc => {

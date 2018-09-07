@@ -5,7 +5,7 @@ export const isRegistered = function (state = null, action) {
     case 'CHECK_USER':
       return action.value;
     default:
-      return null;
+      return state;
   }
 }
 //  Sets the current user
