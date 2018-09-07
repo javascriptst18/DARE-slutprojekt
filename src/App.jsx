@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Register from './components/Register';
 import Logout from './components/Logout';
 import Start from './components/Start';
+import UserSettings from './components/UserSettings';
 
 class App extends Component {
   render() {
@@ -15,7 +16,7 @@ class App extends Component {
             this.props.user && !this.props.isRegistered ?
               <Register />
               :
-              <Logout />
+              <UserSettings />
         }
       </div>
     );

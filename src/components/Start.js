@@ -5,8 +5,8 @@ import { provider } from '../firebase';
 import { checkIfUserExists, login } from './actionCreators/userActions';
 
 class Start extends Component {
-  //checkUser = (user) => { this.props.dispatch(checkIfUserExists(user)) }
-  login = (user) => { this.props.dispatch(login(user)) }
+  //checkUser = (user) => { checkIfUserExists(user) }
+  //login = (user) => { this.props.dispatch(login(user)) }
 
   componentDidMount() {
     this.auth();
@@ -16,9 +16,7 @@ class Start extends Component {
     firebase.auth()
       .onAuthStateChanged(user => {
         if (user) {
-          //this.checkUser(user.email)
-          this.props.dispatch(checkIfUserExists(user.email)).then( console.log('promise resolved: ', this.props.isRegisterd), this.login(user))
-          //this.login(user)
+          this.props.dispatch(checkIfUserExists(user.email)).then(this.props.dispatch(login(user)))
         }
       })
   }

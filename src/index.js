@@ -6,9 +6,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import { isRegistered } from './components/reducers/userReducer';
-import { user } from './components/reducers/userReducer';
-
+import { user, isRegistered, userSettings } from './components/reducers/userReducer';
 
 export const POSTDARE = 'POSTDARE';
 export const ACCEPTDARE = 'ACCEPTDARE';
@@ -31,7 +29,7 @@ function handleDare(state = {}, action) {
 }
 
 //  store
-const rootReducer = combineReducers({ user, handleDare, isRegistered });
+const rootReducer = combineReducers({ user, handleDare, isRegistered, userSettings });
 
 const store = createStore(
   rootReducer,
