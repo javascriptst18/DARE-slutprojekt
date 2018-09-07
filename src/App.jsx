@@ -1,28 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux'; //  for redux
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Dares from './components/dares';
-import LogIn from './components/Login';
 import UserSettings from './components/UserSettings';
+import Register from './components/Register';
+import Logout from './components/Logout';
+import Start from './components/Start';
 
-function App() {
-  return (
-    <Router>
+class App extends Component {
+  render() {
+    return (
       <div className="App">
-        <LogIn />
-        <Link to="/login">Dare</Link>
-        <Link to="/dares">My Dares</Link>
-        <Link to="/settings">Settings</Link>
-        <Route path="/dares" component={Dares} />
-        <Route path="/settings" component={UserSettings} />
+        {
+          !this.props.user ?
+            <Start />
+            :
+          this.props.user && !this.props.isRegistered ?
+            <Register />
+            :
+            <Router>
+              <div className="App">
+                <Logout />
+                <Link to="/login">Dare</Link>
+                <Link to="/dares">My Dares</Link>
+                <Link to="/settings">Settings</Link>
+                <Route path="/dares" component={Dares} />
+                <Route path="/settings" component={UserSettings} />
+              </div>
+            </Router>
+        }
       </div>
-    </Router>
-  );
+    );
+  }
 }
 
 export default connect(state => state)(App);
-
-/** import switch too from react-router
- * <Switch>
-          <Route path="/login" />
-        </Switch> */
