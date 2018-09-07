@@ -33,11 +33,12 @@ class NewDare extends Component {
             let newData = doc.data()
             newData.id = doc.id;
             tempArr.push(newData);
-          })
-        .then(response => this.compareDares(myDare, this.state.testQueue, matched))
+          }) })
+       this.compareDares(myDare, this.state.testQueue, matched)
         // compares myDare with fetched queue
+       
+     }
 
-     }    
      getTheQueue = () => {
         const tempArr = [];
         db.collection('queue').onSnapshot(querySnapshot => {
