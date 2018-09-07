@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'; //  for redux
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import Dares from './components/dares';
+import Dares from './components/dares/dares';
 import Register from './components/Register';
 import Logout from './components/Logout';
 import Start from './components/Start';

@@ -5,12 +5,14 @@ import db from '../firebase';
 
 class NewDare extends Component {
     state = {
-        location: '', 
-        date: '',
-        timeStart: '',
-        timeEnd: '',
-        budget: 0,
+        location: 'Stockholm', 
+        date: '2019-01-01',
+        timeStart: '01:00',
+        timeEnd: '23:59',
+        budget: 500,
         level: 2, //needs some kind of explanation in UI
+        start: 0,
+        end: 0,
     }
 
     onChange = (e) => {
@@ -20,8 +22,17 @@ class NewDare extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.matchDares();
-        this.setState({}); //tömmer ej fälten som den ska
+        //reformat dates to ms from 1970-01-01
+        const start = this.stringsToDate(this.state.date, this.state.timeStart);
+        const end = this.stringsToDate(this.state.date, this.state.timeEnd);
+        console.log(this.state);
+        this.setState({start: start, end: end} );
+        console.log('start: ' +start + ' end: ' + end);
+        console.log(this.state);
+        this.setState({location: 'vadsomhelst'});
+        console.log(this.state);
+        //this.matchDares();
+     //   this.setState({}); //tömmer ej fälten som den ska
     }
 
     matchDares = () => {
@@ -33,12 +44,12 @@ class NewDare extends Component {
             let newData = doc.data()
             newData.id = doc.id;
             tempArr.push(newData);
+            this.compareDares(myDare, tempArr, matched)
           }) })
-       this.compareDares(myDare, this.state.testQueue, matched)
         // compares myDare with fetched queue
        
      }
-
+     //Johannes funktion för att hämta kö
      getTheQueue = () => {
         const tempArr = [];
         db.collection('queue').onSnapshot(querySnapshot => {
@@ -50,24 +61,19 @@ class NewDare extends Component {
           this.setState({testQueue: tempArr}); // använda för mappa igenom och skriva ut?
           console.log(this.state.testQueue);
         })
-        }
-    //this is not what the objects look like, just a sketch of matching procedure 
-    compareDares = (myDare, queue, matched) => {
+     }
+   
+    compareDares = (myDare, dare, matched) => {
 
-        myDare.timeStart = this.stringsToDate(myDare.date, myDare.timeStart);
-        myDare.timeEnd = this.stringsToDate(myDare.date, myDare.timeEnd);
         console.log('meeeeeeeeeeeeeeeeeeeeeeeeeee')
-        for (let dare in queue) {
-            console.log('meeeeeeeeeeeeeeeeeeeeeeeeeee')
-            dare.timeStart = this.stringsToDate(dare.date, dare.timeStart);
-            dare.timeEnd = this.stringsToDate(dare.date, dare.timeEnd);
-        
+        dare.timeStart = this.stringsToDate(dare.date, dare.timeStart);
+        dare.timeEnd = this.stringsToDate(dare.date, dare.timeEnd);
             if ( dare.date === myDare.date 
             /* && dare.location === myDare.location
             && dare.level == myDare.level //don't care about format for now
             && dare.timeStart < myDare.timeEnd 
             && myDare.timeStart < dare.timeEnd*/
-        ) {
+        ) {     console.log('muuuuuuuuuuuuuuuuuuuuuuuuuuu')
                 const budget = Math.min(dare.budget, myDare.budget);
                 const timeStart = Math.max(dare.timeStart, myDare.timeStart);
                 const timeEnd = Math.min(dare.timeEnd, myDare.timeEnd);
@@ -81,14 +87,15 @@ class NewDare extends Component {
                     ends: timeEnd
                 };
             }
-            else return matched;
-        }
-        console.log(matched);
+            else {
+                console.log(matched + ' wooohooooooooooooo');
+                return matched;
+            }
     }
 
     stringsToDate = (date, time) => {
-        const fullstring = date + 'T' + time + ':00+1:00';
-        return date = new Date(fullstring);
+        const fullstring = date + 'T' + time + ':00+01:00';
+        return date = new Date(fullstring).getTime();
     }
 
     postUnmatched = (unmatched) => {
@@ -126,6 +133,7 @@ class NewDare extends Component {
     }
 
     render() {
+        console.log(this.state.start);
         return(
             <form onSubmit={this.onSubmit}> 
                 <h2>I dare you, {this.props.user.displayName}!</h2>
