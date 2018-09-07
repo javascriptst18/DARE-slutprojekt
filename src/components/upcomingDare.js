@@ -59,6 +59,15 @@ db.collection('queue').onSnapshot(querySnapshot => {
 }
 
 
+removePending = (e) => {
+  e.preventDefault();
+  db.collection('queue').doc('test').delete()
+    
+  
+  
+}
+
+
 
 render() {
 
@@ -73,6 +82,7 @@ const list = this.state.testQueue.map((item, index) => {
       <p>Min registrerade Budget: {item.budget}</p>
       <p>Min registrerade Location: {item.location}</p>
       <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
+      <button onClick={this.removePending}> Remove pending Dare </button>
     </div>
   });
 

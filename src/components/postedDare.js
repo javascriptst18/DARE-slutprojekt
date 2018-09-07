@@ -34,10 +34,10 @@ render () {
     let showThis;
 
     if (this.state.inQueue){
-        showThis = <UpcomingDare />// does NewDare exists
+        showThis = <UpcomingDare />
 
     } else {
-        showThis = <p>NewDare</p>  // denna ska h
+        showThis = <p>NewDare</p>  // Update NewDare
 
     }
 
