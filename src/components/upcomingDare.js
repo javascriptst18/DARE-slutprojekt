@@ -68,13 +68,13 @@ render() {
 
 const list = this.state.testQueue.map((item, index) => {
   return <div key={index} className="">
-  <h2>Min pending Dare:</h2>
-    <p>Min registrerade Level: {item.level}</p>
-    <p>Min registrerade Budget: {item.budget}</p>
-    <p>Min registrerade Location: {item.location}</p>
-    <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
-  </div>
-});
+      <h2>Min pending Dare:</h2>
+      <p>Min registrerade Level: {item.level}</p>
+      <p>Min registrerade Budget: {item.budget}</p>
+      <p>Min registrerade Location: {item.location}</p>
+      <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
+    </div>
+  });
 
 return (
     <div className="upcoming-dare">

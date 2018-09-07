@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Dares from './components/dares';
 import LogIn from './components/Login';
 import UserSettings from './components/UserSettings';
-import UpcomingDare from './components/upcomingDare';
+import TestDare from './components/postedDare';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Link to="/settings">Settings</Link>
         <Route path="/dares" component={Dares} />
         <Route path="/settings" component={UserSettings} />
-        <UpcomingDare />
+        <TestDare />
       </div>
     </Router>
   );

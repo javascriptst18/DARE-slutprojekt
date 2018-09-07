@@ -1,49 +1,53 @@
 import React, { Component } from 'react';
 import db, { firebase, provider } from '../firebase';
+import UpcomingDare from './upcomingDare';
 
 
 class TestDare extends Component {
 
 state = {
 inQueue: false,
-}
+};
 
 componentDidMount() {
     this.checkForQueue(); // Check for pending dares
+    
 }
 
 checkForQueue = () => {
-    db.collection('queue').doc('kajsamlindholm@gmail.com').get().then(doc => {
-    if(!doc.exists) {
-     this.setState({ inQueue: false });
-     console.log('cant find queue.');
+    db.collection('queue').doc().get().then(doc => {
+    if(!doc.exists){
+     this.setState({inQueue: true});
+     console.log('que exist');
+     console.log(this.state.inQueue);
       } else {
-        this.setState({ inQueue: true });
-          console.log('queue exists');
+        this.setState({inQueue: false});
+        console.log('queue dont exist');
+        console.log(this.state.inQueue);
       }
     
     }
      )}
 
+render () {
 
-checkIfQueueExists = () => {
+    let showThis;
 
-    
-db.collection('queue').get().then(doc => {
-    if (docSnapshot.exists) {
-      usersRef.onSnapshot((doc) => {
-        
-      });
+    if (this.state.inQueue){
+        showThis = <UpcomingDare />// does NewDare exists
+
     } else {
-      usersRef.set({...}) // create the document
+        showThis = <p>NewDare</p>  // denna ska h
+
     }
-});
 
+    return (<div>
+            { showThis }
+            </div>
 
+    );
 
-
-
-
+ }
 }
 
 
