@@ -5,6 +5,7 @@ import Dares from './components/dares';
 import Register from './components/Register';
 import Logout from './components/Logout';
 import Start from './components/Start';
+import UserSettings from './components/UserSettings';
 
 class App extends React.Component {
   render() {
@@ -21,8 +22,10 @@ class App extends React.Component {
               <div className="App">
                 <Logout />
                 <Link to="/login">Dare</Link>
-                <Link to="/dares">My Dares</Link>
+                <Link to="/dares">Mina Dares</Link>
+                <Link to="/settings">Inställningar</Link>
                 <Route path="/dares" component={Dares} />
+                <Route path="/settings" component={UserSettings} />
               </div>
             </Router>
         }

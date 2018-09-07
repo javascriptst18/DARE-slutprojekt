@@ -1,13 +1,20 @@
 import db from '../../firebase';
 
 export function checkIfUserExists(user) {
-  return function (dispatch, done) {
+  return function (dispatch) {
     return db.collection('users').doc(user).get()
       .then((response) => {
-        dispatch({ type: 'CHECK_USER', value: response.exists })
+        dispatch({ type: 'CHECK_USER', value: response.exists });
+        if (response.exists) {
+          dispatch({ type: 'SETUSERSETTINGS', value: response.data() })
+        }
+        else {
+          dispatch({ type: 'SETUSERSETTINGS', value: { location: '', name: '', phonenumber: '', suspended: false, verified: false } })
+        }
       })
   }
 }
+
 
 export function login(user) {
   return function (dispatch) {

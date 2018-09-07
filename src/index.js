@@ -7,11 +7,10 @@ import thunk from 'redux-thunk';
 import { handleDare } from './reducers';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import { user, isRegistered } from './components/reducers/userReducer';
-
+import { user, isRegistered, userSettings } from './components/reducers/userReducer';
 
 //  store
-const rootReducer = combineReducers({ user, handleDare, isRegistered });
+const rootReducer = combineReducers({ user, handleDare, isRegistered, userSettings });
 
 const store = createStore(
   rootReducer,
