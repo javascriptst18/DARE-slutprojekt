@@ -31,7 +31,7 @@ export function postUserMatch(match) {
   return function (dispatch, getState) {
     return db.collection('userMatch').add(match)
       .then(
-        posted => dispatch({ posted, current: true, type: MATCHEDDARE }),
+        userMatch => dispatch({ id: userMatch.id, collection:'userMatch', current: true, type: MATCHEDDARE }),
         error => dispatch({ error, type: FAILEDTODARE }),
       );
   }
@@ -41,7 +41,7 @@ export function postPendingDare(match) {
   return function (dispatch, getState) {
     return db.collection('matchedDare').add(match)
       .then(
-        posted => dispatch({ posted, current: true, type: PENDINGDARE }),
+        pending => dispatch({ id: pending.id, collection:'matchedDare', current: true, type: PENDINGDARE }),
         error => dispatch({ error, type: FAILEDTODARE }),
       );
   }
