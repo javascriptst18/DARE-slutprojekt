@@ -18,7 +18,7 @@ componentDidMount() {
 
 checkForQueue = () => {
     db.collection('queue').doc(this.props.user.email).get().then(doc => {
-    if(!doc.exists){
+    if(doc.exists){
      this.setState({inQueue: true});
      console.log('queue exist');
      console.log(this.state.inQueue);

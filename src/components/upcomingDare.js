@@ -61,7 +61,7 @@ db.collection('queue').onSnapshot(querySnapshot => {
 
 removeDare = () => {
 
-  db.collection('queue').doc(this.props.user.email).delete()  
+  db.collection('queue').doc(this.props.user.email).delete() 
 
 }
 
