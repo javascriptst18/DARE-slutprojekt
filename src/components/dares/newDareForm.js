@@ -36,7 +36,7 @@ class NewDare extends Component {
     }
 
     getUserMatch = (myDare, email) => {
-        let matched = {};
+        let matched;
         const tempArr = [];
         db.collection('queue')
           .where('date', '==', myDare.date)
@@ -50,7 +50,7 @@ class NewDare extends Component {
               tempArr.push(newData);
             });        
             for (let i = 0; i < tempArr.length; i++) {
-            if (myDare.start < tempArr[i].end && tempArr[i].id !== email) {
+            if (!matched && myDare.start < tempArr[i].end && tempArr[i].id !== email) {
                 console.log('tiden funkar!!')
                 const budget = Math.min(tempArr[i].budget, myDare.budget);
                 const timeStart = Math.max(tempArr[i].start, myDare.start);
@@ -64,10 +64,11 @@ class NewDare extends Component {
                   ends: timeEnd,
                 };
                 console.log(matched);
-                return matched;
+                this.props.dispatch(postUserMatch(matched));
               }
             }
-        });
+            if(!matched) this.postUnmatched(myDare);
+        })
       }
     
     
