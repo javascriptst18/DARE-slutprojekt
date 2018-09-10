@@ -10,10 +10,10 @@ class NewDare extends Component {
         date: '2019-01-01',
         timeStart: '01:00',
         timeEnd: '23:59',
-        budget: 500,
+        budget: 0,
         level: 2, //needs some kind of explanation in UI
-        start: 1546297200000,
-        end: 1546380000000,
+        start: 0,
+        end: 0,
     }
 
     onChange = (e) => {
@@ -24,6 +24,9 @@ class NewDare extends Component {
             const start = this.stringsToDate(this.state.date, this.state.timeStart);
             const end = this.stringsToDate(this.state.date, this.state.timeEnd); 
             this.setState({ start: start, end: end, [e.target.id]: e.target.value });
+        }
+        else if (e.target.id === 'budget' || e.target.id === 'level'){
+            this.setState({[e.target.id]: parseInt(e.target.value)})  
         }
         else this.setState({[e.target.id]: e.target.value});
     }
