@@ -16,7 +16,9 @@ class Start extends Component {
     firebase.auth()
       .onAuthStateChanged(user => {
         if (user) {
-          this.props.dispatch(checkIfUserExists(user.email)).then(this.props.dispatch(login(user)))
+          //this.props.dispatch(checkIfUserExists(user.email)).then(this.props.dispatch(login(user)))
+          this.props.dispatch(checkIfUserExists(user));
+          //this.props.dispatch(login(user))
         }
       })
   }

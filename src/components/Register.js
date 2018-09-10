@@ -12,7 +12,7 @@ class Register extends Component {
   }
 
   addUserSettings = (user) => {
-    db.collection('users').doc(this.props.user).set(user).then((response) => {
+    db.collection('users').doc(this.props.user.email).set(user).then((response) => {
       this.checkUser(this.props.user);
     })
   }

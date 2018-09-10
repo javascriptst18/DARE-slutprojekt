@@ -10,8 +10,8 @@ class Logout extends Component {
 
   logoutButton = () => {
     firebase.auth().signOut();
-    this.logout({type: 'LOGOUT', value: null})
-    this.checkUser('logout');
+    this.logout({type: 'LOGOUT', value: ''})
+    //this.checkUser('logout');
   }
 
   render() {

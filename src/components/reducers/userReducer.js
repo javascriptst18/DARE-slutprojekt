@@ -1,21 +1,30 @@
 
 //  Check if currently logged in user is registered
-export const isRegistered = function (state = null, action) {
+/* export const isRegistered = function (state = null, action) {
   switch (action.type) {
     case 'CHECK_USER':
       return action.value;
     default:
       return state;
   }
+}; */
+
+
+const initialUserState = {
+  email: '',
+  isRegistered: null,
 };
 
 //  Sets the current user
-export const user = function (state = null, action) {
+export const user = function (state = initialUserState, action) {
+  console.log(action)
   switch (action.type) {
     case 'LOGIN':
-      return action.value;
+      return {...state, email: action.value.email};
+    case 'CHECK_USER':
+      return { ...state, isRegistered: action.value };
     case 'LOGOUT':
-      return null;
+      return { email: '', isRegistered: null };
     default:
       return state;
   }

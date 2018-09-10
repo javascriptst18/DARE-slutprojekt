@@ -4,13 +4,13 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { handleDare } from './reducers';
+import handleDare from './components/reducers/dareReducer';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import { user, isRegistered, userSettings } from './components/reducers/userReducer';
+import { user, userSettings } from './components/reducers/userReducer';
 
 //  store
-const rootReducer = combineReducers({ user, handleDare, isRegistered, userSettings });
+const rootReducer = combineReducers({ user, handleDare, userSettings });
 
 const store = createStore(
   rootReducer,
