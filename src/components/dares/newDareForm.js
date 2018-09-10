@@ -81,9 +81,18 @@ class NewDare extends Component {
         })
         .then(() => {
             if(!matched) this.postUnmatched(myDare) //inte kontrollerat att detta funkar!!!!
-            else this.props.dispatch(postUserMatch(matched));
+            else this.getActivityMatch(matched); //kolla först om vi får aktivitet för att kunna lägga till egenskap activity: bool på userMatch
         })
-        .then(() => {this.getActivityMatch(matched);})
+        .then(() => {
+            if (this.props.handleDare.type === 'PENDINGDARE'){
+                matched.activity = true;
+                this.props.dispatch(postUserMatch(matched));
+            }
+            else if (matched) {
+                matched.activity = false;
+                this.props.dispatch(postUserMatch(matched));
+            }
+        });
       }
     
     getActivityMatch = (userMatch) => {
