@@ -6,18 +6,20 @@ import LogIn from './components/Login';
 import UserSettings from './components/UserSettings';
 import TestDare from './components/postedDare';
 import UpcomingDare from './components/upcomingDare';
+import Swipeslider from './components/swipe';
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <Swipeslider />
         <LogIn />
         <Link to="/login">Dare</Link>
         <Link to="/dares">My Dares</Link>
         <Link to="/settings">Settings</Link>
         <Route path="/dares" component={Dares} />
         <Route path="/settings" component={UserSettings} />
-        <UpcomingDare />
+        
       </div>
     </Router>
   );

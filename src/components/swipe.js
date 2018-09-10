@@ -3,21 +3,28 @@ import Slider from 'react-slick';
 import '../App.css';
 
 
-class Slider extends Component {
+class Swipeslider extends Component {
+
+
+state = {
+
+}
+
 
 render() {
 
-    let settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      infinite: false,
-    };
+let settings = {
+dots: true,
+infinite: true,
+speed: 500,
+slidesToShow: 1,
+slidesToScroll: 1,
+infinite: false,
+};
 
 return (
-      <Slider {...settings}>
+      <Slider {...settings} className="sliderContent">
+      
         <div>
           <h3>Bild1</h3>
         </div>
@@ -33,10 +40,11 @@ return (
         <div>
           <h3>Bild5</h3>
         </div>
+       
         
       </Slider>
     );
   }
 }
 
-export default Slider;
+export default Swipeslider;

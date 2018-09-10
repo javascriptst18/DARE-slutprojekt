@@ -16,6 +16,7 @@ componentDidMount() {
     
 }
 
+
 checkForQueue = () => {
     db.collection('queue').doc(this.props.user.email).get().then(doc => {
     if(doc.exists){
