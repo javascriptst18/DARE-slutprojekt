@@ -1,21 +1,7 @@
 import db from '../../firebase';
 import {
-  POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE, MATCHEDDARE, PENDINGDARE,
-} from '../../constants';
-
-export function signIn(user) {
-  return {
-    type: 'LOGIN',
-    payload: user,
-  };
-}
-
-export function signOut(user) {
-  return {
-    type: 'LOGOUT',
-    payload: user,
-  };
-}
+  POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE, MATCHEDDARE, PENDINGDARE, QUEUE, NOACTIVITY, MATCHEDPENDING, MATCHEDACCEPTED, STATUSFAILED
+} from '../constants';
 
 export function postDare(dare, email) {
   return function (dispatch, getState) {
@@ -31,7 +17,12 @@ export function postUserMatch(match) {
   return function (dispatch, getState) {
     return db.collection('userMatch').add(match)
       .then(
-        userMatch => dispatch({ id: userMatch.id, collection:'userMatch', current: true, type: MATCHEDDARE }),
+        userMatch => dispatch({
+          id: userMatch.id,
+          collection:'userMatch',
+          current: true,
+          type: MATCHEDDARE,
+        }),
         error => dispatch({ error, type: FAILEDTODARE }),
       );
   }
@@ -55,34 +46,10 @@ export function declineDare(dare) {
   return { type: DECLINEDARE };
 }
 
-export function addUserSettings(user) {
-  db.collection('users').doc(user.name).set(user).then((response) => {
-    console.log(response.data());
-  })
-    .catch((error) => {
-      console.error(error);
-    });
+export function inQueue() {
+  return { type: QUEUE }
 }
 
-//  Input: string
-//  Creates: Empty document in users with name as document ID
-export function addEmptyUser(user) {
-  db.collection('users').doc(user).set({ name: user }).then((response) => {
-    return response;
-  })
-    .catch((error) => {
-      console.error(error);
-    });
-}
-
-//  Input: object with name and other keys to set
-//  Creates: Appends information to existing object
-export function updateExistingUser(user) {
-  console.log('update existing user with: ', user);
-  db.collection('users').doc(user.name).set(user, { merge: true }).then((response) => {
-    console.log(response);
-  })
-    .catch((error) => {
-      console.log(error);
-    });
+export function noActivity() {
+  return { type: NOACTIVITY }
 }

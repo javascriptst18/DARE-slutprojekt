@@ -7,10 +7,7 @@ import UpcomingDare from './upcomingDare';
 class Dares extends Component {
 
     componentDidMount() {
-        //let current = db.collection('queue').doc(this.props.user.email).get();
-        //this.setState({current: current});
-        //firebaselistener
-        //check if suspended
+    
     }
 
     decline = () => {
@@ -24,10 +21,6 @@ class Dares extends Component {
     }
 
     render() {
-<<<<<<< HEAD:src/components/dares/dares.js
-       return  <NewDare checkCurrent={this.checkCurrent}/>
-
-=======
         if(!this.props.handleDare.current){
             return(
                 <NewDare checkCurrent={this.checkCurrent}/>
@@ -35,7 +28,6 @@ class Dares extends Component {
         } else if (this.props.handleDare.current) {
             return <UpcomingDare />
         }
->>>>>>> upcoming-dare:src/components/dares.js
     }
 }
 

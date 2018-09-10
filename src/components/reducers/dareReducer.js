@@ -1,6 +1,6 @@
 import {
-  POSTDARE, MATCHEDDARE, PENDINGDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE 
-} from '../../constants';
+  POSTDARE, MATCHEDDARE, PENDINGDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE, QUEUE, NOACTIVITY, MATCHEDPENDING, MATCHEDACCEPTED, STATUSFAILED 
+} from '../constants';
 
 export default function handleDare(state = {}, action) {
   switch (action.type) {
@@ -21,5 +21,21 @@ export default function handleDare(state = {}, action) {
       };
     default:
       return state;
+  }
+}
+
+export function dareStatus(state = {}, action) {
+  switch (action.type) {
+    case QUEUE:
+      return action;
+    case NOACTIVITY:
+      return action;
+    case MATCHEDPENDING:
+      return action;
+    case MATCHEDACCEPTED:
+      return action;
+    case STATUSFAILED:
+      return action;
+    default: return state;
   }
 }
