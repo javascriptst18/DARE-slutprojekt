@@ -10,6 +10,7 @@ import Swipeslider from './components/swipe';
 
 function App() {
   return (
+    
     <Router>
       <div className="App">
         <Swipeslider />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
+import darelogo from '../img/darelogo.svg';
 import '../App.css';
 
 
@@ -25,8 +26,10 @@ infinite: false,
 return (
       <Slider {...settings} className="sliderContent">
       
-        <div>
-          <h3>Bild1</h3>
+        <div className="sliderDiv">
+        <img src={darelogo} className="sliderContent logo"/>
+          <h2>Do you?</h2>
+          <p>Massa info om DARE, swipea för att läsa mer. Vilken size på text?</p>
         </div>
         <div>
           <h3>Bild2</h3>

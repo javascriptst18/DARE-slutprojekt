@@ -1,12 +1,26 @@
 body {
 
 Background-color: #F30D29;
+font-family: Karla;
+
 
 }
 
+/* -- Slider -- */
 
 .sliderContent {
-
-color: white;    
-
+color: white; 
+margin: auto; 
+text-align: center;
+margin-bottom: 100px;
 }
+
+.sliderDiv {
+max-width: 60%;    
+}
+
+.logo {
+margin: auto;
+}
+
+/* -- End Slider -- */
