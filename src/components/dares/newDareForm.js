@@ -34,7 +34,7 @@ class NewDare extends Component {
      //  this.postUnmatched(this.state);
      //  this.setState({}); //tömmer ej fälten som den ska
     }
-
+    
     getUserMatch = (myDare, email) => {
         let matched;
         const tempArr = [];
@@ -64,10 +64,14 @@ class NewDare extends Component {
                   ends: timeEnd,
                 };
                 console.log(matched);
-                this.props.dispatch(postUserMatch(matched));
-              }
+                // if not matched with activity!! this.props.dispatch(postUserMatch(matched));
+                db.collection('queue')
+                    .doc(matched.id1).delete()
+                    .then(() => {console.log('deleted matched dare from queue')})
+                }
             }
-            if(!matched) this.postUnmatched(myDare);
+            if(!matched) this.postUnmatched(myDare) //inte kontrollerat att detta funkar!!!!
+            
         })
       }
     
