@@ -59,13 +59,12 @@ db.collection('queue').onSnapshot(querySnapshot => {
 })
 }
 
+removeDare = () => {
 
-// removePending = () => {
-//   db.collection('queue').doc(this.props.user).delete().then(() => {
-//     console.log(this.props.user);
-//   })
+  db.collection('queue').doc(this.props.user.email).delete()  
 
-// }
+}
+
 
 
 render() {
@@ -96,16 +95,17 @@ render() {
         <p>Min registrerade Location: {item.location}</p>
         <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
         <button onClick={()=> db.collection('queue').doc(item.id).delete()}>Ta bort pending Dare</button>
+        <button onClick={this.removeDare}> Ta bort PD </button>
       </div>
     });
 
 return (
     <div className="upcoming-dare">
-        <h2>Din utmaning</h2>
+        {/* <h2>Din utmaning</h2>
         <p> Din plats: { this.state.location } </p>
         <p> Din budget: { this.state.budget } </p>
         <p> Din level: { this.state.level } </p>
-        <p> Vilka mer uppgifter ska vi ha? </p>
+        <p> Vilka mer uppgifter ska vi ha? </p> */}
         {/* <p> Din budget: { for (let item of this.state.testQueue) {item.budget}} </p> */}
         <p> { listQueue } </p>
     </div>

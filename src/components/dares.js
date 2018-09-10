@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NewDare from './newDareForm';
-import Upcoming from './upcomingDare';
+import UpcomingDare from './upcomingDare';
 
 
 class Dares extends Component {
@@ -31,7 +31,7 @@ class Dares extends Component {
                 <NewDare checkCurrent={this.checkCurrent}/>
             )
         } else if (this.props.handleDare.current) {
-            return <Upcoming />
+            return <UpcomingDare />
         }
     }
 }

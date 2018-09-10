@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import db, { firebase, provider } from '../firebase';
 import UpcomingDare from './upcomingDare';
 import NewDare from './newDareForm';
@@ -16,7 +17,7 @@ componentDidMount() {
 }
 
 checkForQueue = () => {
-    db.collection('queue').doc().get().then(doc => {
+    db.collection('queue').doc(this.props.user.email).get().then(doc => {
     if(!doc.exists){
      this.setState({inQueue: true});
      console.log('queue exist');
@@ -52,4 +53,4 @@ render () {
 }
 
 
-export default TestDare;
+export default  connect(state => state)(TestDare);

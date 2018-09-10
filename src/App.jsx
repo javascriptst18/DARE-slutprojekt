@@ -5,6 +5,7 @@ import Dares from './components/dares';
 import LogIn from './components/Login';
 import UserSettings from './components/UserSettings';
 import TestDare from './components/postedDare';
+import UpcomingDare from './components/upcomingDare';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <Link to="/settings">Settings</Link>
         <Route path="/dares" component={Dares} />
         <Route path="/settings" component={UserSettings} />
-        <TestDare />
+        <UpcomingDare />
       </div>
     </Router>
   );
