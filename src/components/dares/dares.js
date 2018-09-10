@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NewDare from './newDareForm';
 import Upcoming from './upcomingDare';
-import db from '../firebase';
+import db from '../../firebase';
 
 
 class Dares extends Component {
@@ -25,13 +25,8 @@ class Dares extends Component {
     }
 
     render() {
-        if(!this.props.handleDare.current){
-            return(
-                <NewDare checkCurrent={this.checkCurrent}/>
-            )
-        } else if (this.props.handleDare.current) {
-            return <Upcoming />
-        }
+       return  <NewDare checkCurrent={this.checkCurrent}/>
+
     }
 }
 

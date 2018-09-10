@@ -1,48 +1,56 @@
+import { postDare } from '../actionCreators/dareActions';
+import db from '../../firebase';
 
-export const matchDares = () => {
-  const myDare = this.state;
+export const matchDares = (myDare) => {
   const matched = {};
   const tempArr = [];
-  db.collection('queue').onSnapshot((querySnapshot) => {
+  db.collection('queue')
+    .where('date', '==', myDare.date)
+    .where('location', '==', myDare.location)
+    .where('level', '==', myDare.level)
+    .where('start', '<', myDare.end)
+    .onSnapshot((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-      const newData = doc.data();
+      let newData = doc.data();
       newData.id = doc.id;
       tempArr.push(newData);
-      this.compareDares(myDare, tempArr, matched);
+      compareDares(myDare, tempArr, matched);
     });
+    console.log(tempArr);
   });
   // compares myDare with fetched queue
 }
-// Johannes funktion för att hämta kö
-export const getTheQueue = () => {
-  const tempArr = [];
-  db.collection('queue').onSnapshot((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      const newData = doc.data();
-      newData.id = doc.id;
-      tempArr.push(newData);
-    });
-    this.setState({ testQueue: tempArr }); // använda för mappa igenom och skriva ut?
-    console.log(this.state.testQueue);
-  });
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const compareDares = (myDare, dare, matched) => {
   console.log('meeeeeeeeeeeeeeeeeeeeeeeeeee');
-  dare.timeStart = this.stringsToDate(dare.date, dare.timeStart);
-  dare.timeEnd = this.stringsToDate(dare.date, dare.timeEnd);
-  if (dare.date === myDare.date
-  /* && dare.location === myDare.location
-            && dare.level == myDare.level //don't care about format for now
-            && dare.timeStart < myDare.timeEnd
-            && myDare.timeStart < dare.timeEnd */
+  dare.timeStart = stringsToDate(dare.date, dare.timeStart);
+  dare.timeEnd = stringsToDate(dare.date, dare.timeEnd);
+  if (myDare.id != dare.id
+      && myDare.start < dare.end 
   ) {
  console.log('muuuuuuuuuuuuuuuuuuuuuuuuuuu');
     const budget = Math.min(dare.budget, myDare.budget);
-    const timeStart = Math.max(dare.timeStart, myDare.timeStart);
-    const timeEnd = Math.min(dare.timeEnd, myDare.timeEnd);
+    const timeStart = Math.max(dare.start, myDare.start);
+    const timeEnd = Math.min(dare.end, myDare.end);
     // returns user match, not connected to activity yet
-    return matched = {
+    matched = {
       date: dare.date,
       id1: dare.id,
       id2: myDare.id,
@@ -50,20 +58,16 @@ export const compareDares = (myDare, dare, matched) => {
       starts: timeStart,
       ends: timeEnd,
     };
+    return matched;
   }
 
-  console.log(`${matched  } wooohooooooooooooo`);
+  console.log(`${matched.id1, matched.id2  } wooohooooooooooooo`);
   return matched;
 };
 
-const stringsToDate = (date, time) => {
+export const stringsToDate = (date, time) => {
   const fullstring = `${date}T${time}:00+01:00`;
   return date = new Date(fullstring).getTime();
-};
-
-const postUnmatched = (unmatched) => {
-  const dare = postDare(unmatched, this.props.user);
-  this.props.dispatch(dare);
 };
 
 const matchDareActivity = (userDareMatch) => {
@@ -71,7 +75,7 @@ const matchDareActivity = (userDareMatch) => {
   db.collection('activity').get()
     .then((activitySnapshot) => {
       activitySnapshot.forEach((activity) => {
-        this.compareDareActivity(userDareMatch, activity, finalVersion);
+        compareDareActivity(userDareMatch, activity, finalVersion);
       });
     });
 };

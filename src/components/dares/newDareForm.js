@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { postDare } from './actionCreators/dareActions';
-import db from '../firebase';
+import { postDare } from '../actionCreators/dareActions';
+import db from '../../firebase';
+import { stringsToDate, matchDares } from './matchingFunctions';
 
 class NewDare extends Component {
     state = {
@@ -11,32 +12,35 @@ class NewDare extends Component {
         timeEnd: '23:59',
         budget: 500,
         level: 2, //needs some kind of explanation in UI
-        start: 0,
-        end: 0,
+        start: 1546297200000,
+        end: 1546380000000,
     }
 
     onChange = (e) => {
         e.preventDefault();
-        this.setState({[e.target.id]: e.target.value});
+
+        //reformat dates to ms from 1970-01-01
+        if (e.target.id === 'timeStart' || e.target.id === 'timeEnd') {
+            const start = stringsToDate(this.state.date, this.state.timeStart);
+            const end = stringsToDate(this.state.date, this.state.timeEnd); 
+            this.setState({ start: start, end: end, [e.target.id]: e.target.value });
+        }
+        else this.setState({[e.target.id]: e.target.value});
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        //reformat dates to ms from 1970-01-01
-        const start = this.stringsToDate(this.state.date, this.state.timeStart);
-        const end = this.stringsToDate(this.state.date, this.state.timeEnd);
-        console.log(this.state);
-        this.setState({start: start, end: end} );
-        console.log('start: ' +start + ' end: ' + end);
-        console.log(this.state);
-        this.setState({location: 'vadsomhelst'});
-        console.log(this.state);
-        //this.matchDares();
-     //   this.setState({}); //tömmer ej fälten som den ska
+        matchDares(this.state);
+     //  this.postUnmatched(this.state);
+     //  this.setState({}); //tömmer ej fälten som den ska
     }
 
+    postUnmatched = (unmatched) => {
+        const dare = postDare(unmatched, this.props.user.email);
+        this.props.dispatch(dare);
+    };
+
     render() {
-        console.log(this.state.start);
         return(
             <form onSubmit={this.onSubmit}> 
                 <h2>I dare you, {this.props.user.displayName}!</h2>
