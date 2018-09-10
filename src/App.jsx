@@ -12,10 +12,10 @@ class App extends React.Component {
     return (
       <div className="App">
         {
-          !this.props.user ?
+          !this.props.user.email ?
             <Start />
             :
-          this.props.user && !this.props.isRegistered ?
+          this.props.user.email && !this.props.user.isRegistered ?
             <Register />
             :
             <Router>
