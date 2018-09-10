@@ -7,8 +7,8 @@ import db from '../../firebase';
 class NewDare extends Component {
     state = {
         location: this.props.userSettings.location, 
-        date: '2019-01-01',
-        timeStart: '01:00',
+        date: '',
+        timeStart: '00:00',
         timeEnd: '23:59',
         budget: 0,
         level: 2, //needs some kind of explanation in UI
@@ -34,8 +34,7 @@ class NewDare extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         this.getUserMatch(this.state, this.props.user.email);
-     //  this.postUnmatched(this.state);
-     //  this.setState({}); //tömmer ej fälten som den ska
+        this.setState({}); //tömmer ej fälten som den ska
     }
     
     getUserMatch = (myDare, email) => {
@@ -188,6 +187,7 @@ class NewDare extends Component {
                     <input 
                     type="date" 
                     id="date"
+                    value={this.state.date}
                     onChange={this.onChange} />
                 </label>
                 <label htmlFor="timeStart"> 
@@ -195,20 +195,23 @@ class NewDare extends Component {
                     <input 
                     type="time" 
                     id="timeStart"
-                    onChange={this.onChange} />
+                    onChange={this.onChange}
+                    value={this.state.timeStart} />
                 </label>
                 <label htmlFor="timeEnd"> 
                     Sluttid
                     <input 
                     type="time" 
                     id="timeEnd"
-                    onChange={this.onChange} /> 
+                    onChange={this.onChange}
+                    value={this.state.timeEnd} /> 
                 </label>
                 <label htmlFor="budget">
                     Max budget
                     <input 
                     type="number"
                     id="budget"
+                    step="50"
                     onChange={this.onChange} />
                 </label>
                 <input
