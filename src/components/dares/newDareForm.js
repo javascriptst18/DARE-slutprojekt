@@ -3,20 +3,10 @@ import { connect } from 'react-redux';
 import { postDare, postUserMatch, postPendingDare } from '../actionCreators/dareActions';
 import db from '../../firebase';
 
-const exampleUserMatch = {
-    cost:1000,
-    date: "2019-01-01",
-    ends: 1546380000000,
-    id1: "kajsamlindholm@gmail.com",
-    id2: "slutprojekt.dare@gmail.com",
-    starts:1546297200000,
-    location: 'Stockholm',
-    level: 2,
-}
 
 class NewDare extends Component {
     state = {
-        location: 'Stockholm', 
+        location: this.props.userSettings.location, 
         date: '2019-01-01',
         timeStart: '01:00',
         timeEnd: '23:59',
@@ -24,10 +14,6 @@ class NewDare extends Component {
         level: 2, //needs some kind of explanation in UI
         start: 1546297200000,
         end: 1546380000000,
-    }
-
-    componentDidMount() {
-        this.getActivityMatch(exampleUserMatch);
     }
 
     onChange = (e) => {
@@ -92,8 +78,9 @@ class NewDare extends Component {
         })
         .then(() => {
             if(!matched) this.postUnmatched(myDare) //inte kontrollerat att detta funkar!!!!
-            else this.getActivityMatch(matched);
+            else this.props.dispatch(postUserMatch(matched));
         })
+        .then(() => {this.getActivityMatch(matched);})
       }
     
     getActivityMatch = (userMatch) => {
@@ -124,7 +111,6 @@ class NewDare extends Component {
                     console.log(activityMatch);
                     this.props.dispatch(postPendingDare(activityMatch));
                 } else {
-                    this.props.dispatch(postUserMatch(userMatch));
                     console.log('no activities found')}
             });
     }
