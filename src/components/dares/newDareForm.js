@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { postDare } from '../actionCreators/dareActions';
+import { postDare, postUserMatch } from '../actionCreators/dareActions';
 import db from '../../firebase';
-import { stringsToDate, matchDares } from './matchingFunctions';
+
 
 class NewDare extends Component {
     state = {
@@ -21,8 +21,8 @@ class NewDare extends Component {
 
         //reformat dates to ms from 1970-01-01
         if (e.target.id === 'timeStart' || e.target.id === 'timeEnd') {
-            const start = stringsToDate(this.state.date, this.state.timeStart);
-            const end = stringsToDate(this.state.date, this.state.timeEnd); 
+            const start = this.stringsToDate(this.state.date, this.state.timeStart);
+            const end = this.stringsToDate(this.state.date, this.state.timeEnd); 
             this.setState({ start: start, end: end, [e.target.id]: e.target.value });
         }
         else this.setState({[e.target.id]: e.target.value});
@@ -30,16 +30,57 @@ class NewDare extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        matchDares(this.state);
+        this.getUserMatch(this.state, this.props.user.email);
      //  this.postUnmatched(this.state);
      //  this.setState({}); //tömmer ej fälten som den ska
     }
 
+    getUserMatch = (myDare, email) => {
+        let matched = {};
+        const tempArr = [];
+        db.collection('queue')
+          .where('date', '==', myDare.date)
+          .where('location', '==', myDare.location)
+          .where('level', '==', myDare.level)
+          .where('start', '<', myDare.end)
+          .onSnapshot((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              let newData = doc.data();
+              newData.id = doc.id;
+              tempArr.push(newData);
+            });        
+            for (let i = 0; i < tempArr.length; i++) {
+            if (myDare.start < tempArr[i].end && tempArr[i].id !== email) {
+                console.log('tiden funkar!!')
+                const budget = Math.min(tempArr[i].budget, myDare.budget);
+                const timeStart = Math.max(tempArr[i].start, myDare.start);
+                const timeEnd = Math.min(tempArr[i].end, myDare.end);
+                 matched = {
+                  date: myDare.date,
+                  id1: tempArr[i].id,
+                  id2: email,
+                  cost: budget,
+                  starts: timeStart,
+                  ends: timeEnd,
+                };
+                console.log(matched);
+                return matched;
+              }
+            }
+        });
+      }
+    
+    
+    
     postUnmatched = (unmatched) => {
         const dare = postDare(unmatched, this.props.user.email);
         this.props.dispatch(dare);
     };
 
+    stringsToDate = (date, time) => {
+        const fullstring = `${date}T${time}:00+01:00`;
+        return date = new Date(fullstring).getTime();
+      };
     render() {
         return(
             <form onSubmit={this.onSubmit}> 

@@ -4,7 +4,7 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { handleDare } from './reducers';
+import handleDare from './components/reducers/dareReducer';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import { user, userSettings } from './components/reducers/userReducer';

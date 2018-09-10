@@ -1,6 +1,6 @@
 import db from '../../firebase';
 import {
-  POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE, 
+  POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE, MATCHEDDARE,
 } from '../../constants';
 
 export function signIn(user) {
@@ -21,7 +21,17 @@ export function postDare(dare, email) {
   return function (dispatch, getState) {
     return db.collection('queue').doc(email).set(dare)
       .then(
-        posted => dispatch({ posted, current: true, type: POSTDARE }),
+        matched => dispatch({ matched, current: true, userMatch:true, type: POSTDARE }),
+        error => dispatch({ error, type: FAILEDTODARE }),
+      );
+  }
+}
+
+export function postUserMatch(match) {
+  return function (dispatch, getState) {
+    return db.collection('userMatch').add(match)
+      .then(
+        posted => dispatch({ posted, current: true, type: MATCHEDDARE }),
         error => dispatch({ error, type: FAILEDTODARE }),
       );
   }
