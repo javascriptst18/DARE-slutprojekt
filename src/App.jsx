@@ -6,6 +6,8 @@ import Register from './components/Register';
 import Logout from './components/Logout';
 import Start from './components/Start';
 import UserSettings from './components/UserSettings';
+import TestDare from './components/postedDare';
+import UpcomingDare from './components/upcomingDare';
 
 class App extends React.Component {
   render() {
