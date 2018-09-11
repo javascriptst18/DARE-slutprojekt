@@ -37,18 +37,28 @@ export function postPendingDare(match) {
   }
 }
 
-export function acceptDare(dare) {
-  return { type: ACCEPTDARE };
+export function inQueue(dare) {
+  return { type: QUEUE, dare }
 }
 
-export function declineDare(dare) {
-  return { type: DECLINEDARE };
-}
-
-export function inQueue() {
-  return { type: QUEUE, queue: true }
+export function userMatched(data) {
+  return function (dispatch, getState) {
+    return db.collection('matchedDare').where('userMatchId', '==', data.id).get()
+    .then((result) => {
+      if (result.exists) dispatch({userMatch: data, activityMatchId: result.id, type: MATCHEDPENDING})
+      else dispatch({ type: MATCHEDDARE, userMatch: data })
+    }  
+      
+    )
+    
+  }
+  
 }
 
 export function noActivity() {
   return { type: NOACTIVITY }
+}
+
+export function activity() {
+  return { type: MATCHEDPENDING }
 }
