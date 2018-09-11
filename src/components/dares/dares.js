@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import NewDare from './newDareForm';
 import UpcomingDare from './upcomingDare';
 import db from '../../firebase';
+import { inQueue } from '../actionCreators/dareActions';
 
 
 class Dares extends Component {
@@ -18,9 +19,10 @@ class Dares extends Component {
            if (documentSnapshot.exists) {
            current = documentSnapshot.data;
            console.log(current);
+           this.props.dispatch(inQueue());
            return current;
            }
-            else console.log('ingen dare just nu')
+            else console.log('ingen dare i queue just nu')
             } );
         db.collection('userMatch').where('id1', '==', this.props.user.email).where('activity', '==', false).get()
         .then((documentSnapshot) => {
@@ -54,7 +56,7 @@ class Dares extends Component {
             return(
                 <NewDare checkCurrent={this.checkCurrent}/>
             )
-        } else if (this.props.handleDare.current) {
+        } else if (this.props.dareStatus === 'QUEUE') {
             return <UpcomingDare />
         }
     }
