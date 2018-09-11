@@ -5,6 +5,7 @@ import Upcoming from './upcomingDare';
 import db from '../firebase';
 
 
+
 class Dares extends Component {
 
     componentDidMount() {
@@ -15,7 +16,7 @@ class Dares extends Component {
     }
 
     decline = () => {
-        this.setState({current: false});
+        this.setState({ current: false });
         //suspend user for a week. patch firebase
     }
 
@@ -25,12 +26,17 @@ class Dares extends Component {
     }
 
     render() {
-        if(!this.props.handleDare.current){
-            return(
-                <NewDare checkCurrent={this.checkCurrent}/>
+        if (!this.props.handleDare.current) {
+            return (
+                <NewDare checkCurrent={this.checkCurrent} />
             )
         } else if (this.props.handleDare.current) {
-            return <Upcoming />
+            return (
+                <div>
+                    <Upcoming />
+                    
+                </div>
+            );
         }
     }
 }

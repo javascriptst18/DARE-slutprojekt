@@ -9,7 +9,7 @@ state = {
   testQueue: []
 }
 
-  componentDidMount() { 
+  componentDidMount() {
     this.getTheQueue();
   }
 
@@ -35,7 +35,7 @@ db.collection('queue').onSnapshot(querySnapshot => {
 //   db.collection('queue').get().then((snapshot) => {
 
 //   const queue = snapshot.docs.map(testDoc);
-//   console.log(queue);  
+//   console.log(queue);
 //   })
 //   function testDoc(doc) {
 //     return {...doc.data()};
