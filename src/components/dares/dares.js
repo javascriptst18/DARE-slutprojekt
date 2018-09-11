@@ -1,30 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NewDare from './newDareForm';
-import UpcomingDare from './upcomingDare';
+import QueueDare from './queueDare';
 import db from '../../firebase';
-import { inQueue, userMatched, activity } from '../actionCreators/dareActions';
+import { inQueue, userMatched, activity, noActivity } from '../actionCreators/dareActions';
 
 
 class Dares extends Component {
 
     componentDidMount() {
-        this.checkQueueDb();
-        this.checkMatchDb('userMatch', 'id1', this.props.user.email);
-        this.checkMatchDb('userMatch', 'id2', this.props.user.email);
+        this.checkDB();
     }
 
-    checkQueueDb = () => {
+    checkDB = () => {
+        let current;
+        this.checkQueueDb(current);
+        this.checkMatchDb('userMatch', 'id1', this.props.user.email);
+        this.checkMatchDb('userMatch', 'id2', this.props.user.email);
+        if (!current) this.props.dispatch(noActivity());
+    }
+
+    checkQueueDb = (current) => {
         db.collection('queue').doc(this.props.user.email)
         .get()
         .then(response => {
             if (response.exists){
-
-            let myDare = response.data();
-            console.log(myDare);
-            myDare.id = response.id;
-             this.props.dispatch(inQueue(myDare))
-            } else console.log('inget i kö')
+            current = response.data();
+            console.log(current);
+             this.props.dispatch(inQueue(current))
+            } 
         })
     }
 
@@ -46,7 +50,7 @@ class Dares extends Component {
                 <NewDare checkCurrent={this.checkCurrent}/>
             )
         } else if (this.props.dareStatus.type === 'QUEUE') {
-            return <UpcomingDare />
+            return <QueueDare />
         } else if (typeof this.props.dareStatus.type === 'MATCHED-PENDING') {
             return <div> There's an activity coming up </div>
         }

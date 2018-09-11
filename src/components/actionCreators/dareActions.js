@@ -55,6 +55,10 @@ export function userMatched(data) {
   
 }
 
+export function noActivity() {
+  return { type: NOACTIVITY }
+}
+
 export function activity() {
   return { type: MATCHEDPENDING }
 }

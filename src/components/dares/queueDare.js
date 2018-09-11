@@ -3,14 +3,12 @@ import { connect } from 'react-redux';
 import db from '../../firebase';
 
 
-class UpcomingDare extends Component {
+class QueueDare extends Component {
 
   
 removeDare = () => {
   db.collection('queue').doc(this.props.user.email).delete() 
 }
-
-
 
 render() {
  
@@ -31,4 +29,4 @@ return (
 }
 
 
-export default  connect(state => state)(UpcomingDare);
+export default  connect(state => state)(QueueDare);
