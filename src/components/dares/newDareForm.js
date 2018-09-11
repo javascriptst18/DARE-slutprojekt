@@ -7,10 +7,10 @@ import db from '../../firebase';
 class NewDare extends Component {
     state = {
         location: this.props.userSettings.location, 
-        date: '',
+        date: '2019-01-01',
         timeStart: '00:00',
         timeEnd: '23:59',
-        budget: 0,
+        budget: 1000,
         level: 2, //needs some kind of explanation in UI
         start: 0,
         end: 0,
@@ -52,35 +52,33 @@ class NewDare extends Component {
               tempArr.push(newData);
             });        
             for (let i = 0; i < tempArr.length; i++) {
-            if (!matched && myDare.start < tempArr[i].end && tempArr[i].id !== email) {
-                console.log('tiden funkar!!')
-                const budget = Math.min(tempArr[i].budget, myDare.budget);
-                const timeStart = Math.max(tempArr[i].start, myDare.start);
-                const timeEnd = Math.min(tempArr[i].end, myDare.end);
-                 matched = {
-                  date: myDare.date,
-                  id1: tempArr[i].id,
-                  id2: email,
-                  cost: budget,
-                  starts: timeStart,
-                  ends: timeEnd,
-                  location: myDare.location,
-                  level: myDare.level
-                };
-                console.log(matched);
-                // if not matched with activity!! 
+                if (!matched && myDare.start < tempArr[i].end) {
+                    console.log('tiden funkar!!')
+                    const budget = Math.min(tempArr[i].budget, myDare.budget);
+                    const timeStart = Math.max(tempArr[i].start, myDare.start);
+                    const timeEnd = Math.min(tempArr[i].end, myDare.end);
+                    matched = {
+                    date: myDare.date,
+                    id1: tempArr[i].id,
+                    id2: email,
+                    cost: budget,
+                    starts: timeStart,
+                    ends: timeEnd,
+                    location: myDare.location,
+                    level: myDare.level
+                    };
+                    console.log(matched);
                 }
-            }            
-        })
+            }
+            return matched;            
+        })            
         .then(() => {
-            db.collection('queue')
-            .doc(matched.id1).delete()
-            .then(() => {
-                console.log('deleted matched dare from queue')})
-        })
-        .then(() => {
-            if(!matched) this.postUnmatched(myDare) //inte kontrollerat att detta funkar!!!!
-            else this.getActivityMatch(matched); //kolla först om vi får aktivitet för att kunna lägga till egenskap activity: bool på userMatch
+            if (matched) {
+                db.collection('queue').doc(matched.id1).delete();
+                this.getActivityMatch(matched);
+            }
+            else if(!matched) this.postUnmatched(myDare) //inte kontrollerat att detta funkar!!!!
+            else console.log('shitfluffe'); //kolla först om vi får aktivitet för att kunna lägga till egenskap activity: bool på userMatch
         })
         .then(() => {
             if (this.props.handleDare.type === 'PENDINGDARE'){
@@ -100,7 +98,7 @@ class NewDare extends Component {
        //needs some kind of matching thingy for time as well
         db.collection('activity') 
             .where('level', '==', userMatch.level)
-            .where('cost', '<=', userMatch.cost) //parseInt() på det som hämtas på db? eller utgå från att db är rätt formaterad?
+            .where('cost', '<=', userMatch.cost) 
             .where('city', '==', userMatch.location.toLowerCase())
             .onSnapshot((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -212,7 +210,8 @@ class NewDare extends Component {
                     type="number"
                     id="budget"
                     step="100"
-                    onChange={this.onChange} />
+                    onChange={this.onChange}
+                    value={this.state.budget} />
                 </label>
                 <input
                     type="submit"

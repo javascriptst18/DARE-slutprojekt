@@ -10,7 +10,7 @@ export function postDare(dare, email) {
         matched => dispatch({ matched, current: true, userMatch:true, type: POSTDARE }),
         error => dispatch({ error, type: FAILEDTODARE }),
       );
-  }
+  };
 }
 
 export function postUserMatch(match) {
