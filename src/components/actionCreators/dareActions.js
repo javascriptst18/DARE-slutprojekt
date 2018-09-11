@@ -1,16 +1,16 @@
 import db from '../../firebase';
 import {
-  POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE, MATCHEDDARE, PENDINGDARE, QUEUE, NOACTIVITY, MATCHEDPENDING, MATCHEDACCEPTED, STATUSFAILED
+  POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE, MATCHEDDARE, QUEUE, NOACTIVITY, MATCHEDPENDING, MATCHEDACCEPTED, STATUSFAILED
 } from '../constants';
 
 export function postDare(dare, email) {
   return function (dispatch, getState) {
     return db.collection('queue').doc(email).set(dare)
       .then(
-        matched => dispatch({ matched, current: true, userMatch:true, type: POSTDARE }),
+        posted => dispatch({ posted, type: POSTDARE }),
         error => dispatch({ error, type: FAILEDTODARE }),
       );
-  }
+  };
 }
 
 export function postUserMatch(match) {
@@ -18,9 +18,8 @@ export function postUserMatch(match) {
     return db.collection('userMatch').add(match)
       .then(
         userMatch => dispatch({
-          id: userMatch.id,
+          userMatchId: userMatch.id,
           collection:'userMatch',
-          current: true,
           type: MATCHEDDARE,
         }),
         error => dispatch({ error, type: FAILEDTODARE }),
@@ -32,7 +31,7 @@ export function postPendingDare(match) {
   return function (dispatch, getState) {
     return db.collection('matchedDare').add(match)
       .then(
-        pending => dispatch({ id: pending.id, collection:'matchedDare', current: true, type: PENDINGDARE }),
+        pending => dispatch({ id: pending.id, collection:'matchedDare', type: MATCHEDPENDING }),
         error => dispatch({ error, type: FAILEDTODARE }),
       );
   }
@@ -47,7 +46,7 @@ export function declineDare(dare) {
 }
 
 export function inQueue() {
-  return { type: QUEUE }
+  return { type: QUEUE, queue: true }
 }
 
 export function noActivity() {

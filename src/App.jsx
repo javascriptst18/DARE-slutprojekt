@@ -14,13 +14,11 @@ class App extends React.Component {
     return (
       <div className="App">
         {
-          !this.props.user.email ?
-            <Start />
-            :
-          this.props.user.email && !this.props.user.isRegistered ?
-            <Register />
-            :
-            <Router>
+          !this.props.user.email
+            ? <Start />
+            : this.props.user.email && !this.props.user.isRegistered
+            ? <Register />
+            : <Router>
               <div className="App">
                 <Logout />
                 <Link to="/login">Dare</Link>

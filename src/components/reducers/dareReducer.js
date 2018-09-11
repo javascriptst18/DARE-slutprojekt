@@ -5,12 +5,10 @@ import {
 export default function handleDare(state = {}, action) {
   switch (action.type) {
     case POSTDARE:
-      return action;
+      return action.type;
     case FAILEDTODARE:
       return action.error;
     case MATCHEDDARE:
-      return action;
-    case PENDINGDARE:
       return action;
     case ACCEPTDARE:
       return { current: action.data };
@@ -27,9 +25,7 @@ export default function handleDare(state = {}, action) {
 export function dareStatus(state = {}, action) {
   switch (action.type) {
     case QUEUE:
-      return action;
-    case NOACTIVITY:
-      return action;
+    return action.type;
     case MATCHEDPENDING:
       return action;
     case MATCHEDACCEPTED:
