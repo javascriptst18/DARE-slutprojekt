@@ -30,7 +30,7 @@ class Dares extends Component {
         if (!this.props.handleDare.current) {
             return (
                 <NewDare checkCurrent={this.checkCurrent} />
-                <Test />
+
             )
         } else if (this.props.handleDare.current) {
             return (

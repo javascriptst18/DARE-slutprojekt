@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 
 export default class Test extends Component {
@@ -30,7 +30,7 @@ export default class Test extends Component {
                 >
                     <p>En DARE som matchar dina önskemål har hittats!</p>
                     <p>Klicka på "JA" för att acceptera utmaningen!</p>
-                    <p>Väljer du att inte anta utmaningen så</p>
+                    <p>Väljer du att inte anta utmaningen så kommer du inte kunna söka någon ny DARE på 7 dagar</p>
 
 
                     <button onClick={this.handleCloseModal}>Acceptera DARE</button>
