@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Logout from './Logout';
 import db from '../firebase';
 import { checkIfUserExists } from './actionCreators/userActions';
+import Mapbox from './Mapbox';
 
 class Register extends Component {
 
@@ -57,6 +58,7 @@ class Register extends Component {
           <input type="submit" name="submit" id="submit" value="Uppdatera" />
         </form>
         <Logout />
+        <Mapbox />
       </div>
     );
   }
