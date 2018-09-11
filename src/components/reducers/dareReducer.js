@@ -25,7 +25,7 @@ export default function handleDare(state = {}, action) {
 export function dareStatus(state = {}, action) {
   switch (action.type) {
     case QUEUE:
-    return action.type;
+    return action;
     case MATCHEDPENDING:
       return action;
     case MATCHEDACCEPTED:
