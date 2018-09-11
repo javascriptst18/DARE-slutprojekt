@@ -41,8 +41,8 @@ class LogIn extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.login}> Login </button>
-                <button onClick={this.logout}> Logout </button>
+                <button onClick={this.login} className="buttonStandard"> Login </button>
+                
             </div>
         );
     }

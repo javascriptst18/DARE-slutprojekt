@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import firebase from 'firebase';
 import { provider } from '../firebase';
 import { checkIfUserExists, login } from './actionCreators/userActions';
+import Slider from './swipe';
 
 class Start extends Component {
   //checkUser = (user) => { checkIfUserExists(user) }
@@ -29,8 +30,10 @@ class Start extends Component {
   render() {
     return (
       <div>
-        <h2>Start</h2>
-        <button onClick={this.loginButton}> Login </button>
+        <Slider />
+        <div className="mainContentDiv">
+          <button onClick={this.loginButton} className="buttonStandard"> Login </button>
+        </div>
       </div>
     );
   }

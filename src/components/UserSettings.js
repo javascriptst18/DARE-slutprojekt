@@ -37,28 +37,28 @@ class Register extends Component {
 
   render() {
     return (
-      <div>
+      <div className="mainContentDiv">
         <h2>Mina inställningar</h2>
         <form onSubmit={(e) => { this.checkForm(e) }}>
           <label htmlFor="name">
             Namn:
-        <input defaultValue={this.props.userSettings.name} type="text" name="name" id="name" placeholder="Namn" required />
+        <input defaultValue={this.props.userSettings.name} type="text" name="name" id="name" placeholder="Namn" required className="input"/>
           </label>
           <br />
           <label htmlFor="location">
             Plats:
-        <input defaultValue={this.props.userSettings.location} type="text" name="location" id="location" placeholder="Plats" required />
+        <input defaultValue={this.props.userSettings.location} type="text" name="location" id="location" placeholder="Plats" required  className="input"/>
           </label>
           <br />
           <label htmlFor="phonenumber">
             Telefonnummer:
-        <input defaultValue={this.props.userSettings.phonenumber} type="tel" name="phonenumber" id="phonenumber" placeholder="Telefonnummer" required />
+        <input defaultValue={this.props.userSettings.phonenumber} type="tel" name="phonenumber" id="phonenumber" placeholder="Telefonnummer" required className="input"/>
           </label>
           <br />
           <input type="submit" name="submit" id="submit" value="Uppdatera" />
         </form>
-        <Logout />
         <Mapbox />
+        <Logout />
       </div>
     );
   }
