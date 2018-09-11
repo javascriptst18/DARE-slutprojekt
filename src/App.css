@@ -1,26 +1,133 @@
-body {
+/*-- Glöm inte att skaffa framework for slider: react-slick --/
 
+/*-- Css Content for DARE -- */
+
+App {
 Background-color: #F30D29;
-font-family: Karla;
-
-
+font-family: Roboto;
+color: white;
+display: flex;
+justify-content: center;
+align-items: center;
+max-width: 736px;
 }
 
-/* -- Slider -- */
 
-.sliderContent {
+/* -- Swipe -- */
+
+.swipeContent {
 color: white; 
 margin: auto; 
 text-align: center;
-margin-bottom: 100px;
+margin-bottom: 50px;
+max-width: 750px; /*Iphone X*/
 }
 
-.sliderDiv {
-max-width: 60%;    
+.swipeDiv {
+margin-top: 4%;      
 }
 
-.logo {
+.logo { 
 margin: auto;
+margin-bottom: 40px;
+background-color: black;
+box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
 }
 
-/* -- End Slider -- */
+.swipeIcon {
+margin: auto;
+margin-bottom: 40px;
+background-color: black;
+box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+}
+
+.swipeHeader {
+font-size: 1.75rem;    
+}
+
+.swipeText {
+font-size: 1.25;
+line-height: 1.75;
+margin-bottom: 50px;
+}
+
+.swipeSpanText  {
+text-decoration-line: 2px wavy;
+}
+
+.swipeRight {
+transition: transform .7s ease-in-out;
+height: 100px;
+margin-bottom: 20px;
+}
+
+.swipeRight:hover {
+transform: rotate(45deg);
+}
+
+/* -- End Swipe -- */
+
+
+
+
+/*--  Buttons --*/
+
+.divHolderForContent {
+margin: auto; 
+text-align: center;
+max-width: 750px; /*Iphone X*/
+margin-bottom: 200px;
+
+}
+
+.buttonLogIn {
+text-align: center;
+border-radius: 4px;
+background-color: white;
+border: 20px;
+border-color: black;
+padding: 15px;
+color: black;
+font-size: 1.5rem;
+box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+
+}
+
+.buttonLogOut {
+width: 50%;
+text-align: center;
+font-size: 1.5rem; 
+margin: auto;
+margin-top: 20px;
+color: black; 
+background-color: white;
+padding: 15px;
+border: none;
+box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+}
+
+/*--  End Buttons --*/
+
+
+
+
+
+/*-- Slider --*/
+
+.slider{
+width: 80%;
+
+}
+/*-- End Slider --*/
+
+
+
+/*-- Form --*/
+
+.inputForm {
+width: 80%; 
+margin: auto; 
+
+}
+
+/*-- End Form --*/

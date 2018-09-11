@@ -14,13 +14,15 @@ function App() {
     <Router>
       <div className="App">
         <Swipeslider />
+        <div className="divHolderForContent">
+          <button className="buttonLogOut">En Log in button</button>
+        </div>
         <LogIn />
         <Link to="/login">Dare</Link>
         <Link to="/dares">My Dares</Link>
         <Link to="/settings">Settings</Link>
         <Route path="/dares" component={Dares} />
         <Route path="/settings" component={UserSettings} />
-        
       </div>
     </Router>
   );

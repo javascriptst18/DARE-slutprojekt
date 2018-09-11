@@ -72,10 +72,10 @@ class NewDare extends Component {
 
     render() {
         return(
-            <form onSubmit={this.onSubmit}> 
+            <form onSubmit={this.onSubmit} className="inputForm"> 
                 <h2>I dare you, {this.props.user.displayName}</h2>
                 <label htmlFor="level">
-                    Chicken or DAREDevil? 
+                    Chicken or DAREDevil? {this.state.daredevil}
                     <input 
                     type="range" 
                     list="tickmarks"
@@ -116,7 +116,7 @@ class NewDare extends Component {
                     onChange={this.onChange} /> 
                 </label>
                 <label htmlFor="budget">
-                    Max budget
+                    Max budget 
                     <input 
                     type="number"
                     id="budget"
