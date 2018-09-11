@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { postDare, postUserMatch, postPendingDare } from '../actionCreators/dareActions';
+import { postDare, postUserMatch, postPendingDare, inQueue } from '../actionCreators/dareActions';
 import db from '../../firebase';
 
 
@@ -38,7 +38,7 @@ class NewDare extends Component {
     }
     
     getUserMatch = (myDare, email) => {
-        let matched;
+        let matched = {};
         const tempArr = [];
         db.collection('queue')
           .where('date', '==', myDare.date)
@@ -50,49 +50,52 @@ class NewDare extends Component {
               let newData = doc.data();
               newData.id = doc.id;
               tempArr.push(newData);
-            });        
-            for (let i = 0; i < tempArr.length; i++) {
-                if (!matched && myDare.start < tempArr[i].end) {
-                    console.log('tiden funkar!!')
-                    const budget = Math.min(tempArr[i].budget, myDare.budget);
-                    const timeStart = Math.max(tempArr[i].start, myDare.start);
-                    const timeEnd = Math.min(tempArr[i].end, myDare.end);
-                    matched = {
-                    date: myDare.date,
-                    id1: tempArr[i].id,
-                    id2: email,
-                    cost: budget,
-                    starts: timeStart,
-                    ends: timeEnd,
-                    location: myDare.location,
-                    level: myDare.level
-                    };
-                    console.log(matched);
-                }
-            }
-            return matched;            
-        })            
-        .then(() => {
-            if (matched) {
-                db.collection('queue').doc(matched.id1).delete();
-                this.getActivityMatch(matched);
-            }
-            else if(!matched) this.postUnmatched(myDare) //inte kontrollerat att detta funkar!!!!
-            else console.log('shitfluffe'); //kolla först om vi får aktivitet för att kunna lägga till egenskap activity: bool på userMatch
+            });    
+              this.createUserMatch(tempArr, myDare, email, matched)
+              this.postMatchResult(myDare, matched)       
         })
-        .then(() => {
-            if (this.props.handleDare.type === 'PENDINGDARE'){
-                matched.activity = true;
-                this.props.dispatch(postUserMatch(matched));
+    }
+
+    createUserMatch = (dareArray, myDare, email, matched) => {
+        for (let i = 0; i < dareArray.length; i++) {
+            if (matched === {} && myDare.start < dareArray[i].end) {
+                console.log(dareArray)
+                const budget = Math.min(dareArray[i].budget, myDare.budget);
+                const timeStart = Math.max(dareArray[i].start, myDare.start);
+                const timeEnd = Math.min(dareArray[i].end, myDare.end);
+                matched = {
+                date: myDare.date,
+                id1: dareArray[i].id,
+                id2: email,
+                cost: budget,
+                starts: timeStart,
+                ends: timeEnd,
+                location: myDare.location,
+                level: myDare.level
+                };
+                console.log(matched);
             }
-            else if (matched) {
-                matched.activity = false;
-                this.props.dispatch(postUserMatch(matched));
-            }
-        });
-      }
-    
-    getActivityMatch = (userMatch) => {
+        }
+        return matched;
+    }
+
+    postMatchResult = (myDare, matched) => {
+        if (matched.id1) {
+            console.log(matched);
+            db.collection('queue').doc(matched.id1).delete(); //matched.id1 är undefined
+            this.props.dispatch(postUserMatch(matched))
+            .then((response) => {
+                console.log(response);
+                this.getActivityMatch(matched, this.props.handleDare.userMatchId);
+            })
+        }
+        else {
+            this.postUnmatched(myDare); 
+            this.props.dispatch(inQueue());
+            console.log('skickar in')
+        }
+    }
+    getActivityMatch = (userMatch, id) => {
        this.weekdayFromTime(userMatch.starts);
         let tempArr = [];//will hold activities
        //needs some kind of matching thingy for time as well
@@ -113,7 +116,7 @@ class NewDare extends Component {
                     let randomActivity = tempArr[i];
                     const activityMatch = {
                         activityId: randomActivity.id,
-                        userMatchId: `${userMatch.id1}&${userMatch.id2}`,
+                        userMatchId: id,
                         accepted: false,
                         declined: false
                     };

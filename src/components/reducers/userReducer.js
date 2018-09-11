@@ -17,7 +17,6 @@ const initialUserState = {
 
 //  Sets the current user
 export const user = function (state = initialUserState, action) {
-  console.log(action)
   switch (action.type) {
     case 'LOGIN':
       return {...state, email: action.value.email};
