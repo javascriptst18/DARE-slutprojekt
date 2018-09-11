@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import db, { firebase, provider } from '../../firebase';
+import db from '../../firebase';
 import UpcomingDare from './upcomingDare';
 import NewDare from './newDareForm';
 

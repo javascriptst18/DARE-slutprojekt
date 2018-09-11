@@ -56,7 +56,7 @@ class Dares extends Component {
             return(
                 <NewDare checkCurrent={this.checkCurrent}/>
             )
-        } else if (this.props.handleDare.current) {
+        } else if (this.props.dareStatus === 'QUEUE') {
             return <UpcomingDare />
         }
     }

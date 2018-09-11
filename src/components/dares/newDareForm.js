@@ -45,20 +45,30 @@ class NewDare extends Component {
           .where('location', '==', myDare.location)
           .where('level', '==', myDare.level)
           .where('start', '<', myDare.end)
-          .onSnapshot((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              let newData = doc.data();
-              newData.id = doc.id;
-              tempArr.push(newData);
-            });    
-              this.createUserMatch(tempArr, myDare, email, matched)
-              this.postMatchResult(myDare, matched)       
-        })
+          .get()
+          .then((result) => {
+                result.forEach((doc) => {
+                let newData = doc.data();
+                newData.id = doc.id;
+                tempArr.push(newData);
+                console.log(tempArr);  
+              })
+          })
+          .then(() => {
+            if (tempArr.length > 0) {
+                this.createUserMatch(tempArr, myDare, email, matched);  
+            }
+            else {
+                this.postUnmatched(myDare);
+                this.props.dispatch(inQueue());
+                console.log('skickar in')
+            }
+          })
     }
 
     createUserMatch = (dareArray, myDare, email, matched) => {
         for (let i = 0; i < dareArray.length; i++) {
-            if (matched === {} && myDare.start < dareArray[i].end) {
+            if (!matched.id1 && myDare.start < dareArray[i].end) {
                 console.log(dareArray)
                 const budget = Math.min(dareArray[i].budget, myDare.budget);
                 const timeStart = Math.max(dareArray[i].start, myDare.start);
@@ -73,13 +83,13 @@ class NewDare extends Component {
                 location: myDare.location,
                 level: myDare.level
                 };
-                console.log(matched);
+                console.log('MATCHED:  ' + matched.id1);
+                this.postMatchResult(matched);
             }
-        }
-        return matched;
+        }  
     }
 
-    postMatchResult = (myDare, matched) => {
+    postMatchResult = (matched) => {
         if (matched.id1) {
             console.log(matched);
             db.collection('queue').doc(matched.id1).delete(); //matched.id1 är undefined
@@ -90,9 +100,8 @@ class NewDare extends Component {
             })
         }
         else {
-            this.postUnmatched(myDare); 
-            this.props.dispatch(inQueue());
-            console.log('skickar in')
+            console.log('saknas matched.id1 IGEN'); 
+            
         }
     }
     getActivityMatch = (userMatch, id) => {
