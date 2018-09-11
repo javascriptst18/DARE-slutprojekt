@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import NewDare from './newDareForm';
 import Upcoming from './upcomingDare';
 import db from '../firebase';
+import Test from './modal';
 
 
 
@@ -29,12 +30,13 @@ class Dares extends Component {
         if (!this.props.handleDare.current) {
             return (
                 <NewDare checkCurrent={this.checkCurrent} />
+
             )
         } else if (this.props.handleDare.current) {
             return (
                 <div>
                     <Upcoming />
-                    
+
                 </div>
             );
         }

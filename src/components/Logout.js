@@ -19,6 +19,7 @@ class Logout extends Component {
       <div>
         <button onClick={this.logoutButton} className="buttonStandard"> Logout </button>
       </div >
+
     );
   }
 }

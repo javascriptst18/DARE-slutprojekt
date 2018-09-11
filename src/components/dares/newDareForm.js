@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { postDare, postUserMatch, postPendingDare } from '../actionCreators/dareActions';
+import { postDare, postUserMatch, postPendingDare, inQueue } from '../actionCreators/dareActions';
 import db from '../../firebase';
 
 
 class NewDare extends Component {
     state = {
         location: this.props.userSettings.location, 
-        date: '',
+        date: '2019-01-01',
         timeStart: '00:00',
         timeEnd: '23:59',
-        budget: 0,
+        budget: 1000,
         level: 2, //needs some kind of explanation in UI
         start: 0,
         end: 0,
@@ -38,69 +38,79 @@ class NewDare extends Component {
     }
     
     getUserMatch = (myDare, email) => {
-        let matched;
+        let matched = {};
         const tempArr = [];
         db.collection('queue')
           .where('date', '==', myDare.date)
           .where('location', '==', myDare.location)
           .where('level', '==', myDare.level)
           .where('start', '<', myDare.end)
-          .onSnapshot((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              let newData = doc.data();
-              newData.id = doc.id;
-              tempArr.push(newData);
-            });        
-            for (let i = 0; i < tempArr.length; i++) {
-            if (!matched && myDare.start < tempArr[i].end && tempArr[i].id !== email) {
-                console.log('tiden funkar!!')
-                const budget = Math.min(tempArr[i].budget, myDare.budget);
-                const timeStart = Math.max(tempArr[i].start, myDare.start);
-                const timeEnd = Math.min(tempArr[i].end, myDare.end);
-                 matched = {
-                  date: myDare.date,
-                  id1: tempArr[i].id,
-                  id2: email,
-                  cost: budget,
-                  starts: timeStart,
-                  ends: timeEnd,
-                  location: myDare.location,
-                  level: myDare.level
+          .get()
+          .then((result) => {
+                result.forEach((doc) => {
+                let newData = doc.data();
+                newData.id = doc.id;
+                tempArr.push(newData);
+                console.log(tempArr);  
+              })
+          })
+          .then(() => {
+            if (tempArr.length > 0) {
+                this.createUserMatch(tempArr, myDare, email, matched);  
+            }
+            else {
+                this.postUnmatched(myDare);
+                this.props.dispatch(inQueue());
+                console.log('skickar in')
+            }
+          })
+    }
+
+    createUserMatch = (dareArray, myDare, email, matched) => {
+        for (let i = 0; i < dareArray.length; i++) {
+            if (!matched.id1 && myDare.start < dareArray[i].end) {
+                console.log(dareArray)
+                const budget = Math.min(dareArray[i].budget, myDare.budget);
+                const timeStart = Math.max(dareArray[i].start, myDare.start);
+                const timeEnd = Math.min(dareArray[i].end, myDare.end);
+                matched = {
+                date: myDare.date,
+                id1: dareArray[i].id,
+                id2: email,
+                cost: budget,
+                starts: timeStart,
+                ends: timeEnd,
+                location: myDare.location,
+                level: myDare.level
                 };
-                console.log(matched);
-                // if not matched with activity!! 
-                }
-            }            
-        })
-        .then(() => {
-            db.collection('queue')
-            .doc(matched.id1).delete()
-            .then(() => {
-                console.log('deleted matched dare from queue')})
-        })
-        .then(() => {
-            if(!matched) this.postUnmatched(myDare) //inte kontrollerat att detta funkar!!!!
-            else this.getActivityMatch(matched); //kolla först om vi får aktivitet för att kunna lägga till egenskap activity: bool på userMatch
-        })
-        .then(() => {
-            if (this.props.handleDare.type === 'PENDINGDARE'){
-                matched.activity = true;
-                this.props.dispatch(postUserMatch(matched));
+                console.log('MATCHED:  ' + matched.id1);
+                this.postMatchResult(matched);
             }
-            else if (matched) {
-                matched.activity = false;
-                this.props.dispatch(postUserMatch(matched));
-            }
-        });
-      }
-    
-    getActivityMatch = (userMatch) => {
+        }  
+    }
+
+    postMatchResult = (matched) => {
+        if (matched.id1) {
+            console.log(matched);
+            db.collection('queue').doc(matched.id1).delete(); //matched.id1 är undefined
+            this.props.dispatch(postUserMatch(matched))
+            .then((response) => {
+                console.log(response);
+                this.getActivityMatch(matched, this.props.handleDare.userMatchId);
+            })
+        }
+        else {
+            console.log('saknas matched.id1 IGEN'); 
+            
+        }
+    }
+    getActivityMatch = (userMatch, id) => {
        this.weekdayFromTime(userMatch.starts);
         let tempArr = [];//will hold activities
        //needs some kind of matching thingy for time as well
         db.collection('activity') 
             .where('level', '==', userMatch.level)
-            .where('cost', '<=', userMatch.cost) //parseInt() på det som hämtas på db? eller utgå från att db är rätt formaterad?
+            .where('cost', '<=', userMatch.cost) 
             .where('city', '==', userMatch.location.toLowerCase())
             .onSnapshot((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -115,7 +125,7 @@ class NewDare extends Component {
                     let randomActivity = tempArr[i];
                     const activityMatch = {
                         activityId: randomActivity.id,
-                        userMatchId: `${userMatch.id1}&${userMatch.id2}`,
+                        userMatchId: id,
                         accepted: false,
                         declined: false
                     };
@@ -212,7 +222,8 @@ class NewDare extends Component {
                     type="number"
                     id="budget"
                     step="100"
-                    onChange={this.onChange} />
+                    onChange={this.onChange}
+                    value={this.state.budget} />
                 </label>
                 <input
                     type="submit"
