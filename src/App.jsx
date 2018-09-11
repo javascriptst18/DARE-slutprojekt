@@ -6,6 +6,8 @@ import Register from './components/Register';
 import Logout from './components/Logout';
 import Start from './components/Start';
 import UserSettings from './components/UserSettings';
+import Test from './components/modal';
+
 
 class App extends React.Component {
   render() {
@@ -15,17 +17,20 @@ class App extends React.Component {
           !this.props.user.email
             ? <Start />
             : this.props.user.email && !this.props.user.isRegistered
-            ? <Register />
-            : <Router>
-              <div className="App">
-                <Logout />
-                <Link to="/login">Dare</Link>
-                <Link to="/dares">Mina Dares</Link>
-                <Link to="/settings">Inställningar</Link>
-                <Route path="/dares" component={Dares} />
-                <Route path="/settings" component={UserSettings} />
-              </div>
-            </Router>
+              ? <Register />
+              : (
+<Router>
+                <div className="App">
+                  <Logout />
+                  <Test />
+                  <Link to="/login">Dare</Link>
+                  <Link to="/dares">Mina Dares</Link>
+                  <Link to="/settings">Inställningar</Link>
+                  <Route path="/dares" component={Dares} />
+                  <Route path="/settings" component={UserSettings} />
+                </div>
+              </Router>
+)
         }
       </div>
     );
