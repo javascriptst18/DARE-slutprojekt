@@ -9,6 +9,7 @@ state = {
   h: 1,
   m: 0,
   s: 0,
+  interval: 0,
 }
 
 
@@ -25,7 +26,8 @@ timer = () => {
 
   let now = new Date().getTime();
   let goal = this.props.dareStatus.userMatch.starts;
-  let secondsLeft = Math.floor((goal-now)/1000);
+  let diff = goal-now;
+  let secondsLeft = Math.floor((diff)/1000);
   
   //displayed time
   let days = Math.floor(secondsLeft/86400);//60 seconds* 60 minutes * 24 hours = 86400
@@ -38,24 +40,34 @@ timer = () => {
     h: hours,
     m: minutes,
     s: seconds,
+    interval: diff,
   };
 
   this.setState(timeLeft)
   return timeLeft;
 }
 
-
-
 render() { 
   let timeLeft = this.state;
-  if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= 10) return <p>incheckning</p>
-  //  INCHECKNING HÄR
-
-return (
-  <div>
-    <h2> Om {timeLeft.d}d:{timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}s får du veta vad du och din utmanare ska göra!</h2>
-  </div>
-    );
+  if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= 10){
+    return <p>incheckning</p>
+  } 
+  else if (this.state.interval < - 36000) {
+    //kör blockeringsfunktion
+  return <div>Du är blockerad!</div>}
+  else {
+    return (
+      <div>
+        <h2> Om {timeLeft.d}d:{timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}s får du veta vad du och din utmanare ska göra!</h2>
+        <p>Vi har matchat er mot något som stämmer in på: </p>
+        <ul>
+          <li>datum: {this.props.dareStatus.userMatch.date}</li>
+          <li>tid: {this.props.dareStatus.userMatch.timeStart} - {this.props.dareStatus.userMatch.timeEnd}</li>
+          <li>nivå: {this.props.dareStatus.userMatch.level}</li>
+          <li>budget: {this.props.dareStatus.userMatch.cost}</li>
+        </ul>
+      </div>
+        );}
   }
 }
 
