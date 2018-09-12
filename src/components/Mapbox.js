@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactMapboxGl, { ZoomControl, GeoJSONLayer, Layer, Feature } from 'react-mapbox-gl';
 import User from '../icons/user.svg'
 import { connect } from 'react-redux';
+import db from '../firebase';
 
 //accessToken: 'pk.eyJ1Ijoic2x1dHByb2pla3QiLCJhIjoiY2psdW05eXhoMGtwcDN2czRlNDc3eWJrYyJ9.dgur5_88vWOGbk8oHhj9OQ'
 
@@ -38,9 +39,22 @@ class Mapbox extends Component {
   }
 
   componentDidMount() {
-      this.state.activityLongitude;
-      this.state.activityLatitude;
-      this.getUserLocation();
+    this.state.activityLongitude;
+    this.state.activityLatitude;
+    this.getUserLocation();
+    this.getActivityLocation();
+  }
+
+  getActivityLocation = () => {
+    if (this.props.dareStatus.activityMatch.activityId) {
+      return db.collection('activity').doc(this.props.dareStatus.activityMatch.activityId).get()
+        .then((response) => {
+          this.setState({
+            activityLongitude: response.position.longitude,
+            activityLatitude: response.position.latitude,
+          })
+        })
+    }
   }
 
   getUserLocation = () => {

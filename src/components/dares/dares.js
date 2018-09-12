@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import NewDare from './newDareForm';
 import QueueDare from './queueDare';
 import UserMatchedDare from './userMatchedDare';
+import PendingDare from './pendingDare';
 import db from '../../firebase';
 import { inQueue, userMatched, noDare } from '../actionCreators/dareActions';
 import {
-    NODARE, QUEUE, USERMATCH, MATCHEDPENDING, MATCHEDACCEPTED, STATUSFAILED,
+    QUEUE, USERMATCH, MATCHEDPENDING, MATCHEDACCEPTED, STATUSFAILED,
   } from '../constants';
 
 
@@ -67,6 +68,8 @@ class Dares extends Component {
             return <QueueDare />
         } else if (this.props.dareStatus.type === USERMATCH) {
             return <UserMatchedDare />
+        } else if (this.props.dareStatus.type === MATCHEDPENDING) {
+            return <PendingDare />
         }
         else return <h2>Oooops, nåt gick fel.</h2>
     }
