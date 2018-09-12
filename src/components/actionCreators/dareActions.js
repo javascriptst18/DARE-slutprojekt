@@ -45,7 +45,7 @@ export function userMatched(data) {
   return function (dispatch, getState) {
     return db.collection('matchedDare').where('userMatchId', '==', data.id).get()
     .then((result) => {
-      if (result.exists) dispatch({userMatch: data, activityMatchId: result.id, type: MATCHEDPENDING})
+      if (result.exists) dispatch({userMatch: data, activityMatch: result.data(), type: MATCHEDPENDING})
       else dispatch({ type: MATCHEDDARE, userMatch: data })
     }  
       
