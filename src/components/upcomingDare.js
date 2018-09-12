@@ -13,7 +13,6 @@ state = {
     this.getTheQueue();
   }
 
-// collection fungerar om det är en användare som är sparad i docs.
 
   getTheQueue = () => {
 const tempArr = [];

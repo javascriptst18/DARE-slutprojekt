@@ -59,13 +59,13 @@ render() {
 
   const listQueue = this.state.testQueue.map(item => {
     return <div key={item.key} className="">
-        <h2>Min pending Dare:</h2>
-        <p>Min registrerade Level: {item.level}</p>
-        <p>Min registrerade Budget: {item.budget}</p>
-        <p>Min registrerade Location: {item.location}</p>
+        <h2>Min kommande Dare:</h2>
+        <p>Min registrerade nivå: {item.level}</p>
+        <p>Min registrerade budget: {item.budget}</p>
+        <p>Min registrerade plats: {item.location}</p>
         <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
         <button onClick={()=> db.collection('queue').doc(item.id).delete()}>Ta bort pending Dare</button>
-        <button onClick={this.removeDare}> Ta bort PD </button>
+        <button onClick={this.removeDare}> Ångra förfrågan</button>
       </div>
     });
 

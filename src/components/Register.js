@@ -32,9 +32,9 @@ class Register extends Component {
 
   render() {
     return (
-      <div>
+      <div className="mainContentDiv">
         <div className="menu"></div>
-        <h2 className="mainContentDiv">Register</h2>
+        <h2>Skapa mitt konto</h2>
         <div className="mainContentDivInput">
         <form onSubmit={(e) => { this.checkForm(e) }}>
 
