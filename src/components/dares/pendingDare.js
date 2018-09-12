@@ -49,9 +49,16 @@ timer = () => {
 
 render() { 
   let timeLeft = this.state;
-  if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= 10){
+  
+  //check in possible between 20 minutes before and 10 minutes after activity starts
+  if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= -10){
     return <p>incheckning</p>
   } 
+  //Access to info on activity 10 minutes before start
+   else if (this.state.d ===0 && this.state.interval > 0) {
+    <p> visa karta, aktivitetsinfo, ej check in</p>
+  }
+  //if user fails to check in within 10 minutes, they're suspended 
   else if (this.state.interval < - 36000) {
     //kör blockeringsfunktion
   return <div>Du är blockerad!</div>}
