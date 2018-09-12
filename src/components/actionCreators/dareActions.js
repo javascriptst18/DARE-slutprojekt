@@ -1,6 +1,6 @@
 import db from '../../firebase';
 import {
-  POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE, MATCHEDDARE, QUEUE, NOACTIVITY, MATCHEDPENDING, MATCHEDACCEPTED, STATUSFAILED
+  POSTDARE, ACCEPTDARE, DECLINEDARE, FAILEDTODARE, MATCHEDDARE, QUEUE, NODARE, USERMATCH, MATCHEDPENDING, MATCHEDACCEPTED, STATUSFAILED
 } from '../constants';
 
 export function postDare(dare, email) {
@@ -43,20 +43,25 @@ export function inQueue(dare) {
 
 export function userMatched(data) {
   return function (dispatch, getState) {
+    let tempArr = [];
     return db.collection('matchedDare').where('userMatchId', '==', data.id).get()
     .then((result) => {
-      if (result.exists) dispatch({userMatch: data, activityMatchId: result.id, type: MATCHEDPENDING})
-      else dispatch({ type: MATCHEDDARE, userMatch: data })
-    }  
-      
-    )
-    
-  }
-  
+      result.forEach((doc) => {
+        let activitymatch = doc.data();
+        tempArr.push(activitymatch);
+      })
+    })
+    .then(()=> {
+      if (tempArr.length === 1){
+        dispatch({userMatch: data, activityMatch: tempArr[0], type: MATCHEDPENDING})
+     }
+     else dispatch({ type: USERMATCH, userMatch: data })
+   })     
+  } 
 }
 
-export function noActivity() {
-  return { type: NOACTIVITY }
+export function noDare() {
+  return { type: NODARE }
 }
 
 export function activity() {
