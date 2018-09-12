@@ -11,7 +11,7 @@ render() {
  
 return (
   <div>
-    <h3>{this.props.userSettings.name}, du och din utmanare ska göra något som matchar: </h3>
+    <h2>{this.props.userSettings.name}, du och din utmanare ska göra något som matchar: </h2>
     <ul>
     <li>datum: {this.props.dareStatus.userMatch.date}</li>
       <li>tid: {this.props.dareStatus.userMatch.timeStart} - {this.props.dareStatus.userMatch.timeEnd}</li>
