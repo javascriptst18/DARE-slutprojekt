@@ -56,7 +56,7 @@ padding-right: 10px;
 }
 
 .menuLink:visited {
-    color: white;
+color: white;
 }
 
 .menuLink:hover {
@@ -172,9 +172,8 @@ padding-right: 10px;
     
     .slider{
     width: 80%;
-    
-    
     }
+
     /*-- End Slider --*/
     
     
@@ -194,7 +193,7 @@ padding-right: 10px;
     }
 
     .inputFieldText {
-    font-size: 1rem;    
+    font-size: 1rem;   
     margin-left: 0px;
     text-align: left; 
     color: white;

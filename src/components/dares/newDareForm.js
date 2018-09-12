@@ -167,7 +167,7 @@ class NewDare extends Component {
             <form onSubmit={this.onSubmit}> 
                 
                 <label htmlFor="level">
-                    Chicken or DAREDevil? 
+                    Chicken or DAREDevil?: <br /> 
                     <input 
                     type="range" 
                     min="1" 
@@ -177,45 +177,55 @@ class NewDare extends Component {
                     id="level"
                     onChange={this.onChange} />
                 </label>
+                <br />
                 <label htmlFor="location">
-                    Plats
+                    Plats: <br />
                     <input 
                     type="text"
                     value={this.state.location}
                     onChange={this.onChange}
-                    id="location"/>
+                    id="location"
+                    className="input"/>
                 </label>
+                <br />
                 <label htmlFor="date"> 
-                    Datum
+                    Datum: <br />
                     <input 
                     type="date" 
                     id="date"
                     value={this.state.date}
-                    onChange={this.onChange} />
+                    onChange={this.onChange} 
+                    className="input"/>
                 </label>
+                <br />
                 <label htmlFor="timeStart"> 
-                    Starttid
+                    Starttid: <br />
                     <input 
                     type="time" 
                     id="timeStart"
                     onChange={this.onChange}
-                    value={this.state.timeStart} />
+                    value={this.state.timeStart}
+                    className="input"/>
                 </label>
+                <br />
                 <label htmlFor="timeEnd"> 
-                    Sluttid
+                    Sluttid: <br />
                     <input 
                     type="time" 
                     id="timeEnd"
                     onChange={this.onChange}
-                    value={this.state.timeEnd} /> 
+                    value={this.state.timeEnd}
+                    className="input"/> 
                 </label>
+                <br />
                 <label htmlFor="budget">
-                    Max budget
+                    Max budget: <br />
                     <input 
                     type="number"
                     id="budget"
                     step="100"
                     onChange={this.onChange}
+                    className="input"
                     />
                 </label>
                 <input
