@@ -5,6 +5,8 @@ import db from '../../firebase';
 
 class UserMatchedDare extends Component {
 
+//needs time formatting in componentdidmount
+
 render() {
  
 return (

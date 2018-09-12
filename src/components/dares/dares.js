@@ -68,7 +68,7 @@ class Dares extends Component {
         } else if (this.props.dareStatus.type === USERMATCH) {
             return <UserMatchedDare />
         }
-        else return <div>WHAAAAAT no sorry something went wrong</div>
+        else return <h2>Oooops, nåt gick fel.</h2>
     }
 }
 
