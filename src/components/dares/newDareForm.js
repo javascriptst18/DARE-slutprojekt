@@ -161,8 +161,11 @@ class NewDare extends Component {
     render() {
         
         return(
+            <div>
+            <h2>I dare you, {this.props.userSettings.name}!</h2>
+            <div className="mainContentDivInput">
             <form onSubmit={this.onSubmit}> 
-                <h2>I dare you, {this.props.userSettings.name}!</h2>
+                
                 <label htmlFor="level">
                     Chicken or DAREDevil? 
                     <input 
@@ -212,12 +215,15 @@ class NewDare extends Component {
                     type="number"
                     id="budget"
                     step="100"
-                    onChange={this.onChange} />
+                    onChange={this.onChange}
+                    />
                 </label>
                 <input
                     type="submit"
-                    value="Skicka in" />
+                    value="Skicka in" className="buttonStandardBlack"/>
             </form>
+            </div> 
+            </div> 
         )
     }
 }

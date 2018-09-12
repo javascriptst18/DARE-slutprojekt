@@ -11,7 +11,7 @@ import UserSettings from './components/UserSettings';
 class App extends React.Component {
   render() {
     return (
-      <div className="App">
+      <div>
         {
           !this.props.user.email ?
             <Start />
@@ -21,11 +21,14 @@ class App extends React.Component {
             :
             <Router>
               <div className="mainContentDiv">
-                <Link to="/login">Dare</Link>
-                <Link to="/dares">Mina Dares</Link>
-                <Link to="/settings">Inställningar</Link>
+              <div className="menu">
+                <Link to="/login" className="menuLink">Om Dare</Link>
+                <Link to="/dares" className="menuLink">Mina Dares</Link>
+                <Link to="/settings" className="menuLink">Inställningar</Link>
+              </div>  
                 <Route path="/dares" component={Dares} />
                 <Route path="/settings" component={UserSettings} />
+              
                 <Logout />
               </div>
             </Router>

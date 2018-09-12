@@ -35,28 +35,26 @@ return (
 
   <div className="swipeDiv">
     <img src={wallet} className="swipeContent swipeIcon"/>
-    <h2 className="swipeHeader">Välj nivå av aktivitet</h2>
-    <p className="swipeText">Vi har aktiviteter för allas budget, från 0kr och uppåt.</p>
+    <h2 className="swipeHeader">Aktivitet</h2>
+    <p className="swipeText">Vi har aktiviteter för allas budget, från 0kr och uppåt. lalala...</p>
   </div>
 
   <div className="swipeDiv">
     <img src={wallet} className="swipeContent swipeIcon"/>
-    <h2 className="swipeHeader">Välj din budget</h2>
-    <p className="swipeText">Det finns aktiviteter för allas budget lalala...</p>
+    <h2 className="swipeHeader">Budget</h2>
+    <p className="swipeText">Vi anpassar aktiviteten för din budget. Vare sig du har 0kr eller 5000kr på kontot, ta det lugnt, vi fixar nått för dig!</p>
   </div>
 
   <div className="swipeDiv">
     <img src={wallet} className="swipeContent swipeIcon"/>
-    <h2 className="swipeHeader">Välj datum och tid</h2>
-    <button className="buttonLogIn">Ta bort knappen <i class="fa fa-close"></i></button>
-    <br></br>
-    <button className="buttonLogOut">Något input field kanske</button>
+    <h2 className="swipeHeader">Datum och tid</h2>
+    <p className="swipeText">Vet du om att </p>
   </div>
   
   <div className="swipeDiv">
     <img src={wallet} className="swipeContent swipeIcon"/>
-    <h2 className="swipeHeader">Vi matchar dig med andra</h2>
-    <p className="swipeText">Vi har aktiviteter för allas budget, från 0kr och uppåt.</p>
+    <h2 className="swipeHeader">Vi matchar dig</h2>
+    <p className="swipeText">Baserat på dina val utmanar vi dig att testa på spännande aktiviteter med nya människor lalala.. </p>
   </div>
  
   

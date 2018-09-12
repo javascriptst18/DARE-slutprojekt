@@ -2,6 +2,10 @@
 
 /*-- Css Content for DARE -- */
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     Background-color: #F30D29;
     font-family: Roboto;
@@ -19,9 +23,49 @@ body {
     margin: auto; 
     text-align: center;
     }
-    
-    
 
+    .mainContentDivInput{
+        width: 100%; 
+        margin: auto; 
+        text-align: left;
+        margin-left: 10%;
+
+    }
+    
+/*-- Text --*/
+
+/*-- End Text --*/
+
+/* -- Menu -- */
+
+.menu   {
+background-color: black; 
+color: white;
+height: 50px;
+padding-top: 4%;
+}
+
+.menuLink{
+color:white;
+text-decoration: none;
+padding-left: 10px;
+padding-right: 10px;
+}
+
+.menuLink:link {
+}
+
+.menuLink:visited {
+    color: white;
+}
+
+.menuLink:hover {
+}
+
+.menuLink:active {
+}
+
+/* -- End Menu -- */
 
 
 
@@ -62,20 +106,14 @@ body {
     font-size: 1.25;
     line-height: 1.75;
     margin-bottom: 50px;
-    }
-    
-    .swipeSpanText  {
-    text-decoration-line: 2px wavy;
+    max-width: 80%;
+    margin-left:auto;
+    margin-right:auto;
     }
     
     .swipeRight {
-    transition: transform .7s ease-in-out;
     height: 100px;
     margin-bottom: 20px;
-    }
-    
-    .swipeRight:hover {
-    transform: rotate(45deg);
     }
     
     /* -- End Swipe -- */
@@ -99,7 +137,31 @@ body {
     border: none;
     box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
     }
+
+    .buttonStandardBlack {
+        width: 80%;
+        text-align: center;
+        font-size: 1.5rem; 
+        margin-top: 20px;
+        color: white; 
+        background-color: black;
+        padding: 15px;
+        border: none;
+        box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+        }
     
+
+ .buttonStandardBlack {
+        width: 80%;
+        text-align: center;
+        font-size: 1.5rem; 
+        margin-top: 20px;
+        color: white; 
+        background-color: black;
+        padding: 15px;
+        border: none;
+        box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+        }        
     /*--  End Buttons --*/
     
     
@@ -111,6 +173,7 @@ body {
     .slider{
     width: 80%;
     
+    
     }
     /*-- End Slider --*/
     
@@ -120,17 +183,25 @@ body {
     
     .input {
     width: 80%; 
-    margin: auto; 
+    margin: auto;
     box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
     border:none;
+    padding: 15px;
     font-size: 1.5rem; 
     color: black;
+    margin-bottom: 15px;
+    margin-top: 5px;
     }
 
-
+    .inputFieldText {
+    font-size: 1rem;    
+    margin-left: 0px;
+    text-align: left; 
+    color: white;
+    }
 
     .input[type=text]:focus {
-        border: 3px solid black;
+        
     }
     
     /*-- End Form --*/
