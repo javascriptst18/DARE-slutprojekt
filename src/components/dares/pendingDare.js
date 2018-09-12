@@ -48,6 +48,8 @@ timer = () => {
 
 render() { 
   let timeLeft = this.state;
+  if (this.state.d === 0 && this.state.h === 0 && this.state.m <= 20 && this.state.m >= 15)
+  //  INCHECKNING HÄR
 return (
   <div>
     <h2> Om {timeLeft.d}d:{timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}s får du veta vad du och din utmanare ska göra!</h2>
