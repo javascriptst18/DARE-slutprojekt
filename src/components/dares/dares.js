@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import NewDare from './newDareForm';
 import QueueDare from './queueDare';
 import db from '../../firebase';
-import { inQueue, userMatched, activity, noActivity } from '../actionCreators/dareActions';
-
+import { inQueue, userMatched, noDare } from '../actionCreators/dareActions';
+import {
+    NODARE, QUEUE, USERMATCH, MATCHEDPENDING, MATCHEDACCEPTED, STATUSFAILED,
+  } from '../constants';
 
 class Dares extends Component {
 
@@ -15,9 +17,9 @@ class Dares extends Component {
     checkDB = () => {
         let current;
         this.checkQueueDb(current);
-        this.checkMatchDb('userMatch', 'id1', this.props.user.email);
-        this.checkMatchDb('userMatch', 'id2', this.props.user.email);
-        if (!current) this.props.dispatch(noActivity());
+        this.checkMatchDb('userMatch', 'id1', current);
+        this.checkMatchDb('userMatch', 'id2', current);
+        if (!current) this.props.dispatch(noDare());
     }
 
     checkQueueDb = (current) => {
@@ -32,31 +34,40 @@ class Dares extends Component {
         })
     }
 
-    checkMatchDb = (collection, id) => {
+    checkMatchDb = (collection, id, current) => {
+        let tempArr = [];
         db.collection(collection).where(id, '==', this.props.user.email)
         .get()
-        .then(response => {
-            if (response.exists){
-            let myDare = response.data();
-            myDare.id = response.id;
-             this.props.dispatch(userMatched(myDare))
-            } else console.log('blööööööööh')
+        .then(result => { 
+            result.forEach((doc) => {
+                let newData = doc.data();
+                newData.id = doc.id;
+                tempArr.push(newData);
+                console.log(tempArr);
+                current = tempArr[0];
+                }) 
         })
+        .then(() => {
+            if (current){
+            console.log(current);
+             this.props.dispatch(userMatched(current))
+            }
+        });
     }
+
 
     render() {
         if(!this.props.dareStatus.type){
             return(
                 <NewDare checkCurrent={this.checkCurrent}/>
             )
-        } else if (this.props.dareStatus.type === 'QUEUE') {
+        } else if (this.props.dareStatus.type === QUEUE) {
             return <QueueDare />
-        } else if (typeof this.props.dareStatus.type === 'MATCHED-PENDING') {
+        } else if (this.props.dareStatus.type === USERMATCH) {
             return <div> There's an activity coming up </div>
         }
         else return <div>WHAAAAAT no sorry something went wrong</div>
     }
 }
-
 
 export default connect(state => state)(Dares);
