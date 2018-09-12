@@ -38,34 +38,28 @@ class Mapbox extends Component {
   }
 
   componentDidMount() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
-          userLatitude: position.coords.latitude,
-          userLongitude: position.coords.longitude,
-          userPositionAvailable: true,
-        })
-      })
-    }
-    this.setLocationInfo();
+      this.getUserLocation()
   }
 
-  setLocationInfo = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(
-        position => {
-          this.setState({
-            userLatitude: position.coords.latitude,
-            userLongitude: position.coords.longitude,
-          }, () => {
-            //  not using callback
-          });
-        }
-      )
-    }
-    else {
-      error => console.log(error)
-    }
+  getUserLocation = () => {
+    navigator.geolocation.watchPosition(function () { }, function () { }, {});
+    navigator.geolocation.watchPosition((position) => {
+      this.setState({
+        userLatitude: position.coords.latitude,
+        userLongitude: position.coords.longitude,
+        userPositionAvailable: true,
+      })
+    }, function (e) {
+      let errors = {
+        1: 'Tillstånd för GPS nekades av användare',
+        2: 'Position ej tillgänglig',
+        3: 'Timeout på GPS \r\nLadda om sidan'
+      };
+      alert("Fel: " + errors[e.code]);
+    }, {
+        timeout: 3000,
+        maximumAge: 0,
+      });
   }
 
   getDistance(longitude1, latitude1, longitude2, latitude2) {
@@ -84,6 +78,7 @@ class Mapbox extends Component {
   }
 
   render() {
+    console.log('userposition: ', this.state.userLatitude, ' ', this.state.userLongitude)
     if (this.state.userPositionAvailable) {
       let distance = this.getDistance(this.state.userLongitude, this.state.userLatitude, this.state.activityLongitude, this.state.activityLatitude)
       console.log(distance);
@@ -141,24 +136,18 @@ class Mapbox extends Component {
           >
             <Feature coordinates={[this.state.activityLongitude, this.state.activityLatitude]} />
           </Layer>
-          {
-            this.state.userPositionAvailable ?
-              <div>
-                <Layer
-                  type="symbol"
-                  layout={{
-                    'icon-image': 'user',
-                    'icon-allow-overlap': true,
-                    'icon-size': 1,
-                  }}
-                  images={images}
-                >
-                  <Feature coordinates={[this.state.userLongitude, this.state.userLatitude]} />
-                </Layer>
-              </div>
-              :
-              null
-          }
+
+          <Layer
+            type="symbol"
+            layout={{
+              'icon-image': 'user',
+              'icon-allow-overlap': true,
+              'icon-size': 1,
+            }}
+            images={images}
+          >
+            <Feature coordinates={[this.state.userLongitude, this.state.userLatitude]} />
+          </Layer>
           <ZoomControl />
         </Map >
       </div >
