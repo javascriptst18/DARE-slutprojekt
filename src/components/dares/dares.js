@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NewDare from './newDareForm';
 import QueueDare from './queueDare';
+import UserMatchedDare from './userMatchedDare';
 import db from '../../firebase';
 import { inQueue, userMatched, noDare } from '../actionCreators/dareActions';
 import {
     NODARE, QUEUE, USERMATCH, MATCHEDPENDING, MATCHEDACCEPTED, STATUSFAILED,
   } from '../constants';
+
 
 class Dares extends Component {
 
@@ -64,7 +66,7 @@ class Dares extends Component {
         } else if (this.props.dareStatus.type === QUEUE) {
             return <QueueDare />
         } else if (this.props.dareStatus.type === USERMATCH) {
-            return <div> There's an activity coming up </div>
+            return <UserMatchedDare />
         }
         else return <div>WHAAAAAT no sorry something went wrong</div>
     }
