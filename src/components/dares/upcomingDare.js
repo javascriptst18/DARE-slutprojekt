@@ -65,7 +65,7 @@ render() {
         <p>Min registrerade plats: {item.location}</p>
         <p>Min registrerade Tid: {item.timeStart} till kl: {item.timeEnd}</p>
         <button onClick={()=> db.collection('queue').doc(item.id).delete()}>Ta bort pending Dare</button>
-        <button onClick={this.removeDare}> Ångra förfrågan</button>
+        <button onClick={this.removeDare}>Ångra förfrågan</button>
       </div>
     });
 

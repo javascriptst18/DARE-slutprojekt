@@ -61,9 +61,9 @@ class Register extends Component {
         </form>
 
         </div>
-
+        <div className="mapBoxContentDiv">
         <Mapbox />
-        <Logout />
+        </div>
       </div>
     );
   }

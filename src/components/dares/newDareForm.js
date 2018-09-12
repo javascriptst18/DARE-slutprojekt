@@ -167,7 +167,7 @@ class NewDare extends Component {
             <form onSubmit={this.onSubmit}> 
                 
                 <label htmlFor="level">
-                    Nivå av DARE: <br /> 
+                    Nivå av DARE: {this.state.level}<br /> 
                     <input 
                     type="range" 
                     min="1" 
