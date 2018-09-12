@@ -167,15 +167,15 @@ class NewDare extends Component {
             <form onSubmit={this.onSubmit}> 
                 
                 <label htmlFor="level">
-                    Chicken or DAREDevil?: <br /> 
+                    Nivå av DARE: <br /> 
                     <input 
                     type="range" 
                     min="1" 
                     max="3" 
                     value={this.state.daredevil} 
-                    className="slider" 
                     id="level"
-                    onChange={this.onChange} />
+                    onChange={this.onChange} 
+                    className="slider"/>
                 </label>
                 <br />
                 <label htmlFor="location">

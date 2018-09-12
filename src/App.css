@@ -25,7 +25,7 @@ body {
     }
 
     .mainContentDivInput{
-        width: 100%; 
+        width: 80%; 
         margin: auto; 
         text-align: left;
         margin-left: 10%;
@@ -152,7 +152,7 @@ color: white;
     
 
  .buttonStandardBlack {
-        width: 80%;
+        width: 100%;
         text-align: center;
         font-size: 1.5rem; 
         margin-top: 20px;
@@ -165,23 +165,14 @@ color: white;
     /*--  End Buttons --*/
     
     
-    
-    
-    
-    /*-- Slider --*/
-    
-    .slider{
-    width: 80%;
-    }
 
-    /*-- End Slider --*/
     
     
     
     /*-- Input Form --*/
     
     .input {
-    width: 80%; 
+    width: 100%; 
     margin: auto;
     box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
     border:none;
@@ -204,3 +195,61 @@ color: white;
     }
     
     /*-- End Form --*/
+
+
+
+    .test   {
+    
+
+    }
+
+        
+    /*-- Slider --*/
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 10px;
+        border-radius: 2px;   
+        background: white;
+        outline: none;
+
+        margin-bottom: 15px;
+        margin-top: 5px;
+        box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+        
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+    
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 100%; 
+        background: url('./components/img/blackdarelogo.svg');
+        background-color: black;
+        box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+
+        background-size: 100%;
+
+        cursor: pointer;
+        
+    }
+    
+    .slider::-moz-range-thumb {
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        background: url('./components/img/blackdarelogo.svg');
+        background-color: black;
+        box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+
+        background-size: 100px;
+        
+        cursor: pointer;
+    }
+    
+        /*-- End Slider --*/
+
+        
