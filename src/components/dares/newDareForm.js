@@ -7,10 +7,10 @@ import db from '../../firebase';
 class NewDare extends Component {
     state = {
         location: this.props.userSettings.location, 
-        date: '2019-01-01',
-        timeStart: '00:00',
-        timeEnd: '23:59',
-        budget: 1000,
+        date: '',
+        timeStart: '',
+        timeEnd: '',
+        budget: 0,
         level: 2, //needs some kind of explanation in UI
         start: 0,
         end: 0,

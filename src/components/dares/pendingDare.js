@@ -5,12 +5,24 @@ import Mapbox from '../Mapbox';
 
 
 class PendingDare extends Component {
+state = {
+  d: 0,
+  h: 1,
+  m: 0,
+  s: 0,
+}
+
 
 componentDidMount() {
   this.setTimer();
 }
 // Update the count down every 1 second
+
 setTimer = () => {
+  setInterval(this.timer, 1000)
+};
+
+timer = () => {
 
   let now = new Date().getTime();
   let goal = this.props.dareStatus.userMatch.starts;
@@ -29,13 +41,17 @@ setTimer = () => {
     s: seconds,
   };
 
+  this.setState(timeLeft)
   return timeLeft;
 }
 
 
 
 render() {
-  let timeLeft = this.setTimer();
+  let timeLeft = this.state;
+  if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= 10) return <p>incheckning</p>
+  //  INCHECKNING HÄR
+
 return (
   <div>
     <h2> Om {timeLeft.d}d:{timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}s får du veta vad du och din utmanare ska göra!</h2>
