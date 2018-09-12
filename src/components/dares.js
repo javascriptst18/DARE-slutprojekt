@@ -4,6 +4,8 @@ import NewDare from './newDareForm';
 import Upcoming from './upcomingDare';
 import db from '../firebase';
 import Test from './modal';
+import Mapbox from './Mapbox';
+import { suspendUser } from '../UserFunctions';
 
 
 
@@ -19,11 +21,12 @@ class Dares extends Component {
     decline = () => {
         this.setState({ current: false });
         //suspend user for a week. patch firebase
+        suspendUser(this.state.user.email);
     }
 
     accept = (e) => {
         e.preventDefault();
-
+        
     }
 
     render() {
@@ -36,7 +39,7 @@ class Dares extends Component {
             return (
                 <div>
                     <Upcoming />
-
+                    <Mapbox />
                 </div>
             );
         }

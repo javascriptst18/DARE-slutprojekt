@@ -28,8 +28,8 @@ const checkInRadius = 200; //  In meters
 class Mapbox extends Component {
   //  Takes coordinates "reversed" (long // lat). Uses WGS84 DD coordinate system
   state = {
-    activityLongitude: 18.00597,
-    activityLatitude: 59.36888,
+    activityLongitude: 0,
+    activityLatitude: 0,
     userLongitude: 0,
     userLatitude: 0,
     userPositionAvailable: false,
@@ -38,7 +38,9 @@ class Mapbox extends Component {
   }
 
   componentDidMount() {
-      this.getUserLocation()
+      this.state.activityLongitude;
+      this.state.activityLatitude;
+      this.getUserLocation();
   }
 
   getUserLocation = () => {
@@ -57,7 +59,7 @@ class Mapbox extends Component {
       };
       alert("Fel: " + errors[e.code]);
     }, {
-        timeout: 3000,
+        timeout: 10000,
         maximumAge: 0,
       });
   }
