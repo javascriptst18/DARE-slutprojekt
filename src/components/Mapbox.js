@@ -46,15 +46,13 @@ class Mapbox extends Component {
   }
 
   getActivityLocation = () => {
-    if (this.props.dareStatus.activityMatch.activityId) {
       return db.collection('activity').doc(this.props.dareStatus.activityMatch.activityId).get()
         .then((response) => {
           this.setState({
             activityLongitude: response.position.longitude,
             activityLatitude: response.position.latitude,
           })
-        })
-    }
+        })  
   }
 
   getUserLocation = () => {
