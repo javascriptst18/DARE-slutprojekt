@@ -38,19 +38,28 @@ class Mapbox extends Component {
   }
 
   componentDidMount() {
-    if (navigator.geolocation) {
-      //navigator.geolocation.getCurrentPosition(this.setLocationInfo);
-      navigator.geolocation.watchPosition(this.setLocationInfo);
-    } else {
-      // Geolocation not available, do something
-
-    }
+      this.getUserLocation()
   }
 
-  setLocationInfo = (position) => {
-    this.setState({ userLongitude: position.coords.longitude, userLatitude: position.coords.latitude })
-    this.setState({ userPositionAvailable: true })
-    fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/-73.989%2C40.733%3B-74%2C40.733.json?access_token=pk.eyJ1Ijoic2x1dHByb2pla3QiLCJhIjoiY2psdW05eXhoMGtwcDN2czRlNDc3eWJrYyJ9.dgur5_88vWOGbk8oHhj9OQ`)
+  getUserLocation = () => {
+    navigator.geolocation.watchPosition(function () { }, function () { }, {});
+    navigator.geolocation.watchPosition((position) => {
+      this.setState({
+        userLatitude: position.coords.latitude,
+        userLongitude: position.coords.longitude,
+        userPositionAvailable: true,
+      })
+    }, function (e) {
+      let errors = {
+        1: 'Tillstånd för GPS nekades av användare',
+        2: 'Position ej tillgänglig',
+        3: 'Timeout på GPS \r\nLadda om sidan'
+      };
+      alert("Fel: " + errors[e.code]);
+    }, {
+        timeout: 3000,
+        maximumAge: 0,
+      });
   }
 
   getDistance(longitude1, latitude1, longitude2, latitude2) {
@@ -69,6 +78,7 @@ class Mapbox extends Component {
   }
 
   render() {
+    console.log('userposition: ', this.state.userLatitude, ' ', this.state.userLongitude)
     if (this.state.userPositionAvailable) {
       let distance = this.getDistance(this.state.userLongitude, this.state.userLatitude, this.state.activityLongitude, this.state.activityLatitude)
       console.log(distance);
@@ -80,7 +90,6 @@ class Mapbox extends Component {
       else {
         this.state.UserCanCheckIn = false;
       }
-      console.log('userCanCheckIn: ', this.state.UserCanCheckIn)
     }
     return (
       <div style={{
@@ -88,16 +97,17 @@ class Mapbox extends Component {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center'
-      }}>
-        {this.state.userPositionAvailable ?
-          <div>
-            Avstånd till mål: {this.state.distanceToActivity} km <br />
-            Avstånd till incheck: {(this.state.distanceToActivity-(checkInRadius/1000)).toFixed(2)}
-          </div>
-          :
-          null
+      }} >
+        {
+          this.state.userPositionAvailable ?
+            <div>
+              Avstånd till mål: {this.state.distanceToActivity} km <br />
+              Avstånd till incheck: {(this.state.distanceToActivity - (checkInRadius / 1000)).toFixed(2)}
+            </div>
+            :
+            null
         }
-        <Map
+        < Map
           style={style}
           containerStyle={mapStyle}
           /* incase fixed zoom and centering should be used */
@@ -126,24 +136,20 @@ class Mapbox extends Component {
           >
             <Feature coordinates={[this.state.activityLongitude, this.state.activityLatitude]} />
           </Layer>
-          {this.state.userPositionAvailable ?
-            <div>
-              <Layer
-                type="symbol"
-                layout={{
-                  'icon-image': 'user',
-                  'icon-allow-overlap': true,
-                  'icon-size': 1,
-                }}
-                images={images}
-              >
-                <Feature coordinates={[this.state.userLongitude, this.state.userLatitude]} />
-              </Layer>
-            </div>
-            :
-            null}
-            <ZoomControl/>
-        </Map>
+
+          <Layer
+            type="symbol"
+            layout={{
+              'icon-image': 'user',
+              'icon-allow-overlap': true,
+              'icon-size': 1,
+            }}
+            images={images}
+          >
+            <Feature coordinates={[this.state.userLongitude, this.state.userLatitude]} />
+          </Layer>
+          <ZoomControl />
+        </Map >
       </div >
     );
   }

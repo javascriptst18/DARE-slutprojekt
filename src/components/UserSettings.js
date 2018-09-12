@@ -12,7 +12,7 @@ class Register extends Component {
   }
 
   updateUserSettings = (user) => {
-    db.collection("users").doc(this.props.user).update({
+    db.collection("users").doc(this.props.user.email).update({
       name: user.name,
       location: user.location,
       phonenumber: user.phonenumber,
