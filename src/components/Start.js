@@ -32,7 +32,7 @@ class Start extends Component {
       <div>
         <Slider />
         <div className="mainContentDiv">
-          <button onClick={this.loginButton} className="buttonStandard"> Login </button>
+          <button onClick={this.loginButton} className="buttonStandard"> Logga in </button>
         </div>
       </div>
     );

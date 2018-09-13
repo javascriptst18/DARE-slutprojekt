@@ -32,29 +32,41 @@ class Register extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Register</h2>
+      <div className="mainContentDiv">
+        <div className="menu">Skapa ditt användarkonto</div>
+        <h2>Mina uppgifter</h2>
+        <div className="mainContentDivInput">
         <form onSubmit={(e) => { this.checkForm(e) }}>
+
+
           <label htmlFor="name">
-            Namn:
-        <input type="text" name="name" id="name" placeholder="Namn" required />
+          <span className="inputFieldText">Namn:</span><br />
+        <input type="text" name="name" id="name" placeholder="Namn" required className="input"/>
           </label>
           <br />
           <label htmlFor="location">
-            Plats:
-        <input type="text" name="location" id="location" placeholder="Plats" required />
+          <span className="inputFieldText">Plats:</span><br />
+        <input type="text" name="location" id="location" placeholder="Plats" required className="input"/>
           </label>
           <br />
           <label htmlFor="phonenumber">
-            Telefonnummer:
-        <input type="tel" name="phonenumber" id="phonenumber" placeholder="Telefonnummer" required />
+          <span className="inputFieldText">Telefonnummer:</span><br />
+        <input type="tel" name="phonenumber" id="phonenumber" placeholder="Telefonnummer" required className="input"/>
           </label>
-          <input type="checkbox" id="verify" name="verify" value="verify" required />
-          <label htmlFor="verify">Jag är över 18</label>
+
+          <span className="inputFieldText">Ålder:</span><br />
+          <label htmlFor="verify" className="container">
+          <input type="checkbox" id="verify" name="verify" value="verify" required /> <span class="checkmark"></span>
+          <span className="inputFieldText">Jag är äldre än 18 år.</span><br /></label>
+
+        
           <br />
-          <input type="submit" name="submit" id="submit" placeholder="Spara" />
+          <input type="submit" name="submit" id="submit" placeholder="Spara" className="buttonStandardBlack"/>
         </form>
+        </div>
+        <div className="mainContentDiv">
         <Logout />
+        </div>
       </div>
     );
   }

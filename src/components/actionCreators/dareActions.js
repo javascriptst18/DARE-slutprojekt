@@ -19,7 +19,7 @@ export function postUserMatch(match) {
       .then(
         userMatch => dispatch({
           userMatchId: userMatch.id,
-          collection: userMatch,
+          collection: 'userMatch',
           type: MATCHEDDARE,
         }),
         error => dispatch({ error, type: FAILEDTODARE }),

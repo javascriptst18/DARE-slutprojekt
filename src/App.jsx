@@ -6,14 +6,13 @@ import Register from './components/Register';
 import Logout from './components/Logout';
 import Start from './components/Start';
 import UserSettings from './components/UserSettings';
-import Test from './components/modal';
-
+import About from './components/About';
 
 
 class App extends React.Component {
   render() {
     return (
-      <div className="App">
+      <div>
         {
 
           !this.props.user.email ?
@@ -24,11 +23,17 @@ class App extends React.Component {
             :
             <Router>
               <div className="mainContentDiv">
-                <Link to="/login">Dare</Link>
-                <Link to="/dares">Mina Dares</Link>
-                <Link to="/settings">Inställningar</Link>
+
+              <div className="menu">
+                <Link to="/dares" className="menuLink">Mina Dares</Link>
+                <Link to="/about" className="menuLink">Om Dare</Link>
+                <Link to="/settings" className="menuLink">Inställningar</Link>
+              </div>  
+
                 <Route path="/dares" component={Dares} />
+                <Route path="/about" component={About} />
                 <Route path="/settings" component={UserSettings} />
+
                 <Logout />
               </div>
             </Router>
