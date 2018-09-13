@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import darelogo from './img/darelogo.svg';
 import wallet from './img/wallet.svg';
+import match from './img/match.svg';
+import date from './img/date.svg';
+import ticket from './img/ticket.svg';
 import swiperightwhite from './img/swiperightwhite.svg';
 import '../App.css';
 
@@ -34,29 +37,27 @@ return (
   </div >
 
   <div className="swipeDiv">
-    <img src={wallet} className="swipeContent swipeIcon"/>
-    <h2 className="swipeHeader">Välj nivå av aktivitet</h2>
-    <p className="swipeText">Vi har aktiviteter för allas budget, från 0kr och uppåt.</p>
+    <img src={ticket} className="swipeContent swipeIcon"/>
+    <h2 className="swipeHeader">Dares</h2>
+    <p className="swipeText">Vi erbjuder dig att testa på massor av spännande aktiviteter(Dares), du väljer nivå, vi hittar en aktivitet för dig.</p>
   </div>
 
   <div className="swipeDiv">
     <img src={wallet} className="swipeContent swipeIcon"/>
-    <h2 className="swipeHeader">Välj din budget</h2>
-    <p className="swipeText">Det finns aktiviteter för allas budget lalala...</p>
+    <h2 className="swipeHeader">Budget</h2>
+    <p className="swipeText">Vi anpassar aktiviteten för din budget. Vare sig du har 0kr eller 5000kr på kontot, ta det lugnt, vi fixar nått för dig!</p>
   </div>
 
   <div className="swipeDiv">
-    <img src={wallet} className="swipeContent swipeIcon"/>
-    <h2 className="swipeHeader">Välj datum och tid</h2>
-    <button className="buttonLogIn">Ta bort knappen <i class="fa fa-close"></i></button>
-    <br></br>
-    <button className="buttonLogOut">Något input field kanske</button>
+    <img src={date} className="swipeContent swipeIcon"/>
+    <h2 className="swipeHeader">Datum och tid</h2>
+    <p className="swipeText">Du bestämmer självklart vilket datum och mellan vilka tider du vill göra din Dare.</p>
   </div>
   
   <div className="swipeDiv">
-    <img src={wallet} className="swipeContent swipeIcon"/>
-    <h2 className="swipeHeader">Vi matchar dig med andra</h2>
-    <p className="swipeText">Vi har aktiviteter för allas budget, från 0kr och uppåt.</p>
+    <img src={match} className="swipeContent swipeIcon"/>
+    <h2 className="swipeHeader">Vi matchar dig</h2>
+    <p className="swipeText">Baserat på de val du gör så hittar vi en aktivitet för dig och matchar ihop dig med andra personer som vill göra samma sak.</p>
   </div>
  
   
