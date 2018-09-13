@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { postDare, postUserMatch, postPendingDare, inQueue } from '../actionCreators/dareActions';
+import { postDare, postUserMatch, postPendingDare, inQueue, noDare, userMatched } from '../actionCreators/dareActions';
 import db from '../../firebase';
+import Dares from './dares';
 
 
 class NewDare extends Component {
@@ -41,7 +42,6 @@ class NewDare extends Component {
     getUserMatch = (myDare, email) => {
         let matched = {};
         const tempArr = [];
-        console.log(myDare)
         db.collection('queue')
             .where('date', '==', myDare.date)
             .where('location', '==', myDare.location)
@@ -53,12 +53,10 @@ class NewDare extends Component {
                 let newData = doc.data();
                 newData.id = doc.id;
                 tempArr.push(newData);
-                console.log(tempArr);
                 return tempArr;
               })
           })
           .then(() => {
-            console.log(tempArr + 'blöööööööh');
             if (tempArr.length > 0) {
                 this.createUserMatch(tempArr, myDare, email, matched);
             }
@@ -73,7 +71,6 @@ class NewDare extends Component {
     createUserMatch = (dareArray, myDare, email, matched) => {
         for (let i = 0; i < dareArray.length; i++) {
             if (myDare.start < dareArray[i].end) {
-                console.log(dareArray)
                 const budget = Math.min(dareArray[i].budget, myDare.budget);
                 const timeStart = Math.max(dareArray[i].start, myDare.start);
                 const timeEnd = Math.min(dareArray[i].end, myDare.end);
@@ -87,7 +84,6 @@ class NewDare extends Component {
                     location: myDare.location,
                     level: myDare.level
                 };
-                console.log('MATCHED:  ' + matched.id1);
                 this.postMatchResult(matched);
             }
             else console.log('inte den här' + i + ' pga ' + myDare.start + ' och ' + dareArray[i].end )
@@ -100,11 +96,9 @@ class NewDare extends Component {
 
     postMatchResult = (matched) => {
         if (matched.id1) {
-            console.log(matched);
             db.collection('queue').doc(matched.id1).delete(); //matched.id1 är undefined
             this.props.dispatch(postUserMatch(matched))
                 .then((response) => {
-                    console.log(response);
                     this.getActivityMatch(matched, this.props.handleDare.userMatchId);
                 })
         }
@@ -138,13 +132,52 @@ class NewDare extends Component {
                         accepted: false,
                         declined: false
                     };
-                    console.log(activityMatch);
                     this.props.dispatch(postPendingDare(activityMatch));
+                    this.checkDB();
                 } else {
                     console.log('no activities found')
                 }
             });
     }
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+    checkDB = () => {
+        let current;
+        this.checkQueueDb(current);
+        this.checkMatchDb('userMatch', 'id1', current);
+        this.checkMatchDb('userMatch', 'id2', current);
+        if (!current) this.props.dispatch(noDare());
+    }
+
+    checkQueueDb = (current) => {
+        db.collection('queue').doc(this.props.user.email)
+        .get()
+        .then(response => {
+            if (response.exists){
+            current = response.data();
+             this.props.dispatch(inQueue(current))
+            }
+        })
+    }
+
+    checkMatchDb = (collection, id, current) => {
+        let tempArr = [];
+        db.collection(collection).where(id, '==', this.props.user.email)
+        .get()
+        .then(result => {
+            result.forEach((doc) => {
+                let newData = doc.data();
+                newData.id = doc.id;
+                tempArr.push(newData);
+                current = tempArr[0];
+                })
+        })
+        .then(() => {
+            if (current){
+             this.props.dispatch(userMatched(current))
+            }
+        });
+    }
+    ////////////////////////////////////////////////////////////////////////////////////
 
     postUnmatched = (unmatched) => {
         const dare = postDare(unmatched, this.props.user.email);

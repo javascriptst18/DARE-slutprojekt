@@ -31,9 +31,8 @@ class Dares extends Component {
         .then(response => {
             if (response.exists){
             current = response.data();
-            console.log(current);
              this.props.dispatch(inQueue(current))
-            } 
+            }
         })
     }
 
@@ -41,18 +40,16 @@ class Dares extends Component {
         let tempArr = [];
         db.collection(collection).where(id, '==', this.props.user.email)
         .get()
-        .then(result => { 
+        .then(result => {
             result.forEach((doc) => {
                 let newData = doc.data();
                 newData.id = doc.id;
                 tempArr.push(newData);
-                console.log(tempArr);
                 current = tempArr[0];
-                }) 
+                })
         })
         .then(() => {
             if (current){
-            console.log(current);
              this.props.dispatch(userMatched(current))
             }
         });
@@ -69,7 +66,12 @@ class Dares extends Component {
         } else if (this.props.dareStatus.type === USERMATCH) {
             return <UserMatchedDare />
         } else if (this.props.dareStatus.type === MATCHEDPENDING) {
-            return <PendingDare />
+            if(this.props.dareStatus.userMatch){
+                return <PendingDare />
+            }
+            else {
+                return <p>väntar</p>
+            }
         }
         else return <h2>Oooops, nåt gick fel.</h2>
     }

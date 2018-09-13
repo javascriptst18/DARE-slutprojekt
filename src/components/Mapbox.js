@@ -25,6 +25,7 @@ const images = ["user", image];
 
 const mapZoom = [12];
 const checkInRadius = 200; //  In meters
+const watchID = null;
 
 class Mapbox extends Component {
   //  Takes coordinates "reversed" (long // lat). Uses WGS84 DD coordinate system
@@ -45,9 +46,13 @@ class Mapbox extends Component {
     this.getActivityLocation();
   }
 
+  componentWillUnmount() {
+     //navigator.geolocation.clearWatch(watchID);
+  }
+
   getUserLocation = () => {
     navigator.geolocation.watchPosition(function () { }, function () { }, {});
-    navigator.geolocation.watchPosition((position) => {
+    this.watchID = navigator.geolocation.watchPosition((position) => {
       this.setState({
         userLatitude: position.coords.latitude,
         userLongitude: position.coords.longitude,
@@ -70,7 +75,7 @@ class Mapbox extends Component {
     return db.collection('activity').doc(this.props.dareStatus.activityMatch.activityId).get()
       .then((response) => {
         let send = response.data();
-        this.props.dispatch({type: 'SET_ACTIVTY', send })
+        this.props.dispatch({ type: 'SET_ACTIVTY', send })
         this.setState({
           activityLongitude: response.data().position.longitude,
           activityLatitude: response.data().position.latitude,
@@ -98,11 +103,11 @@ class Mapbox extends Component {
     if (this.state.userPositionAvailable) {
       let distance = this.getDistance(this.state.userLongitude, this.state.userLatitude, this.state.activityLongitude, this.state.activityLatitude)
       this.state.distanceToActivity = distance;
-      if (distance <= (checkInRadius/1000) && !this.state.userInCheckInDistance) {
+      if (distance <= (checkInRadius / 1000) && !this.state.userInCheckInDistance) {
         this.props.dispatch({ type: 'USER_CAN_CHECK_IN' })
         this.setState({ userInCheckInDistance: true })
       }
-      if (distance > (checkInRadius/1000) && this.state.userInCheckInDistance) {
+      if (distance > (checkInRadius / 1000) && this.state.userInCheckInDistance) {
         this.props.dispatch({ type: 'USER_CAN_NOT_CHECK_IN' })
         this.setState({ userInCheckInDistance: false })
       }

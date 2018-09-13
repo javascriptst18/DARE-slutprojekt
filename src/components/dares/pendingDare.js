@@ -17,8 +17,20 @@ class PendingDare extends Component {
 
   componentDidMount() {
     this.setTimer();
+    this.getMatchedUser();
   }
   // Update the count down every 1 second
+
+  getMatchedUser = () => {
+    let matchedUser = '';
+        if (this.props.dareStatus.userMatch.id1 === this.props.user.email) {
+          matchedUser = this.props.dareStatus.userMatch.id2;
+        }
+        else {
+          matchedUser = this.props.dareStatus.userMatch.id1;
+        }
+        console.log('matchedUser: ', matchedUser)
+  }
 
   displayActivityStart = () => {
     let date = new Date(this.props.userMatch.starts);
@@ -58,7 +70,13 @@ class PendingDare extends Component {
 
     //check in possible between 20 minutes before and 10 minutes after activity starts
     if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= -10) {
-      return <p>incheckning</p>
+
+      return (<div>
+        <p>incheckning</p>
+        <p>Du ska träffa: </p>
+        <p>Telefonnummer: </p>
+        <Mapbox />
+      </div>)
     }
     //Access to info on activity 10 minutes before start
     else if (this.state.d === 0 && this.state.interval > 0) {
@@ -70,7 +88,7 @@ class PendingDare extends Component {
       )
     }
     //if user fails to check in within 10 minutes, they're suspended
-    else if (this.state.interval > 0) {
+    else if (this.state.interval < 0) {
       //kör blockeringsfunktion
       return <p>Du är blockerad!</p>
     }
@@ -84,7 +102,6 @@ class PendingDare extends Component {
             <li>nivå: {this.props.dareStatus.userMatch.level}</li>
             <li>budget: {this.props.dareStatus.userMatch.cost}</li>
           </ul>
-          <Mapbox />
         </div>
       );
     }
