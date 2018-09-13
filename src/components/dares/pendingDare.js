@@ -5,71 +5,81 @@ import Mapbox from '../Mapbox';
 
 
 class PendingDare extends Component {
-  state = {
-    d: 0,
-    h: 1,
-    m: 0,
-    s: 0,
-    showInfo: false,
-  }
+state = {
+  d: 0,
+  h: 1,
+  m: 0,
+  s: 0,
+  interval: 0,
+  start:''
+}
 
 
-  componentDidMount() {
-    this.setTimer();
-  }
-  // Update the count down every 1 second
+componentDidMount() {
+  this.setTimer();
+}
+// Update the count down every 1 second
 
-  setTimer = () => {
-    setInterval(this.timer, 1000)
+displayActivityStart = () => {
+  let date = new Date(this.props.userMatch.starts);
+
+}
+
+setTimer = () => {
+  setInterval(this.timer, 1000);
+};
+
+timer = () => {
+
+  let now = new Date().getTime();
+  let goal = this.props.dareStatus.userMatch.starts;
+  let diff = goal-now;
+  let secondsLeft = Math.floor((diff)/1000);
+
+  //displayed time
+  let days = Math.floor(secondsLeft/86400);//60 seconds* 60 minutes * 24 hours = 86400
+  let hours = Math.floor((secondsLeft - (days*86400))/3600); //60s * 60m = 3600
+  let minutes = Math.floor((secondsLeft - (days*86400) - hours*3600)/60);
+  let seconds = secondsLeft - (days*86400) - hours*3600 - minutes*60;
+
+  let timeLeft = {
+    d: days,
+    h: hours,
+    m: minutes,
+    s: seconds,
+    interval: diff,
   };
 
-  timer = () => {
+  this.setState(timeLeft)
+}
 
-    let now = new Date().getTime();
-    let goal = this.props.dareStatus.userMatch.starts;
-    let secondsLeft = Math.floor(((goal - now) / 1000) - 86400); //  Remove 24hrs
-    if (secondsLeft < 1) {
-      this.setState({ showInfo: true });
-    }
+render() {
+  let timeLeft = this.state;
 
-
-    //displayed time
-    let days = Math.floor(secondsLeft / 86400);//60 seconds* 60 minutes * 24 hours = 86400
-    let hours = Math.floor((secondsLeft - (days * 86400)) / 3600); //60s * 60m = 3600
-    let minutes = Math.floor((secondsLeft - (days * 86400) - hours * 3600) / 60);
-    let seconds = secondsLeft - (days * 86400) - hours * 3600 - minutes * 60;
-
-    let timeLeft = {
-      d: days,
-      h: hours,
-      m: minutes,
-      s: seconds,
-    };
-
-    this.setState(timeLeft)
-    return timeLeft;
+  //check in possible between 20 minutes before and 10 minutes after activity starts
+  if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= -10){
+    return <p>incheckning</p>
   }
-
-
-
-  render() {
-    let timeLeft = this.state;
-    if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= 10) return <p>incheckning</p>
-    //  INCHECKNING HÄR
-
+  //Access to info on activity 10 minutes before start
+   else if (this.state.d ===0 && this.state.interval > 0) {
+    return <p> visa karta, aktivitetsinfo, ej check in</p>
+  }
+  //if user fails to check in within 10 minutes, they're suspended
+  else if (this.state.interval < - 36000) {
+    //kör blockeringsfunktion
+  return <p>Du är blockerad!</p>}
+  else {
     return (
       <div>
         <h2> Om {timeLeft.d}d:{timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}s får du veta vad du och din utmanare ska göra!</h2>
-        {this.state.d === 0 ?
-          //  Day for activity, display map
-          <Mapbox />
-          //  If day for activity and less than 20 and more then 0 minutes left, show check in button
-          : (this.state.d === 0 && this.state.m <= 20 && this.state.m > 0) ?
-            <button>Check in</button>
-            : null
-        }
+        <p>Vi har matchat er mot något som stämmer in på: </p>
+        <ul>
+          <li>när: {this.state.start} </li>
+          <li>nivå: {this.props.dareStatus.userMatch.level}</li>
+          <li>budget: {this.props.dareStatus.userMatch.cost}</li>
+        </ul>
       </div>
-    );
+        );}
   }
 }
 
