@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import db from '../../firebase';
 import Mapbox from '../Mapbox';
-
+import suspendUser from '../../UserFunctions';
 
 class PendingDare extends Component {
   state = {
@@ -14,6 +14,7 @@ class PendingDare extends Component {
     start: '',
     matchedUserName: '',
     matchedUserPhoneNumber: 0,
+    checkedin: false,
   }
 
 
@@ -106,9 +107,9 @@ class PendingDare extends Component {
         </div>
       )
     }
-    //if user fails to check in within 10 minutes, they're suspended
-    else if (this.state.interval < 0) {
-      //kör blockeringsfunktion
+    //if user fails to check in on time, they're suspended
+    else if (this.state.interval < 0 && !this.state.checkedin) {
+      suspendUser(this.props.user.email);
       return <p>Du är blockerad!</p>
     }
     else {

@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import { provider } from '../firebase';
 import { checkIfUserExists, login } from './actionCreators/userActions';
 import Slider from './swipe';
+import removeSuspension from '../UserFunctions';
 
 class Start extends Component {
   //checkUser = (user) => { checkIfUserExists(user) }
@@ -11,6 +12,8 @@ class Start extends Component {
 
   componentDidMount() {
     this.auth();
+    if (this.props.userSettings.suspended){
+       removeSuspension(this.props.user.email, this.props.userSettings.suspensionEnds)}
   }
 
   auth = () => {
