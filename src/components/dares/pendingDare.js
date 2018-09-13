@@ -78,7 +78,7 @@ class PendingDare extends Component {
     let timeLeft = this.state;
     console.log(this.state.d, ' ', this.state.h, ' ', this.state.m, ' ', this.state.m)
     //check in possible between 20 minutes before and 10 minutes after activity starts
-    if (this.state.d === 0 && this.state.h === 0 && this.state.m <= 20 && this.state.m >= -10) {
+    if (this.state.d === 0 && this.state.h === 0 && this.state.m <= 20 && this.state.m >= 0) {
       return (<div>
         <p>Incheckning, 20 minuter innan till 10 minuter efter och användare kan checka in</p>
         <p>Du ska träffa: {this.state.matchedUserName}</p>
@@ -96,7 +96,11 @@ class PendingDare extends Component {
     else if (this.state.d === 0 && this.state.interval > 0) {
       return (
         <div>
-          <p> 24 timmar till 20 minuter innan</p>
+          <p> Din aktivitet börjar om {timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}</p>
+          <p>Du kan checka in 20 minuter innan aktiviten startar</p>
+          <p>Vad: {this.props.activityInfo.activity}</p>
+          <p>Beräknad kostnad: {this.props.activityInfo.cost} kr</p>
+          <p>Uppskattad tid: {this.props.activityInfo.duration} minuter</p>
           <Mapbox />
           <button disabled>Checka in</button>
         </div>
@@ -110,13 +114,8 @@ class PendingDare extends Component {
     else {
       return (
         <div>
-          <h2> Om {timeLeft.d}d:{timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}s får du veta vad du och din utmanare ska göra!</h2>
-          <p>Vi har matchat er mot något som stämmer in på: </p>
-          <ul>
-            <li>när: {this.state.start} </li>
-            <li>nivå: {this.props.dareStatus.userMatch.level}</li>
-            <li>budget: {this.props.dareStatus.userMatch.cost}</li>
-          </ul>
+          <h2> Om {(timeLeft.d - 1)}d:{timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}s får du veta vad du och din utmanare ska göra!</h2>
+
         </div>
       );
     }
