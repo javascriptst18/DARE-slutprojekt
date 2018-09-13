@@ -62,20 +62,7 @@ class PendingDare extends Component {
       interval: diff,
     };
 
-<<<<<<< HEAD
-render() { 
-  let timeLeft = this.state;
-  
-  //check in possible between 20 minutes before and 10 minutes after activity starts
-  if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= -10){
-    return <p>incheckning, karta</p>
-  } 
-  //Access to info on activity 10 minutes before start
-   else if (this.state.d ===0 && this.state.interval > 0) {
-    return <p> visa karta, aktivitetsinfo, ej check in</p>
-=======
     this.setState(timeLeft)
->>>>>>> 6cc7232373fbc21131e465d64d37bd9371b3d076
   }
 
   render() {
