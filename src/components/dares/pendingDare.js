@@ -78,7 +78,7 @@ class PendingDare extends Component {
     let timeLeft = this.state;
     console.log(this.state.d, ' ', this.state.h, ' ', this.state.m, ' ', this.state.m)
     //check in possible between 20 minutes before and 10 minutes after activity starts
-    if (this.state.d === 0 && this.state.h === 2 && this.state.m <= 50 && this.state.m >= -10) {
+    if (this.state.d === 0 && this.state.h === 0 && this.state.m <= 20 && this.state.m >= -10) {
       return (<div>
         <p>Incheckning, 20 minuter innan till 10 minuter efter och användare kan checka in</p>
         <p>Du ska träffa: {this.state.matchedUserName}</p>

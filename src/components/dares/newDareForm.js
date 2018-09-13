@@ -8,10 +8,10 @@ import Dares from './dares';
 class NewDare extends Component {
     state = {
         location: this.props.userSettings.location,
-        date: '2019-01-01',
+        date: '2018-09-15',
         timeStart: '07:00',
         timeEnd: '22:00',
-        budget: 1000,
+        budget: 200,
         level: 2, //needs some kind of explanation in UI
         start: 0,
         end: 0,
@@ -41,7 +41,7 @@ class NewDare extends Component {
 
     getUserMatch = (myDare, email) => {
         let matched = {};
-        const tempArr = [];
+        let tempArr = [];
         db.collection('queue')
             .where('date', '==', myDare.date)
             .where('location', '==', myDare.location)
@@ -50,6 +50,7 @@ class NewDare extends Component {
             .get()
             .then((result) => {
                 result.forEach((doc) => {
+                console.log(doc.data());
                 let newData = doc.data();
                 newData.id = doc.id;
                 tempArr.push(newData);
@@ -57,12 +58,14 @@ class NewDare extends Component {
               })
           })
           .then(() => {
+            console.log( tempArr )
             if (tempArr.length > 0) {
                 this.createUserMatch(tempArr, myDare, email, matched);
             }
             else {
                 this.postUnmatched(myDare);
                 this.props.dispatch(inQueue(myDare));
+                //this.checkDB();
                 console.log('skickar in')
             }
           })
@@ -90,6 +93,7 @@ class NewDare extends Component {
         } if (!matched.id1) {
             this.postUnmatched(myDare);
             this.props.dispatch(inQueue(myDare));
+            this.checkDB();
             console.log('skickar in')
         }
     }
@@ -104,7 +108,7 @@ class NewDare extends Component {
         }
         else {
             console.log('saknas matched.id1 IGEN');
-
+            this.checkDB();
         }
     }
     getActivityMatch = (userMatch, id) => {
@@ -185,7 +189,7 @@ class NewDare extends Component {
     };
 
     stringsToDate = (date, time) => {
-        const fullstring = `${date}T${time}:00+01:00`;
+        const fullstring = `${date}T${time}:00+02:00`;
          date = new Date(fullstring).getTime();
          return date;
       };
@@ -214,65 +218,80 @@ class NewDare extends Component {
 
     render() {
 
-        return (
+        return(
+            <div>
+            <h2>I dare you, {this.props.userSettings.name}!</h2>
+            <div className="mainContentDivInput">
             <form onSubmit={this.onSubmit}>
-                <h2>I dare you, {this.props.userSettings.name}!</h2>
+
                 <label htmlFor="level">
-                    Chicken or DAREDevil?
+                    Nivå av DARE: {this.state.level}<br />
                     <input
-                        type="range"
-                        min="1"
-                        max="3"
-                        value={this.state.daredevil}
-                        className="slider"
-                        id="level"
-                        onChange={this.onChange} />
+                    type="range"
+                    min="1"
+                    max="3"
+                    value={this.state.daredevil}
+                    id="level"
+                    onChange={this.onChange}
+                    className="slider"/>
                 </label>
+                <br />
                 <label htmlFor="location">
-                    Plats
+                    Plats: <br />
                     <input
-                        type="text"
-                        value={this.state.location}
-                        onChange={this.onChange}
-                        id="location" />
+                    type="text"
+                    value={this.state.location}
+                    onChange={this.onChange}
+                    id="location"
+                    className="input"/>
                 </label>
+                <br />
                 <label htmlFor="date">
-                    Datum
+                    Datum: <br />
                     <input
-                        type="date"
-                        id="date"
-                        value={this.state.date}
-                        onChange={this.onChange} />
+                    type="date"
+                    id="date"
+                    value={this.state.date}
+                    onChange={this.onChange}
+                    className="input"/>
                 </label>
+                <br />
                 <label htmlFor="timeStart">
-                    Starttid
+                    Starttid: <br />
                     <input
-                        type="time"
-                        id="timeStart"
-                        onChange={this.onChange}
-                        value={this.state.timeStart} />
+                    type="time"
+                    id="timeStart"
+                    onChange={this.onChange}
+                    value={this.state.timeStart}
+                    className="input"/>
                 </label>
+                <br />
                 <label htmlFor="timeEnd">
-                    Sluttid
+                    Sluttid: <br />
                     <input
-                        type="time"
-                        id="timeEnd"
-                        onChange={this.onChange}
-                        value={this.state.timeEnd} />
+                    type="time"
+                    id="timeEnd"
+                    onChange={this.onChange}
+                    value={this.state.timeEnd}
+                    className="input"/>
                 </label>
+                <br />
                 <label htmlFor="budget">
-                    Max budget
+                    Max budget: <br />
                     <input
-                        type="number"
-                        id="budget"
-                        step="100"
-                        onChange={this.onChange}
-                        value={this.state.budget} />
+                    type="number"
+                    id="budget"
+                    step="100"
+                    onChange={this.onChange}
+                    value={this.state.budget}
+                    className="input"/>
                 </label>
                 <input
                     type="submit"
-                    value="Skicka in" />
+                    value="Skicka in" className="buttonStandardBlack"/>
             </form>
+            </div>
+            </div>
         )
     }
 }
