@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import darelogo from './img/darelogo.svg';
 import wallet from './img/wallet.svg';
+import match from './img/match.svg';
+import date from './img/date.svg';
+import walletpng from './img/wallet.png';
 import swiperightwhite from './img/swiperightwhite.svg';
 import '../App.css';
 
@@ -46,13 +49,13 @@ return (
   </div>
 
   <div className="swipeDiv">
-    <img src={wallet} className="swipeContent swipeIcon"/>
+    <img src={date} className="swipeContent swipeIcon"/>
     <h2 className="swipeHeader">Datum och tid</h2>
     <p className="swipeText">Vet du om att </p>
   </div>
   
   <div className="swipeDiv">
-    <img src={wallet} className="swipeContent swipeIcon"/>
+    <img src={match} className="swipeContent swipeIcon"/>
     <h2 className="swipeHeader">Vi matchar dig</h2>
     <p className="swipeText">Baserat på dina val utmanar vi dig att testa på spännande aktiviteter med nya människor lalala.. </p>
   </div>
