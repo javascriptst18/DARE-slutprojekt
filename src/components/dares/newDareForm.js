@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { postDare, postUserMatch, postPendingDare, inQueue } from '../actionCreators/dareActions';
 import db from '../../firebase';
 
-
 class NewDare extends Component {
     state = {
         location: this.props.userSettings.location, 
@@ -15,7 +14,6 @@ class NewDare extends Component {
         start: 0,
         end: 0, 
     }
-
 
     onChange = (e) => {
         e.preventDefault();
@@ -134,8 +132,8 @@ class NewDare extends Component {
                     const activityMatch = {
                         activityId: randomActivity.id,
                         userMatchId: id,
-                        accepted: false,
-                        declined: false
+                        id1Checkin: false,
+                        id2Checkin: false
                     };
                     console.log(activityMatch);
                     this.props.dispatch(postPendingDare(activityMatch));
