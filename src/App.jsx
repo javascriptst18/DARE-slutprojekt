@@ -30,8 +30,8 @@ class App extends React.Component {
               <div className="mainContentDiv">
 
               <div className="menu">
-                <Link to="/about" className="menuLink"><img className="menuIcon"src={daremaskmenu} /></Link>
-                <Link to="/dares" className="menuLink"><img className="menuIcon"src={info} /></Link>
+              <Link to="/dares" className="menuLink"><img className="menuIcon"src={daremaskmenu} /></Link>
+                <Link to="/about" className="menuLink"><img className="menuIcon"src={info} /></Link>
                 <Link to="/settings" className="menuLink"><img className="menuIcon"src={settings} /></Link>
                 <Link to="/settings" className="menuLink"><img className="menuIcon"src={logout} /></Link>
                
@@ -40,6 +40,7 @@ class App extends React.Component {
                 <Route path="/dares" component={Dares} />
                 <Route path="/about" component={About} />
                 <Route path="/settings" component={UserSettings} />
+                <Route path="/logout" component={UserSettings} />
 
                 <Logout />
               </div>

@@ -11,7 +11,7 @@ class Register extends Component {
   }
 
   updateUserSettings = (user) => {
-    db.collection("users").doc(this.props.user).update({
+    db.collection("users").doc(this.props.user.email).update({
       name: user.name,
       location: user.location,
       phonenumber: user.phonenumber,
@@ -59,9 +59,6 @@ class Register extends Component {
           <input type="submit" name="submit" id="submit" value="Uppdatera" className="buttonStandardBlack"/>
         </form>
 
-        </div>
-        <div className="mapBoxContentDiv">
-        <Mapbox />
         </div>
       </div>
     );
