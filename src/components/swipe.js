@@ -4,7 +4,7 @@ import darelogo from './img/darelogo.svg';
 import wallet from './img/wallet.svg';
 import match from './img/match.svg';
 import date from './img/date.svg';
-import walletpng from './img/wallet.png';
+import ticket from './img/ticket.svg';
 import swiperightwhite from './img/swiperightwhite.svg';
 import '../App.css';
 
@@ -37,9 +37,9 @@ return (
   </div >
 
   <div className="swipeDiv">
-    <img src={wallet} className="swipeContent swipeIcon"/>
-    <h2 className="swipeHeader">Aktivitet</h2>
-    <p className="swipeText">Vi har aktiviteter för allas budget, från 0kr och uppåt. lalala...</p>
+    <img src={ticket} className="swipeContent swipeIcon"/>
+    <h2 className="swipeHeader">Dares</h2>
+    <p className="swipeText">Vi erbjuder dig att testa på massor av spännande aktiviteter(Dares), du väljer nivå, vi hittar en aktivitet för dig.</p>
   </div>
 
   <div className="swipeDiv">
@@ -51,13 +51,13 @@ return (
   <div className="swipeDiv">
     <img src={date} className="swipeContent swipeIcon"/>
     <h2 className="swipeHeader">Datum och tid</h2>
-    <p className="swipeText">Vet du om att </p>
+    <p className="swipeText">Du bestämmer självklart vilket datum och mellan vilka tider du vill göra din Dare.</p>
   </div>
   
   <div className="swipeDiv">
     <img src={match} className="swipeContent swipeIcon"/>
     <h2 className="swipeHeader">Vi matchar dig</h2>
-    <p className="swipeText">Baserat på dina val utmanar vi dig att testa på spännande aktiviteter med nya människor lalala.. </p>
+    <p className="swipeText">Baserat på de val du gör så hittar vi en aktivitet för dig och matchar ihop dig med andra personer som vill göra samma sak.</p>
   </div>
  
   

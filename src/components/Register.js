@@ -65,7 +65,6 @@ class Register extends Component {
         </form>
         </div>
         <div className="mainContentDiv">
-        <Logout />
         </div>
       </div>
     );
