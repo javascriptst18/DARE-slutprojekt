@@ -14,7 +14,7 @@ render() {
  
 return (
   <div>
-    <h3>{this.props.userSettings.name}, du har skickat följande:</h3>
+    <h2>{this.props.userSettings.name}, du har skickat följande:</h2>
     <ul>
     <li>datum: {this.props.dareStatus.dare.date}</li>
       <li>tid: {this.props.dareStatus.dare.timeStart} - {this.props.dareStatus.dare.timeEnd}</li>

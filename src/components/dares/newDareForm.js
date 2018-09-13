@@ -8,13 +8,14 @@ class NewDare extends Component {
     state = {
         location: this.props.userSettings.location, 
         date: '2019-01-01',
-        timeStart: '00:00',
-        timeEnd: '23:59',
+        timeStart: '07:00',
+        timeEnd: '22:00',
         budget: 1000,
         level: 2, //needs some kind of explanation in UI
         start: 0,
-        end: 0,
+        end: 0, 
     }
+
 
     onChange = (e) => {
         e.preventDefault();
@@ -51,16 +52,18 @@ class NewDare extends Component {
                 let newData = doc.data();
                 newData.id = doc.id;
                 tempArr.push(newData);
-                console.log(tempArr);  
+                console.log(tempArr);
+                return tempArr;  
               })
           })
           .then(() => {
+            console.log(tempArr + 'blöööööööh'); 
             if (tempArr.length > 0) {
                 this.createUserMatch(tempArr, myDare, email, matched);  
             }
             else {
                 this.postUnmatched(myDare);
-                this.props.dispatch(inQueue());
+                this.props.dispatch(inQueue(myDare));
                 console.log('skickar in')
             }
           })
@@ -68,7 +71,7 @@ class NewDare extends Component {
 
     createUserMatch = (dareArray, myDare, email, matched) => {
         for (let i = 0; i < dareArray.length; i++) {
-            if (!matched.id1 && myDare.start < dareArray[i].end) {
+            if (myDare.start < dareArray[i].end) {
                 console.log(dareArray)
                 const budget = Math.min(dareArray[i].budget, myDare.budget);
                 const timeStart = Math.max(dareArray[i].start, myDare.start);
@@ -86,7 +89,12 @@ class NewDare extends Component {
                 console.log('MATCHED:  ' + matched.id1);
                 this.postMatchResult(matched);
             }
-        }  
+            else console.log('inte den här' + i + ' pga ' + myDare.start + ' och ' + dareArray[i].end )
+        } if (!matched.id1) {
+            this.postUnmatched(myDare);
+            this.props.dispatch(inQueue(myDare));
+            console.log('skickar in')
+        }   
     }
 
     postMatchResult = (matched) => {
@@ -143,7 +151,8 @@ class NewDare extends Component {
 
     stringsToDate = (date, time) => {
         const fullstring = `${date}T${time}:00+01:00`;
-        return date = new Date(fullstring).getTime();
+         date = new Date(fullstring).getTime();
+         return date;
       };
     
     weekdayFromTime = (time) => {
