@@ -72,7 +72,18 @@ class PendingDare extends Component {
       interval: diff,
     };
 
-    this.setState(timeLeft)
+    this.setState({
+      d: timeLeft.d,
+      h: timeLeft.h,
+      m: timeLeft.m,
+      s: timeLeft.s,
+      interval: timeLeft.interval
+    })
+  }
+
+  onCheckIn = (e) => {
+    e.preventDefault();
+    this.setState({checked: true});
   }
 
   render() {
@@ -87,7 +98,7 @@ class PendingDare extends Component {
         <Mapbox />
         {
           this.props.user.userInCheckInDistance ?
-          <button enabled>Checka in</button>
+          <button enabled onClick={this.onCheckIn} >Checka in</button>
           :
           <button disabled>Checka in</button>
         }
