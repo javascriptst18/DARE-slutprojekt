@@ -58,17 +58,14 @@ class Dares extends Component {
         });
     }
 
-// real condition for newdare
     render() {
         if(!this.props.dareStatus.type){
-            return(
-                <NewDare checkCurrent={this.checkCurrent}/>
-            )
+            return <NewDare />
         } else if (this.props.dareStatus.type === QUEUE) {
             return <QueueDare />
         } else if (this.props.dareStatus.type === USERMATCH) {
             return <UserMatchedDare />
-        } else if (this.props.dareStatus.type === MATCHEDPENDING) {
+        } else if (this.props.dareStatus.type === MATCHEDPENDING && this.props.dareStatus.userMatch.starts) {
             return <PendingDare />
         }
         else return <h2>Oooops, nåt gick fel.</h2>
