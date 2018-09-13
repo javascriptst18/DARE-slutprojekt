@@ -11,4 +11,16 @@ const config = {
 };
 
 firebase.initializeApp(config);
-export default firebase;
+
+const db = firebase.firestore();
+const settings = {
+  timestampsInSnapshots: true,
+};
+db.settings(settings);
+
+export const provider = new firebase.auth.GoogleAuthProvider();
+export { firebase };
+provider.setCustomParameters({
+  prompt: 'select_account',
+});
+export default db;

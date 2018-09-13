@@ -1,28 +1,136 @@
-.App {
-  text-align: center;
-}
+/*-- Glöm inte att skaffa framework for slider: react-slick --/
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
+/*-- Css Content for DARE -- */
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
+body {
+    Background-color: #F30D29;
+    font-family: Roboto;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 375px;
+    margin: auto;
+    }
+    
 
-.App-title {
-  font-size: 1.5em;
-}
+    .mainContentDiv {
+    width: 375px; 
+    margin: auto; 
+    text-align: center;
+    }
+    
+    
 
-.App-intro {
-  font-size: large;
-}
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+
+
+    /* -- Swipe -- */
+    /*-- Ska bara användas för swipefunktionen på startsidan --*/
+    
+    .swipeContent {
+    color: white; 
+    margin: auto; 
+    text-align: center;
+    margin-bottom: 50px;
+    max-width: 375px; /*Iphone X*/
+    }
+    
+    .swipeDiv {
+    margin-top: 4%;      
+    }
+    
+    .logo { 
+    margin: auto;
+    margin-bottom: 40px;
+    background-color: black;
+    box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+    }
+    
+    .swipeIcon {
+    margin: auto;
+    margin-bottom: 40px;
+    background-color: black;
+    box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+    }
+    
+    .swipeHeader {
+    font-size: 1.75rem;    
+    }
+    
+    .swipeText {
+    font-size: 1.25;
+    line-height: 1.75;
+    margin-bottom: 50px;
+    }
+    
+    .swipeSpanText  {
+    text-decoration-line: 2px wavy;
+    }
+    
+    .swipeRight {
+    transition: transform .7s ease-in-out;
+    height: 100px;
+    margin-bottom: 20px;
+    }
+    
+    .swipeRight:hover {
+    transform: rotate(45deg);
+    }
+    
+    /* -- End Swipe -- */
+    
+    
+
+
+    
+    
+    /*--  Buttons --*/
+    
+    
+    .buttonStandard {
+    width: 80%;
+    text-align: center;
+    font-size: 1.5rem; 
+    margin-top: 20px;
+    color: black; 
+    background-color: white;
+    padding: 15px;
+    border: none;
+    box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+    }
+    
+    /*--  End Buttons --*/
+    
+    
+    
+    
+    
+    /*-- Slider --*/
+    
+    .slider{
+    width: 80%;
+    
+    }
+    /*-- End Slider --*/
+    
+    
+    
+    /*-- Input Form --*/
+    
+    .input {
+    width: 80%; 
+    margin: auto; 
+    box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+    border:none;
+    font-size: 1.5rem; 
+    color: black;
+    }
+
+
+
+    .input[type=text]:focus {
+        border: 3px solid black;
+    }
+    
+    /*-- End Form --*/
