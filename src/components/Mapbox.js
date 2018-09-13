@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactMapboxGl, { ZoomControl, GeoJSONLayer, Layer, Feature } from 'react-mapbox-gl';
 import User from '../icons/user.svg'
 import { connect } from 'react-redux';
+import db from '../firebase';
 
 //accessToken: 'pk.eyJ1Ijoic2x1dHByb2pla3QiLCJhIjoiY2psdW05eXhoMGtwcDN2czRlNDc3eWJrYyJ9.dgur5_88vWOGbk8oHhj9OQ'
 
@@ -28,17 +29,20 @@ const checkInRadius = 200; //  In meters
 class Mapbox extends Component {
   //  Takes coordinates "reversed" (long // lat). Uses WGS84 DD coordinate system
   state = {
-    activityLongitude: 18.00597,
-    activityLatitude: 59.36888,
+    activityLongitude: 0,
+    activityLatitude: 0,
     userLongitude: 0,
     userLatitude: 0,
     userPositionAvailable: false,
     distanceToActivity: 0,
-    userCanCheckIn: false,
+    userInCheckInDistance: false,
   }
 
   componentDidMount() {
-      this.getUserLocation()
+    this.state.activityLongitude;
+    this.state.activityLatitude;
+    this.getUserLocation();
+    this.getActivityLocation();
   }
 
   getUserLocation = () => {
@@ -57,10 +61,23 @@ class Mapbox extends Component {
       };
       alert("Fel: " + errors[e.code]);
     }, {
-        timeout: 3000,
+        timeout: 10000,
         maximumAge: 0,
       });
   }
+
+  getActivityLocation = () => {
+    return db.collection('activity').doc(this.props.dareStatus.activityMatch.activityId).get()
+      .then((response) => {
+        let send = response.data();
+        this.props.dispatch({type: 'SET_ACTIVTY', send })
+        this.setState({
+          activityLongitude: response.data().position.longitude,
+          activityLatitude: response.data().position.latitude,
+        })
+      })
+  }
+
 
   getDistance(longitude1, latitude1, longitude2, latitude2) {
     //  radians instead of degrees
@@ -78,17 +95,16 @@ class Mapbox extends Component {
   }
 
   render() {
-    console.log('userposition: ', this.state.userLatitude, ' ', this.state.userLongitude)
     if (this.state.userPositionAvailable) {
       let distance = this.getDistance(this.state.userLongitude, this.state.userLatitude, this.state.activityLongitude, this.state.activityLatitude)
-      console.log(distance);
       this.state.distanceToActivity = distance;
-      if (distance <= (checkInRadius / 1000)) {
-        //  If distance from checkinradius is less then set limit
-        this.state.UserCanCheckIn = true;
+      if (distance <= (checkInRadius/1000) && !this.state.userInCheckInDistance) {
+        this.props.dispatch({ type: 'USER_CAN_CHECK_IN' })
+        this.setState({ userInCheckInDistance: true })
       }
-      else {
-        this.state.UserCanCheckIn = false;
+      if (distance > (checkInRadius/1000) && this.state.userInCheckInDistance) {
+        this.props.dispatch({ type: 'USER_CAN_NOT_CHECK_IN' })
+        this.setState({ userInCheckInDistance: false })
       }
     }
     return (

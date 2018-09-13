@@ -57,7 +57,6 @@ class Register extends Component {
           <br />
           <input type="submit" name="submit" id="submit" value="Uppdatera" />
         </form>
-        <Mapbox />
         <Logout />
       </div>
     );
