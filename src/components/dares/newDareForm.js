@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { postDare, postUserMatch, postPendingDare, inQueue } from '../actionCreators/dareActions';
+import { postDare, postUserMatch, postPendingDare, inQueue, noDare, userMatched } from '../actionCreators/dareActions';
 import db from '../../firebase';
+import Dares from './dares';
 
 
 class NewDare extends Component {
     state = {
-        location: this.props.userSettings.location, 
-        date: '2019-01-01',
-        timeStart: '00:00',
-        timeEnd: '23:59',
-        budget: 1000,
+        location: this.props.userSettings.location,
+        date: '2018-09-15',
+        timeStart: '07:00',
+        timeEnd: '22:00',
+        budget: 200,
         level: 2, //needs some kind of explanation in UI
         start: 0,
         end: 0,
     }
+
 
     onChange = (e) => {
         e.preventDefault();
@@ -22,13 +24,13 @@ class NewDare extends Component {
         //reformat dates to ms from 1970-01-01
         if (e.target.id === 'timeStart' || e.target.id === 'timeEnd') {
             const start = this.stringsToDate(this.state.date, this.state.timeStart);
-            const end = this.stringsToDate(this.state.date, this.state.timeEnd); 
+            const end = this.stringsToDate(this.state.date, this.state.timeEnd);
             this.setState({ start: start, end: end, [e.target.id]: e.target.value });
         }
-        else if (e.target.id === 'budget' || e.target.id === 'level'){
-            this.setState({[e.target.id]: parseInt(e.target.value)})  
+        else if (e.target.id === 'budget' || e.target.id === 'level') {
+            this.setState({ [e.target.id]: parseInt(e.target.value) })
         }
-        else this.setState({[e.target.id]: e.target.value});
+        else this.setState({ [e.target.id]: e.target.value });
     }
 
     onSubmit = (e) => {
@@ -36,31 +38,34 @@ class NewDare extends Component {
         this.getUserMatch(this.state, this.props.user.email);
         this.setState({}); //tömmer ej fälten som den ska
     }
-    
+
     getUserMatch = (myDare, email) => {
         let matched = {};
-        const tempArr = [];
+        let tempArr = [];
         db.collection('queue')
-          .where('date', '==', myDare.date)
-          .where('location', '==', myDare.location)
-          .where('level', '==', myDare.level)
-          .where('start', '<', myDare.end)
-          .get()
-          .then((result) => {
+            .where('date', '==', myDare.date)
+            .where('location', '==', myDare.location)
+            .where('level', '==', myDare.level)
+            .where('start', '<', myDare.end)
+            .get()
+            .then((result) => {
                 result.forEach((doc) => {
+                console.log(doc.data());
                 let newData = doc.data();
                 newData.id = doc.id;
                 tempArr.push(newData);
-                console.log(tempArr);  
+                return tempArr;
               })
           })
           .then(() => {
+            console.log( tempArr )
             if (tempArr.length > 0) {
-                this.createUserMatch(tempArr, myDare, email, matched);  
+                this.createUserMatch(tempArr, myDare, email, matched);
             }
             else {
                 this.postUnmatched(myDare);
-                this.props.dispatch(inQueue());
+                this.props.dispatch(inQueue(myDare));
+                //this.checkDB();
                 console.log('skickar in')
             }
           })
@@ -68,60 +73,62 @@ class NewDare extends Component {
 
     createUserMatch = (dareArray, myDare, email, matched) => {
         for (let i = 0; i < dareArray.length; i++) {
-            if (!matched.id1 && myDare.start < dareArray[i].end) {
-                console.log(dareArray)
+            if (myDare.start < dareArray[i].end) {
                 const budget = Math.min(dareArray[i].budget, myDare.budget);
                 const timeStart = Math.max(dareArray[i].start, myDare.start);
                 const timeEnd = Math.min(dareArray[i].end, myDare.end);
                 matched = {
-                date: myDare.date,
-                id1: dareArray[i].id,
-                id2: email,
-                cost: budget,
-                starts: timeStart,
-                ends: timeEnd,
-                location: myDare.location,
-                level: myDare.level
+                    date: myDare.date,
+                    id1: dareArray[i].id,
+                    id2: email,
+                    cost: budget,
+                    starts: timeStart,
+                    ends: timeEnd,
+                    location: myDare.location,
+                    level: myDare.level
                 };
-                console.log('MATCHED:  ' + matched.id1);
                 this.postMatchResult(matched);
             }
-        }  
+            else console.log('inte den här' + i + ' pga ' + myDare.start + ' och ' + dareArray[i].end )
+        } if (!matched.id1) {
+            this.postUnmatched(myDare);
+            this.props.dispatch(inQueue(myDare));
+            this.checkDB();
+            console.log('skickar in')
+        }
     }
 
     postMatchResult = (matched) => {
         if (matched.id1) {
-            console.log(matched);
             db.collection('queue').doc(matched.id1).delete(); //matched.id1 är undefined
             this.props.dispatch(postUserMatch(matched))
-            .then((response) => {
-                console.log(response);
-                this.getActivityMatch(matched, this.props.handleDare.userMatchId);
-            })
+                .then((response) => {
+                    this.getActivityMatch(matched, this.props.handleDare.userMatchId);
+                })
         }
         else {
-            console.log('saknas matched.id1 IGEN'); 
-            
+            console.log('saknas matched.id1 IGEN');
+            this.checkDB();
         }
     }
     getActivityMatch = (userMatch, id) => {
-       this.weekdayFromTime(userMatch.starts);
+        this.weekdayFromTime(userMatch.starts);
         let tempArr = [];//will hold activities
-       //needs some kind of matching thingy for time as well
-        db.collection('activity') 
+        //needs some kind of matching thingy for time as well
+        db.collection('activity')
             .where('level', '==', userMatch.level)
-            .where('cost', '<=', userMatch.cost) 
+            .where('cost', '<=', userMatch.cost)
             .where('city', '==', userMatch.location.toLowerCase())
             .onSnapshot((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                  let newData = doc.data();
-                  newData.id = doc.id;
-                  tempArr.push(newData);
+                    let newData = doc.data();
+                    newData.id = doc.id;
+                    tempArr.push(newData);
                 });
-            
+
                 //given the activities above, random choice of activity
-                if(tempArr.length > 0){
-                    const i = Math.floor(Math.random()*tempArr.length);
+                if (tempArr.length > 0) {
+                    const i = Math.floor(Math.random() * tempArr.length);
                     let randomActivity = tempArr[i];
                     const activityMatch = {
                         activityId: randomActivity.id,
@@ -129,12 +136,52 @@ class NewDare extends Component {
                         accepted: false,
                         declined: false
                     };
-                    console.log(activityMatch);
                     this.props.dispatch(postPendingDare(activityMatch));
+                    this.checkDB();
                 } else {
-                    console.log('no activities found')}
+                    console.log('no activities found')
+                }
             });
     }
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+    checkDB = () => {
+        let current;
+        this.checkQueueDb(current);
+        this.checkMatchDb('userMatch', 'id1', current);
+        this.checkMatchDb('userMatch', 'id2', current);
+        if (!current) this.props.dispatch(noDare());
+    }
+
+    checkQueueDb = (current) => {
+        db.collection('queue').doc(this.props.user.email)
+        .get()
+        .then(response => {
+            if (response.exists){
+            current = response.data();
+             this.props.dispatch(inQueue(current))
+            }
+        })
+    }
+
+    checkMatchDb = (collection, id, current) => {
+        let tempArr = [];
+        db.collection(collection).where(id, '==', this.props.user.email)
+        .get()
+        .then(result => {
+            result.forEach((doc) => {
+                let newData = doc.data();
+                newData.id = doc.id;
+                tempArr.push(newData);
+                current = tempArr[0];
+                })
+        })
+        .then(() => {
+            if (current){
+             this.props.dispatch(userMatched(current))
+            }
+        });
+    }
+    ////////////////////////////////////////////////////////////////////////////////////
 
     postUnmatched = (unmatched) => {
         const dare = postDare(unmatched, this.props.user.email);
@@ -143,9 +190,10 @@ class NewDare extends Component {
 
     stringsToDate = (date, time) => {
         const fullstring = `${date}T${time}:00+01:00`;
-        return date = new Date(fullstring).getTime();
+         date = new Date(fullstring).getTime();
+         return date;
       };
-    
+
     weekdayFromTime = (time) => {
         let date = new Date(time).getDay();
         let day = '';
@@ -169,28 +217,28 @@ class NewDare extends Component {
     }
 
     render() {
-        
+
         return(
             <div>
             <h2>I dare you, {this.props.userSettings.name}!</h2>
             <div className="mainContentDivInput">
-            <form onSubmit={this.onSubmit}> 
-                
+            <form onSubmit={this.onSubmit}>
+
                 <label htmlFor="level">
-                    Nivå av DARE: {this.state.level}<br /> 
-                    <input 
-                    type="range" 
-                    min="1" 
-                    max="3" 
-                    value={this.state.daredevil} 
+                    Nivå av DARE: {this.state.level}<br />
+                    <input
+                    type="range"
+                    min="1"
+                    max="3"
+                    value={this.state.daredevil}
                     id="level"
-                    onChange={this.onChange} 
+                    onChange={this.onChange}
                     className="slider"/>
                 </label>
                 <br />
                 <label htmlFor="location">
                     Plats: <br />
-                    <input 
+                    <input
                     type="text"
                     value={this.state.location}
                     onChange={this.onChange}
@@ -198,39 +246,39 @@ class NewDare extends Component {
                     className="input"/>
                 </label>
                 <br />
-                <label htmlFor="date"> 
+                <label htmlFor="date">
                     Datum: <br />
-                    <input 
-                    type="date" 
+                    <input
+                    type="date"
                     id="date"
                     value={this.state.date}
-                    onChange={this.onChange} 
+                    onChange={this.onChange}
                     className="input"/>
                 </label>
                 <br />
-                <label htmlFor="timeStart"> 
+                <label htmlFor="timeStart">
                     Starttid: <br />
-                    <input 
-                    type="time" 
+                    <input
+                    type="time"
                     id="timeStart"
                     onChange={this.onChange}
                     value={this.state.timeStart}
                     className="input"/>
                 </label>
                 <br />
-                <label htmlFor="timeEnd"> 
+                <label htmlFor="timeEnd">
                     Sluttid: <br />
-                    <input 
-                    type="time" 
+                    <input
+                    type="time"
                     id="timeEnd"
                     onChange={this.onChange}
                     value={this.state.timeEnd}
-                    className="input"/> 
+                    className="input"/>
                 </label>
                 <br />
                 <label htmlFor="budget">
                     Max budget: <br />
-                    <input 
+                    <input
                     type="number"
                     id="budget"
                     step="100"
@@ -242,8 +290,8 @@ class NewDare extends Component {
                     type="submit"
                     value="Skicka in" className="buttonStandardBlack"/>
             </form>
-            </div> 
-            </div> 
+            </div>
+            </div>
         )
     }
 }
