@@ -189,7 +189,7 @@ class NewDare extends Component {
     };
 
     stringsToDate = (date, time) => {
-        const fullstring = `${date}T${time}:00+01:00`;
+        const fullstring = `${date}T${time}:00+02:00`;
          date = new Date(fullstring).getTime();
          return date;
       };
