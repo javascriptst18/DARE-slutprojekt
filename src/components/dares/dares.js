@@ -58,9 +58,9 @@ class Dares extends Component {
         });
     }
 
-
+//!this.props.dareStatus.type real condition for newdare
     render() {
-        if(!this.props.dareStatus.type){
+        if(true){
             return(
                 <NewDare checkCurrent={this.checkCurrent}/>
             )
