@@ -5,61 +5,73 @@ import Mapbox from '../Mapbox';
 
 
 class PendingDare extends Component {
-state = {
-  d: 0,
-  h: 1,
-  m: 0,
-  s: 0,
-}
+  state = {
+    d: 0,
+    h: 1,
+    m: 0,
+    s: 0,
+    showInfo: false,
+  }
 
 
-componentDidMount() {
-  this.setTimer();
-}
-// Update the count down every 1 second
+  componentDidMount() {
+    this.setTimer();
+  }
+  // Update the count down every 1 second
 
-setTimer = () => {
-  setInterval(this.timer, 1000)
-};
-
-timer = () => {
-
-  let now = new Date().getTime();
-  let goal = this.props.dareStatus.userMatch.starts;
-  let secondsLeft = Math.floor((goal-now)/1000);
-
-  //displayed time
-  let days = Math.floor(secondsLeft/86400);//60 seconds* 60 minutes * 24 hours = 86400
-  let hours = Math.floor((secondsLeft - (days*86400))/3600); //60s * 60m = 3600
-  let minutes = Math.floor((secondsLeft - (days*86400) - hours*3600)/60);
-  let seconds = secondsLeft - (days*86400) - hours*3600 - minutes*60;
-
-  let timeLeft = {
-    d: days,
-    h: hours,
-    m: minutes,
-    s: seconds,
+  setTimer = () => {
+    setInterval(this.timer, 1000)
   };
 
-  this.setState(timeLeft)
-  return timeLeft;
-}
+  timer = () => {
+
+    let now = new Date().getTime();
+    let goal = this.props.dareStatus.userMatch.starts;
+    let secondsLeft = Math.floor(((goal - now) / 1000) - 86400); //  Remove 24hrs
+    if (secondsLeft < 1) {
+      this.setState({ showInfo: true });
+    }
+
+
+    //displayed time
+    let days = Math.floor(secondsLeft / 86400);//60 seconds* 60 minutes * 24 hours = 86400
+    let hours = Math.floor((secondsLeft - (days * 86400)) / 3600); //60s * 60m = 3600
+    let minutes = Math.floor((secondsLeft - (days * 86400) - hours * 3600) / 60);
+    let seconds = secondsLeft - (days * 86400) - hours * 3600 - minutes * 60;
+
+    let timeLeft = {
+      d: days,
+      h: hours,
+      m: minutes,
+      s: seconds,
+    };
+
+    this.setState(timeLeft)
+    return timeLeft;
+  }
 
 
 
-render() {
-  let timeLeft = this.state;
-  if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= 10) return <p>incheckning</p>
-  //  INCHECKNING HÄR
+  render() {
+    let timeLeft = this.state;
+    if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= 10) return <p>incheckning</p>
+    //  INCHECKNING HÄR
 
-return (
-  <div>
-    <h2> Om {timeLeft.d}d:{timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}s får du veta vad du och din utmanare ska göra!</h2>
-    <Mapbox />
-  </div>
+    return (
+      <div>
+        <h2> Om {timeLeft.d}d:{timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}s får du veta vad du och din utmanare ska göra!</h2>
+        {this.state.d === 0 ?
+          //  Day for activity, display map
+          <Mapbox />
+          //  If day for activity and less than 20 and more then 0 minutes left, show check in button
+          : (this.state.d === 0 && this.state.m <= 20 && this.state.m > 0) ?
+            <button>Check in</button>
+            : null
+        }
+      </div>
     );
   }
 }
 
 
-export default  connect(state => state)(PendingDare);
+export default connect(state => state)(PendingDare);

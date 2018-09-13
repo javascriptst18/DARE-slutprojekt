@@ -35,7 +35,7 @@ class Mapbox extends Component {
     userLatitude: 0,
     userPositionAvailable: false,
     distanceToActivity: 0,
-    userCanCheckIn: false,
+    userInCheckInDistance: false,
   }
 
   componentDidMount() {
@@ -43,16 +43,6 @@ class Mapbox extends Component {
     this.state.activityLatitude;
     this.getUserLocation();
     this.getActivityLocation();
-  }
-
-  getActivityLocation = () => {
-      return db.collection('activity').doc(this.props.dareStatus.activityMatch.activityId).get()
-        .then((response) => {
-          this.setState({
-            activityLongitude: response.position.longitude,
-            activityLatitude: response.position.latitude,
-          })
-        })  
   }
 
   getUserLocation = () => {
@@ -76,6 +66,17 @@ class Mapbox extends Component {
       });
   }
 
+  getActivityLocation = () => {
+    return db.collection('activity').doc(this.props.dareStatus.activityMatch.activityId).get()
+      .then((response) => {
+        this.setState({
+          activityLongitude: response.data().position.longitude,
+          activityLatitude: response.data().position.latitude,
+        })
+      })
+  }
+
+
   getDistance(longitude1, latitude1, longitude2, latitude2) {
     //  radians instead of degrees
     let rlatitude1 = Math.PI * latitude1 / 180
@@ -92,17 +93,16 @@ class Mapbox extends Component {
   }
 
   render() {
-    console.log('userposition: ', this.state.userLatitude, ' ', this.state.userLongitude)
     if (this.state.userPositionAvailable) {
       let distance = this.getDistance(this.state.userLongitude, this.state.userLatitude, this.state.activityLongitude, this.state.activityLatitude)
-      console.log(distance);
       this.state.distanceToActivity = distance;
-      if (distance <= (checkInRadius / 1000)) {
-        //  If distance from checkinradius is less then set limit
-        this.state.UserCanCheckIn = true;
+      if (distance <= (checkInRadius/1000) && !this.state.userInCheckInDistance) {
+        this.props.dispatch({ type: 'USER_CAN_CHECK_IN' })
+        this.setState({ userInCheckInDistance: true })
       }
-      else {
-        this.state.UserCanCheckIn = false;
+      if (distance > (checkInRadius/1000) && this.state.userInCheckInDistance) {
+        this.props.dispatch({ type: 'USER_CAN_NOT_CHECK_IN' })
+        this.setState({ userInCheckInDistance: false })
       }
     }
     return (

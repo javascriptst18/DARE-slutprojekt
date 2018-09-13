@@ -27,7 +27,7 @@ export function dareStatus(state = {}, action) {
     case NODARE:
       return {};
     case QUEUE:
-    return action;
+      return action;
     case USERMATCH:
       return action;
     case MATCHEDPENDING:
