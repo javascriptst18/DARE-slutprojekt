@@ -24,7 +24,7 @@ export function dareStatus(state = {}, action) {
     case NODARE:
       return {};
     case QUEUE:
-    return action;
+      return action;
     case USERMATCH:
       return action;
     case MATCHEDPENDING:
@@ -33,6 +33,16 @@ export function dareStatus(state = {}, action) {
       return action;
     case STATUSFAILED:
       return action;
+    case 'LOGOUT':
+      return {};
+    default: return state;
+  }
+}
+
+export function activityInfo(state = {}, action) {
+  switch (action.type) {
+    case 'SET_ACTIVTY':
+      return action.send;
     case 'LOGOUT':
       return {};
     default: return state;

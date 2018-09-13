@@ -13,17 +13,22 @@
 const initialUserState = {
   email: '',
   isRegistered: null,
+  userInCheckInDistance: false,
 };
 
 //  Sets the current user
 export const user = function (state = initialUserState, action) {
   switch (action.type) {
     case 'LOGIN':
-      return {...state, email: action.value.email};
+      return { ...state, email: action.value.email };
     case 'CHECK_USER':
       return { ...state, isRegistered: action.value };
     case 'LOGOUT':
       return { email: '', isRegistered: null };
+    case 'USER_CAN_CHECK_IN':
+      return { ...state, userInCheckInDistance: true };
+    case 'USER_CAN_NOT_CHECK_IN':
+      return { ...state, userInCheckInDistance: false };
     default:
       return state;
   }
