@@ -52,16 +52,18 @@ class NewDare extends Component {
                 let newData = doc.data();
                 newData.id = doc.id;
                 tempArr.push(newData);
-                console.log(tempArr);  
+                console.log(tempArr);
+                return tempArr;  
               })
           })
           .then(() => {
+            console.log(tempArr + 'blöööööööh'); 
             if (tempArr.length > 0) {
                 this.createUserMatch(tempArr, myDare, email, matched);  
             }
             else {
                 this.postUnmatched(myDare);
-                this.props.dispatch(inQueue());
+                this.props.dispatch(inQueue(myDare));
                 console.log('skickar in')
             }
           })
@@ -87,12 +89,12 @@ class NewDare extends Component {
                 console.log('MATCHED:  ' + matched.id1);
                 this.postMatchResult(matched);
             }
-            else {
-                this.postUnmatched(myDare);
-                this.props.dispatch(inQueue());
-                console.log('skickar in')
-            } 
-        }  
+            else console.log('inte den här' + i + ' pga ' + myDare.start + ' och ' + dareArray[i].end )
+        } if (!matched.id1) {
+            this.postUnmatched(myDare);
+            this.props.dispatch(inQueue(myDare));
+            console.log('skickar in')
+        }   
     }
 
     postMatchResult = (matched) => {

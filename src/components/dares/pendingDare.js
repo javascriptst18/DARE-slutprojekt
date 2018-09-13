@@ -10,6 +10,7 @@ state = {
   m: 0,
   s: 0,
   interval: 0,
+  start:''
 }
 
 
@@ -18,8 +19,13 @@ componentDidMount() {
 }
 // Update the count down every 1 second
 
+displayActivityStart = () => {
+  let date = new Date(this.props.userMatch.starts);
+
+}
+
 setTimer = () => {
-  setInterval(this.timer, 1000)
+  setInterval(this.timer, 1000);
 }; 
 
 timer = () => {
@@ -44,7 +50,6 @@ timer = () => {
   };
 
   this.setState(timeLeft)
-  return timeLeft;
 }
 
 render() { 
@@ -56,20 +61,19 @@ render() {
   } 
   //Access to info on activity 10 minutes before start
    else if (this.state.d ===0 && this.state.interval > 0) {
-    <p> visa karta, aktivitetsinfo, ej check in</p>
+    return <p> visa karta, aktivitetsinfo, ej check in</p>
   }
   //if user fails to check in within 10 minutes, they're suspended 
   else if (this.state.interval < - 36000) {
     //kör blockeringsfunktion
-  return <div>Du är blockerad!</div>}
+  return <p>Du är blockerad!</p>}
   else {
     return (
       <div>
         <h2> Om {timeLeft.d}d:{timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}s får du veta vad du och din utmanare ska göra!</h2>
         <p>Vi har matchat er mot något som stämmer in på: </p>
         <ul>
-          <li>datum: {this.props.dareStatus.userMatch.date}</li>
-          <li>tid: {this.props.dareStatus.userMatch.timeStart} - {this.props.dareStatus.userMatch.timeEnd}</li>
+          <li>när: {this.state.start} </li>
           <li>nivå: {this.props.dareStatus.userMatch.level}</li>
           <li>budget: {this.props.dareStatus.userMatch.cost}</li>
         </ul>
