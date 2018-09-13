@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Logout from './Logout';
 import db from '../firebase';
 import { checkIfUserExists } from './actionCreators/userActions';
 import Mapbox from './Mapbox';
