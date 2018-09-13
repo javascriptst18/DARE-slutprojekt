@@ -109,7 +109,7 @@ class PendingDare extends Component {
     else if (this.state.d === 0 && this.state.interval > 0) {
       return (
         <div>
-          <p> Din aktivitet börjar om {timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}</p>
+          <h2> Din aktivitet börjar om {timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}</h2>
           <p>Du kan checka in 20 minuter innan aktiviteten startar</p>
           <p>Vad: {this.props.activityInfo.activity}</p>
           <p>Beräknad kostnad: {this.props.activityInfo.cost} kr</p>
