@@ -83,7 +83,7 @@ class PendingDare extends Component {
 
   onCheckIn = (e) => {
     e.preventDefault();
-    this.setState({checked: true});
+    this.setState({checkedin: true});
   }
 
   render() {
