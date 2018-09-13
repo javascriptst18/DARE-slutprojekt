@@ -92,7 +92,8 @@ class PendingDare extends Component {
     //check in possible between 20 minutes before and 10 minutes after activity starts
     if (this.state.d === 0 && this.state.h === 0 && this.state.m <= 20 && this.state.m >= 0) {
       return (<div>
-        <p>Incheckning, 20 minuter innan till 10 minuter efter och användare kan checka in</p>
+        <h2> Dags att checka in!</h2>
+        <p>Du har {timeLeft.m}m:{timeLeft.s} på dig innan aktiviteten börjar.</p>        
         <p>Du ska träffa: {this.state.matchedUserName}</p>
         <p>Telefonnummer: {this.state.matchedUserPhoneNumber}</p>
         <Mapbox />
@@ -109,7 +110,7 @@ class PendingDare extends Component {
       return (
         <div>
           <p> Din aktivitet börjar om {timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}</p>
-          <p>Du kan checka in 20 minuter innan aktiviten startar</p>
+          <p>Du kan checka in 20 minuter innan aktiviteten startar</p>
           <p>Vad: {this.props.activityInfo.activity}</p>
           <p>Beräknad kostnad: {this.props.activityInfo.cost} kr</p>
           <p>Uppskattad tid: {this.props.activityInfo.duration} minuter</p>
