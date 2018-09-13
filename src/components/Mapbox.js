@@ -69,6 +69,8 @@ class Mapbox extends Component {
   getActivityLocation = () => {
     return db.collection('activity').doc(this.props.dareStatus.activityMatch.activityId).get()
       .then((response) => {
+        let send = response.data();
+        this.props.dispatch({type: 'SET_ACTIVTY', send })
         this.setState({
           activityLongitude: response.data().position.longitude,
           activityLatitude: response.data().position.latitude,

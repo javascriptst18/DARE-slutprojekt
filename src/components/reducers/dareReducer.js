@@ -39,3 +39,13 @@ export function dareStatus(state = {}, action) {
     default: return state;
   }
 }
+
+export function activityInfo(state = {}, action) {
+  switch (action.type) {
+    case 'SET_ACTIVTY':
+      return action.send;
+    case 'LOGOUT':
+      return {};
+    default: return state;
+  }
+}
