@@ -13,17 +13,17 @@ class QueueDare extends Component {
   render() {
 
     return (
-      <div>
-        <h2>{this.props.userSettings.name}, du har skickat följande:</h2>
+      <div className="mainContentDiv">
+        <h2>{this.props.userSettings.name}, din Dare info:</h2>
         {this.props.dareStatus.dare ?
-          <ul>
-            <li>datum: {this.props.dareStatus.dare.date}</li>
-            <li>tid: {this.props.dareStatus.dare.timeStart} - {this.props.dareStatus.dare.timeEnd}</li>
-            <li>nivå: {this.props.dareStatus.dare.level}</li>
-            <li>budget: {this.props.dareStatus.dare.budget}</li>
+          <ul className="mainContentDivList">
+            <li><span className="listRubrik">Datum: </span><span className="listText">{this.props.dareStatus.dare.date}</span></li>
+            <li><span className="listRubrik">Tid: </span><span className="listText">{this.props.dareStatus.dare.timeStart} - {this.props.dareStatus.dare.timeEnd}</span></li>
+            <li><span className="listRubrik">Nivå: </span><span className="listText">{this.props.dareStatus.dare.level}</span></li>
+            <li><span className="listRubrik">Budget: </span><span className="listText">{this.props.dareStatus.dare.budget}</span></li>
           </ul>
           : null}
-        <p>Nu löser vi resten!</p>
+        <p>Nu hittar vi en Dare för dig!</p>
       </div>
     );
 
