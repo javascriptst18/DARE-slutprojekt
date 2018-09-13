@@ -15,13 +15,13 @@ state = {
 
 
 componentDidMount() {
-  this.setTimer();
+this.setTimer();
+
 }
 // Update the count down every 1 second
 
 displayActivityStart = () => {
-  let date = new Date(this.props.userMatch.starts);
-
+  let date = new Date(this.props.dareStatus.userMatch.starts);
 }
 
 setTimer = () => {
@@ -57,7 +57,7 @@ render() {
   
   //check in possible between 20 minutes before and 10 minutes after activity starts
   if (this.state.d === 0 && this.state.h === 1 && this.state.m <= 20 && this.state.m >= -10){
-    return <p>incheckning</p>
+    return <p>incheckning, karta</p>
   } 
   //Access to info on activity 10 minutes before start
    else if (this.state.d ===0 && this.state.interval > 0) {

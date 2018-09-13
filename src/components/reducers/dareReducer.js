@@ -12,11 +12,8 @@ export default function handleDare(state = {}, action) {
       return action;
     case ACCEPTDARE:
       return { current: action.data };
-    case DECLINEDARE:
-      return {
-        current: false,
-        // suspended until: new Date().getTime() + 7 days
-      };
+    case 'LOGOUT':
+      return {};
     default:
       return state;
   }
@@ -36,6 +33,8 @@ export function dareStatus(state = {}, action) {
       return action;
     case STATUSFAILED:
       return action;
+    case 'LOGOUT':
+      return {};
     default: return state;
   }
 }
