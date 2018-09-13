@@ -13,15 +13,17 @@ removeDare = () => {
 render() {
  
 return (
-  <div>
+  <div className="mainContentDiv">
     <h3>{this.props.userSettings.name}, du har skickat följande:</h3>
-    <ul>
-    <li>datum: {this.props.dareStatus.dare.date}</li>
-      <li>tid: {this.props.dareStatus.dare.timeStart} - {this.props.dareStatus.dare.timeEnd}</li>
-      <li>nivå: {this.props.dareStatus.dare.level}</li>
-      <li>budget: {this.props.dareStatus.dare.budget}</li>
+    <div className="mainContentDivList">
+    <ul className="lists">
+    <li><span className="listRubrik">Nivå av Dare:</span><span className="listText">{this.props.dareStatus.dare.level}</span></li>
+    <li><span className="listRubrik">Datum:</span> <span className="listText">{this.props.dareStatus.dare.date}</span></li>
+      <li><span className="listRubrik">Tid:</span> <span className="listText">{this.props.dareStatus.dare.timeStart} - {this.props.dareStatus.dare.timeEnd}</span></li>
+      <li><span className="listRubrik">Budget:</span> <span className="listText">{this.props.dareStatus.dare.budget} kr</span></li>
     </ul>
-    <p>Nu löser vi resten!</p>
+    </div>
+    <p>Nu hittar vi en Dare för dig!</p>
   </div>
     );
 

@@ -13,7 +13,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 375px;
+    width: 375px;
     margin: auto;
     }
     
@@ -32,10 +32,21 @@ body {
 
     }
 
+    .mainContentDivList{
+        width: 90%; 
+        margin: auto; 
+        text-align: left;
+        margin-right: 10%;
+
+        list-style-type: none;
+
+    }
+
+
+
     .mapBoxContentDiv {
         margin-top: 4%;
         width: 100%;
-
 
     }
     
@@ -54,12 +65,12 @@ body {
 /* -- Menu -- */
 
 .menu   {
+max-width: 500px;
 background-color: black; 
 color: white;
 height: 60px;
 padding-top: 5%;
 box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
-
 }
 
 .menuLink{
@@ -89,6 +100,28 @@ padding-bottom: 5px;
 }
 
 /* -- End Menu -- */
+
+
+
+/*-- List --*/
+
+.lists {
+list-style-type: none;
+margin-left: 0px;
+
+}
+
+.listRubrik {
+
+}
+
+.listText {
+ 
+}
+
+
+/*-- End List --*/
+
 
 
 
@@ -214,8 +247,17 @@ padding-bottom: 5px;
     }
 
     .input[type=text]:focus {
-        
+    
+     
     }
+
+    /* För icon i inputFields:
+    
+    input[type='text'] {
+        background-image: url(images/comment-author.gif);
+        background-position: 7px 7px;
+        background-repeat: no-repeat;
+    } */
     
     /*-- End Form --*/
 
@@ -269,6 +311,8 @@ padding-bottom: 5px;
     }
     
         /*-- End Slider --*/
+
+
 
 
         

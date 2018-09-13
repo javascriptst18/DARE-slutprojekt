@@ -208,6 +208,9 @@ class NewDare extends Component {
                     className="input"/>
                 </label>
                 <br />
+
+               
+
                 <label htmlFor="timeStart"> 
                     Starttid: <br />
                     <input 
@@ -217,7 +220,7 @@ class NewDare extends Component {
                     value={this.state.timeStart}
                     className="input"/>
                 </label>
-                <br />
+              
                 <label htmlFor="timeEnd"> 
                     Sluttid: <br />
                     <input 
@@ -226,7 +229,8 @@ class NewDare extends Component {
                     onChange={this.onChange}
                     value={this.state.timeEnd}
                     className="input"/> 
-                </label>
+                </label>                
+
                 <br />
                 <label htmlFor="budget">
                     Max budget: <br />
