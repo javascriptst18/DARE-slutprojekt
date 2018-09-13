@@ -6,7 +6,7 @@ function About() {
 
 return (
 <div>
-    <h2>Hur Det fungerar</h2>    
+    <h2>Hur Dare fungerar</h2>    
     <div className="mainContentDivInput">
         
         <h3>Nivå:</h3>
@@ -19,7 +19,7 @@ return (
         <p>lite text om ...</p>
         <h3>Plats:</h3>
         <p>lite text om ...</p>
-        
+
     </div>
 </div>    
                 

@@ -22,16 +22,17 @@ class App extends React.Component {
             :
             <Router>
               <div className="mainContentDiv">
+
               <div className="menu">
                 <Link to="/dares" className="menuLink">Mina Dares</Link>
                 <Link to="/about" className="menuLink">Om Dare</Link>
                 <Link to="/settings" className="menuLink">Inställningar</Link>
               </div>  
+
                 <Route path="/dares" component={Dares} />
                 <Route path="/about" component={About} />
                 <Route path="/settings" component={UserSettings} />
 
-              
                 <Logout />
               </div>
             </Router>

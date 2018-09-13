@@ -77,9 +77,15 @@ color: white;
 }
 
 .menuLink:hover {
+border-bottom: 3px solid white;
+padding-bottom: 5px;
+  
 }
 
 .menuLink:active {
+ border-bottom: 3px solid white;
+ padding-bottom: 5px;
+     
 }
 
 /* -- End Menu -- */
@@ -339,4 +345,4 @@ color: white;
     transform: rotate(45deg);
 }
 
-/*-- End Check Box--*/
+/*-- End Check Box --*/
