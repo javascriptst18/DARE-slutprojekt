@@ -14,6 +14,7 @@ class App extends React.Component {
     return (
       <div>
         {
+
           !this.props.user.email ?
             <Start />
             :

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactMapboxGl, { ZoomControl, GeoJSONLayer, Layer, Feature } from 'react-mapbox-gl';
 import User from '../icons/user.svg'
+import { connect } from 'react-redux';
 
 //accessToken: 'pk.eyJ1Ijoic2x1dHByb2pla3QiLCJhIjoiY2psdW05eXhoMGtwcDN2czRlNDc3eWJrYyJ9.dgur5_88vWOGbk8oHhj9OQ'
 
@@ -49,6 +50,7 @@ class Mapbox extends Component {
   setLocationInfo = (position) => {
     this.setState({ userLongitude: position.coords.longitude, userLatitude: position.coords.latitude })
     this.setState({ userPositionAvailable: true })
+    fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/-73.989%2C40.733%3B-74%2C40.733.json?access_token=pk.eyJ1Ijoic2x1dHByb2pla3QiLCJhIjoiY2psdW05eXhoMGtwcDN2czRlNDc3eWJrYyJ9.dgur5_88vWOGbk8oHhj9OQ`)
   }
 
   getDistance(longitude1, latitude1, longitude2, latitude2) {
@@ -147,4 +149,4 @@ class Mapbox extends Component {
   }
 }
 
-export default (state => state)(Mapbox);
+export default connect(state => state)(Mapbox);

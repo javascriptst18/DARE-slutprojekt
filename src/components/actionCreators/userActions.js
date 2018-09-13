@@ -9,12 +9,11 @@ export function checkIfUserExists(user) {
           dispatch({ type: 'SETUSERSETTINGS', value: response.data() })
         }
         else {
-          dispatch({ type: 'SETUSERSETTINGS', value: { location: '', name: '', phonenumber: '', suspended: false, verified: false } })
+          dispatch({ type: 'SETUSERSETTINGS', value: { location: '', name: '', phonenumber: '', suspended: false, verified: false, suspensionEnds: 0 } })
         }
       }).then((nothing) => {
         dispatch({ type: 'LOGIN', value: user })
       })
-
   }
 }
 
