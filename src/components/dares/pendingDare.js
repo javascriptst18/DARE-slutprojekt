@@ -10,7 +10,7 @@ class PendingDare extends Component {
     h: 1,
     m: 0,
     s: 0,
-    interval: 0,
+    interval: 1,
     start: '',
     matchedUserName: '',
     matchedUserPhoneNumber: 0,
@@ -86,11 +86,18 @@ class PendingDare extends Component {
     this.setState({checkedin: true});
   }
 
+  deleteWhenDone = () => {
+    if (this.state.checkedin && this.state.interval < 0) {
+      db.collection('userMatch').doc(this.props.dareStatus.userMatch.Id).delete();
+    }
+  }
+
   render() {
     let timeLeft = this.state;
     
     //check in possible between 20 minutes before and 10 minutes after activity starts
-    if (this.state.d === 0 && this.state.h === 0 && this.state.m <= 20 && this.state.m >= 0) {
+    if (this.state.d === 0 && this.state.h === 0 && this.state.m <= 20 && this.state.m >= -1) {
+      this.deleteWhenDone();
       return (<div>
         <h2> Dags att checka in!</h2>
         <p>Du har {timeLeft.m}m:{timeLeft.s} på dig innan aktiviteten börjar.</p>        
@@ -121,6 +128,7 @@ class PendingDare extends Component {
     }
     //if user fails to check in on time, they're suspended
     else if (this.state.interval < 0 && !this.state.checkedin) {
+      this.deleteWhenDone();
       suspendUser(this.props.user.email);
       return <p>Du är blockerad!</p>
     }
