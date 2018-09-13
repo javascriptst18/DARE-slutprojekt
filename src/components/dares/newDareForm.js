@@ -4,7 +4,6 @@ import { postDare, postUserMatch, postPendingDare, inQueue, noDare, userMatched 
 import db from '../../firebase';
 import Dares from './dares';
 
-
 class NewDare extends Component {
     state = {
         location: this.props.userSettings.location,
@@ -16,7 +15,6 @@ class NewDare extends Component {
         start: 0,
         end: 0,
     }
-
 
     onChange = (e) => {
         e.preventDefault();
@@ -50,7 +48,6 @@ class NewDare extends Component {
             .get()
             .then((result) => {
                 result.forEach((doc) => {
-                console.log(doc.data());
                 let newData = doc.data();
                 newData.id = doc.id;
                 tempArr.push(newData);
@@ -58,15 +55,14 @@ class NewDare extends Component {
               })
           })
           .then(() => {
-            console.log( tempArr )
+            
             if (tempArr.length > 0) {
                 this.createUserMatch(tempArr, myDare, email, matched);
             }
             else {
                 this.postUnmatched(myDare);
                 this.props.dispatch(inQueue(myDare));
-                //this.checkDB();
-                console.log('skickar in')
+
             }
           })
     }
@@ -89,12 +85,11 @@ class NewDare extends Component {
                 };
                 this.postMatchResult(matched);
             }
-            else console.log('inte den här' + i + ' pga ' + myDare.start + ' och ' + dareArray[i].end )
         } if (!matched.id1) {
             this.postUnmatched(myDare);
             this.props.dispatch(inQueue(myDare));
             this.checkDB();
-            console.log('skickar in')
+
         }
     }
 
@@ -107,7 +102,6 @@ class NewDare extends Component {
                 })
         }
         else {
-            console.log('saknas matched.id1 IGEN');
             this.checkDB();
         }
     }
@@ -133,14 +127,12 @@ class NewDare extends Component {
                     const activityMatch = {
                         activityId: randomActivity.id,
                         userMatchId: id,
-                        accepted: false,
-                        declined: false
+                        id1Checkin: false,
+                        id2Checkin: false
                     };
                     this.props.dispatch(postPendingDare(activityMatch));
                     this.checkDB();
-                } else {
-                    console.log('no activities found')
-                }
+                } 
             });
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import db from '../../firebase';
 import Mapbox from '../Mapbox';
-
+import suspendUser from '../../UserFunctions';
 
 class PendingDare extends Component {
   state = {
@@ -10,10 +10,11 @@ class PendingDare extends Component {
     h: 1,
     m: 0,
     s: 0,
-    interval: 0,
+    interval: 1,
     start: '',
     matchedUserName: '',
     matchedUserPhoneNumber: 0,
+    checkedin: false,
   }
 
 
@@ -33,7 +34,7 @@ class PendingDare extends Component {
     }
     return db.collection('users').doc(matchedUserEmail).get()
       .then((response) => {
-        console.log(response.data())
+        
         this.setState({
           matchedUserName: response.data().name,
           matchedUserPhoneNumber: response.data().phonenumber,
@@ -71,22 +72,41 @@ class PendingDare extends Component {
       interval: diff,
     };
 
-    this.setState(timeLeft)
+    this.setState({
+      d: timeLeft.d,
+      h: timeLeft.h,
+      m: timeLeft.m,
+      s: timeLeft.s,
+      interval: timeLeft.interval
+    })
+  }
+
+  onCheckIn = (e) => {
+    e.preventDefault();
+    this.setState({checkedin: true});
+  }
+
+  deleteWhenDone = () => {
+    if (this.state.checkedin && this.state.interval < 0) {
+      db.collection('userMatch').doc(this.props.dareStatus.userMatch.Id).delete();
+    }
   }
 
   render() {
     let timeLeft = this.state;
-    console.log(this.state.d, ' ', this.state.h, ' ', this.state.m, ' ', this.state.m)
+    
     //check in possible between 20 minutes before and 10 minutes after activity starts
-    if (this.state.d === 0 && this.state.h === 0 && this.state.m <= 20 && this.state.m >= 0) {
+    if (this.state.d === 0 && this.state.h === 0 && this.state.m <= 20 && this.state.m >= -1) {
+      this.deleteWhenDone();
       return (<div>
-        <p>Incheckning, 20 minuter innan till 10 minuter efter och användare kan checka in</p>
+        <h2> Dags att checka in!</h2>
+        <p>Du har {timeLeft.m}m:{timeLeft.s} på dig innan aktiviteten börjar.</p>        
         <p>Du ska träffa: {this.state.matchedUserName}</p>
         <p>Telefonnummer: {this.state.matchedUserPhoneNumber}</p>
         <Mapbox />
         {
           this.props.user.userInCheckInDistance ?
-          <button enabled>Checka in</button>
+          <button enabled onClick={this.onCheckIn} >Checka in</button>
           :
           <button disabled>Checka in</button>
         }
@@ -96,8 +116,8 @@ class PendingDare extends Component {
     else if (this.state.d === 0 && this.state.interval > 0) {
       return (
         <div>
-          <p> Din aktivitet börjar om {timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}</p>
-          <p>Du kan checka in 20 minuter innan aktiviten startar</p>
+          <h2> Din aktivitet börjar om {timeLeft.h}h:{timeLeft.m}m:{timeLeft.s}</h2>
+          <p>Du kan checka in 20 minuter innan aktiviteten startar</p>
           <p>Vad: {this.props.activityInfo.activity}</p>
           <p>Beräknad kostnad: {this.props.activityInfo.cost} kr</p>
           <p>Uppskattad tid: {this.props.activityInfo.duration} minuter</p>
@@ -106,9 +126,10 @@ class PendingDare extends Component {
         </div>
       )
     }
-    //if user fails to check in within 10 minutes, they're suspended
-    else if (this.state.interval < 0) {
-      //kör blockeringsfunktion
+    //if user fails to check in on time, they're suspended
+    else if (this.state.interval < 0 && !this.state.checkedin) {
+      this.deleteWhenDone();
+      suspendUser(this.props.user.email);
       return <p>Du är blockerad!</p>
     }
     else {

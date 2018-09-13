@@ -55,12 +55,12 @@ class Dares extends Component {
         });
     }
 
-// real condition for newdare
     render() {
-        if(!this.props.dareStatus.type){
-            return(
-                <NewDare checkCurrent={this.checkCurrent}/>
-            )
+        if (this.props.userSettings.suspended){
+            return <h2>Du är blockerad!</h2>
+        }
+        else if(!this.props.dareStatus.type){
+            return <NewDare />
         } else if (this.props.dareStatus.type === QUEUE) {
             return <QueueDare />
         } else if (this.props.dareStatus.type === USERMATCH) {
