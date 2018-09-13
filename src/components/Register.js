@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Logout from './Logout';
 import db from '../firebase';
 import { checkIfUserExists } from './actionCreators/userActions';
 
@@ -65,7 +64,6 @@ class Register extends Component {
         </form>
         </div>
         <div className="mainContentDiv">
-        <Logout />
         </div>
       </div>
     );

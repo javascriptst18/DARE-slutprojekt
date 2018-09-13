@@ -16,7 +16,7 @@ const Map = ReactMapboxGl({
 
 const mapStyle = {
   height: '50vh',
-  width: '50vw',
+  width: '100vw',
 };
 
 const image = new Image(15, 15);

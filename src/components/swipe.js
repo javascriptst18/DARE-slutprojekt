@@ -20,7 +20,6 @@ render() {
 
     let settings = {
       dots: true,
-      infinite: true,
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
@@ -33,7 +32,7 @@ return (
   <div className="swipeDiv">
     <img src={darelogo} className="swipeContent swipeIcon"/>
     <img src={swiperightwhite} className="swipeContent swipeRight"/>
-    <p className="swipeText">Swipe right to read more about DARE.<br></br> Or just log in straight away!</p>
+    <p className="swipeText">Swipea höger för att läsa om DARE.<br></br> Eller logga in direkt!</p>
   </div >
 
   <div className="swipeDiv">
