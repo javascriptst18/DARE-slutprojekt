@@ -19,7 +19,7 @@ export function postUserMatch(match) {
       .then(
         userMatch => dispatch({
           userMatchId: userMatch.id,
-          collection:'userMatch',
+          collection: userMatch,
           type: MATCHEDDARE,
         }),
         error => dispatch({ error, type: FAILEDTODARE }),
@@ -31,7 +31,7 @@ export function postPendingDare(match) {
   return function (dispatch, getState) {
     return db.collection('matchedDare').add(match)
       .then(
-        pending => dispatch({ id: pending.id, collection:'matchedDare', type: MATCHEDPENDING }),
+        pending => dispatch({ id: pending.id, collection: 'matchedDare', type: MATCHEDPENDING }),
         error => dispatch({ error, type: FAILEDTODARE }),
       );
   }
@@ -45,19 +45,19 @@ export function userMatched(data) {
   return function (dispatch, getState) {
     let tempArr = [];
     return db.collection('matchedDare').where('userMatchId', '==', data.id).get()
-    .then((result) => {
-      result.forEach((doc) => {
-        let activitymatch = doc.data();
-        tempArr.push(activitymatch);
+      .then((result) => {
+        result.forEach((doc) => {
+          let activitymatch = doc.data();
+          tempArr.push(activitymatch);
+        })
       })
-    })
-    .then(()=> {
-      if (tempArr.length === 1){
-        dispatch({userMatch: data, activityMatch: tempArr[0], type: MATCHEDPENDING})
-     }
-     else dispatch({ type: USERMATCH, userMatch: data })
-   })     
-  } 
+      .then(() => {
+        if (tempArr.length === 1) {
+          dispatch({ userMatch: data, activityMatch: tempArr[0], type: MATCHEDPENDING })
+        }
+        else dispatch({ type: USERMATCH, userMatch: data })
+      })
+  }
 }
 
 export function noDare() {
