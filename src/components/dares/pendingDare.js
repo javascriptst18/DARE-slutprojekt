@@ -34,7 +34,7 @@ class PendingDare extends Component {
     }
     return db.collection('users').doc(matchedUserEmail).get()
       .then((response) => {
-        console.log(response.data())
+        
         this.setState({
           matchedUserName: response.data().name,
           matchedUserPhoneNumber: response.data().phonenumber,
@@ -88,7 +88,7 @@ class PendingDare extends Component {
 
   render() {
     let timeLeft = this.state;
-    console.log(this.state.d, ' ', this.state.h, ' ', this.state.m, ' ', this.state.m)
+    
     //check in possible between 20 minutes before and 10 minutes after activity starts
     if (this.state.d === 0 && this.state.h === 0 && this.state.m <= 20 && this.state.m >= 0) {
       return (<div>

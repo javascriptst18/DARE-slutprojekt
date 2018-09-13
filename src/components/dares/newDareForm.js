@@ -48,7 +48,6 @@ class NewDare extends Component {
             .get()
             .then((result) => {
                 result.forEach((doc) => {
-                console.log(doc.data());
                 let newData = doc.data();
                 newData.id = doc.id;
                 tempArr.push(newData);
@@ -56,15 +55,14 @@ class NewDare extends Component {
               })
           })
           .then(() => {
-            console.log( tempArr )
+            
             if (tempArr.length > 0) {
                 this.createUserMatch(tempArr, myDare, email, matched);
             }
             else {
                 this.postUnmatched(myDare);
                 this.props.dispatch(inQueue(myDare));
-                //this.checkDB();
-                console.log('skickar in')
+
             }
           })
     }
@@ -87,12 +85,11 @@ class NewDare extends Component {
                 };
                 this.postMatchResult(matched);
             }
-            else console.log('inte den här' + i + ' pga ' + myDare.start + ' och ' + dareArray[i].end )
         } if (!matched.id1) {
             this.postUnmatched(myDare);
             this.props.dispatch(inQueue(myDare));
             this.checkDB();
-            console.log('skickar in')
+
         }
     }
 
@@ -105,7 +102,6 @@ class NewDare extends Component {
                 })
         }
         else {
-            console.log('saknas matched.id1 IGEN');
             this.checkDB();
         }
     }
@@ -136,9 +132,7 @@ class NewDare extends Component {
                     };
                     this.props.dispatch(postPendingDare(activityMatch));
                     this.checkDB();
-                } else {
-                    console.log('no activities found')
-                }
+                } 
             });
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
