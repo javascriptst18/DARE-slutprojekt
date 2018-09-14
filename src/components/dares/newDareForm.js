@@ -7,10 +7,10 @@ import Dares from './dares';
 class NewDare extends Component {
     state = {
         location: this.props.userSettings.location,
-        date: '2018-09-15',
+        date: '',
         timeStart: '07:00',
         timeEnd: '22:00',
-        budget: 200,
+        budget: 0,
         level: 2, //needs some kind of explanation in UI
         start: 0,
         end: 0,

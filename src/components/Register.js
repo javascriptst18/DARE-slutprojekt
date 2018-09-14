@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import db from '../firebase';
 import { checkIfUserExists } from './actionCreators/userActions';
+import logoutimg from './img/logoutimg.svg';
 
 class Register extends Component {
   checkUser = (user) => { this.props.dispatch(checkIfUserExists(user)) }
@@ -32,7 +33,7 @@ class Register extends Component {
   render() {
     return (
       <div className="mainContentDiv">
-        <div className="menu">Skapa ditt användarkonto</div>
+        <div className="menu"><img className="menuIcon"src={logoutimg} onClick={this.props.logout}/></div>
         <h2>Mina uppgifter</h2>
         <div className="mainContentDivInput">
         <form onSubmit={(e) => { this.checkForm(e) }}>

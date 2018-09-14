@@ -33,7 +33,7 @@ class App extends React.Component {
             <Start />
             :
           this.props.user.email && !this.props.user.isRegistered ?
-            <Register />
+            <Register logout={this.logoutButton} />
             :
             <Router>
               <div className="mainContentDiv">

@@ -106,9 +106,9 @@ class PendingDare extends Component {
         <Mapbox />
         {
           this.props.user.userInCheckInDistance ?
-          <button enabled onClick={this.onCheckIn} >Checka in</button>
+          <button enabled className="buttonStandardBlack" onClick={this.onCheckIn} >Checka in</button>
           :
-          <button disabled>Checka in</button>
+          <button disabled className="buttonStandardBlack">Checka in</button>
         }
       </div>)
     }
@@ -122,7 +122,7 @@ class PendingDare extends Component {
           <p>Beräknad kostnad: {this.props.activityInfo.cost} kr</p>
           <p>Uppskattad tid: {this.props.activityInfo.duration} minuter</p>
           <Mapbox />
-          <button disabled>Checka in</button>
+          <button disabled className="buttonStandardBlack">Checka in</button>
         </div>
       )
     }

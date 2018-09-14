@@ -123,7 +123,7 @@ class Mapbox extends Component {
           this.state.userPositionAvailable ?
             <div>
               Avstånd till mål: {this.state.distanceToActivity} km <br />
-              Avstånd till incheck: {(this.state.distanceToActivity - (checkInRadius / 1000)).toFixed(2)}
+              Avstånd till incheck: {(this.state.distanceToActivity - (checkInRadius / 1000)).toFixed(2)} km
             </div>
             :
             null
